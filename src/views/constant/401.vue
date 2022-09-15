@@ -4,7 +4,8 @@
     <p class="describe">抱歉！您<em>没有权限</em>访问该页面...</p>
     <p class="suggest">如有不满请联系您的领导</p>
     <p class="timeout">
-      <em>{{ endTime }}</em>秒后自动返回首页
+      <em>{{ endTime }}</em
+      >秒后自动返回首页
     </p>
     <el-button @click="jump(0)">返回</el-button>
     <el-button type="primary" @click="jump(1)">首页</el-button>
@@ -13,55 +14,54 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { defineComponent, ref, watch, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
-    const router = useRouter()
-    const store = useStore()
+    const router = useRouter();
+    const store = useStore();
 
-    const endTime = ref(10)
-    const timer = ref(-1)
+    const endTime = ref(10);
+    const timer = ref(-1);
 
     watch(endTime, (newVal, _oldVal) => {
       if (newVal === 0) {
-        clearTimeout(timer.value)
-        router.push({ name: 'login', replace: true })
+        clearTimeout(timer.value);
+        router.push({ name: 'login', replace: true });
       }
-    })
+    });
 
     onMounted(() => {
       timer.value = window.setInterval(() => {
-        endTime.value--
-      }, 1000)
-    })
+        endTime.value--;
+      }, 1000);
+    });
 
-    const jump = type => {
+    const jump = (type) => {
       switch (type) {
         case 0:
-          router.back(-1)
-          break
+          router.back(-1);
+          break;
         case 1:
-          router.push({ name: 'redirect', replace: true })
-          break
+          router.push({ name: 'redirect', replace: true });
+          break;
         case 2:
-          store.dispatch('logout')
-          router.push({ name: 'login' })
-          break
+          store.dispatch('logout');
+          router.push({ name: 'login' });
+          break;
       }
-      clearTimeout(timer.value)
-    }
+      clearTimeout(timer.value);
+    };
 
     return {
       endTime,
       timer,
       jump
-    }
+    };
   }
-
-})
+});
 </script>
 
 <style lang="scss" scoped>
