@@ -7,11 +7,11 @@
 </template>
 
 <script >
-import { defineComponent, reactive, ref, toRefs } from 'vue'
+import { defineComponent, reactive, ref, toRefs } from 'vue';
 
-import useModel from '@/mixins/model'
+import useModel from '@/mixins/model';
 
-import { selectListApi } from '@/api/region'
+import { selectListApi } from '@/api/region';
 
 export default defineComponent({
   props: {
@@ -21,9 +21,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const value = useModel(props)
+    const value = useModel(props);
 
-    const refCascader = ref()
+    const refCascader = ref();
     const data = reactive({
       regionProps: {
         emitPath: false,
@@ -40,7 +40,7 @@ export default defineComponent({
               level: 0,
               leaf: false,
               children: []
-            }])
+            }]);
           } else {
             selectListApi(node.value).then(r => {
               if (r) {
@@ -48,30 +48,30 @@ export default defineComponent({
                   return {
                     ...item,
                     leaf: node.level === 2
-                  }
-                }))
+                  };
+                }));
               }
-            })
+            });
           }
         }
       }
-    })
+    });
 
     /**
      * 获取当前选中节点
      */
     const getCheckedNodes = () => {
-      return refCascader.value.getCheckedNodes()[0].data
-    }
+      return refCascader.value.getCheckedNodes()[0].data;
+    };
 
     return {
       value,
       refCascader,
       ...toRefs(data),
       getCheckedNodes
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

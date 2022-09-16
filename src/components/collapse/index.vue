@@ -10,7 +10,7 @@
 </template>
 
 <script >
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   emit: ['collapse'],
@@ -25,19 +25,19 @@ export default defineComponent({
     }
   },
   setup(_props, { emit }) {
-    const collapse = ref(false)
+    const collapse = ref(false);
 
     const collapseHandle = () => {
-      collapse.value = !collapse.value
-      emit('collapse', collapse.value)
-    }
+      collapse.value = !collapse.value;
+      emit('collapse', collapse.value);
+    };
 
     return {
       collapse,
       collapseHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style>

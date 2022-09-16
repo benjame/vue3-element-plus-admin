@@ -37,16 +37,16 @@
 </template>
 
 <script>
-import { computed, defineComponent, onBeforeMount, reactive, ref, toRefs } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, onBeforeMount, reactive, ref, toRefs } from 'vue';
+import { useStore } from 'vuex';
 
-import { ElMessage } from 'element-plus'
-import ImageUploadSingle from '@/components/image-upload-single'
+import { ElMessage } from 'element-plus';
+import ImageUploadSingle from '@/components/image-upload-single';
 
-import { isEmail, isMobile } from '@/utils/regular'
-import { havePermission } from '@/utils'
+import { isEmail, isMobile } from '@/utils/regular';
+import { havePermission } from '@/utils';
 
-import { editBasicApi } from '@/api/administrator'
+import { editBasicApi } from '@/api/administrator';
 
 export default defineComponent({
   components: { ImageUploadSingle },
@@ -57,9 +57,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const store = useStore()
+    const store = useStore();
 
-    const refForm = ref()
+    const refForm = ref();
     const data = reactive({
       form: {
         avatar: '',
@@ -68,52 +68,52 @@ export default defineComponent({
         email: '',
         sex: 2
       }
-    })
+    });
     const rules = computed(() => {
       const checkMobile = (_rule, value, callback) => {
         if (data.form.mobile !== '' && !isMobile(value)) {
-          callback(new Error('请输入正确的手机号'))
+          callback(new Error('请输入正确的手机号'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkEmail = (_rule, value, callback) => {
         if (data.form.email !== '' && !isEmail(value)) {
-          callback(new Error('请输入正确的邮箱'))
+          callback(new Error('请输入正确的邮箱'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         nickname: [{ required: true, message: '请输入帐号', trigger: 'blur' }],
         mobile: [{ validator: checkMobile, trigger: 'blur' }],
         email: [{ validator: checkEmail, trigger: 'blur' }]
-      }
-    })
+      };
+    });
 
     const submit = () => {
       refForm.value.validate(valid => {
         if (valid) {
           editBasicApi(data.form).then(r => {
             if (r) {
-              store.dispatch('administrator/getAdministrator')
+              store.dispatch('administrator/getAdministrator');
               ElMessage({
                 message: '操作成功!',
                 type: 'success'
-              })
+              });
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     onBeforeMount(() => {
-      data.form.avatar = props.administrator.avatar
-      data.form.nickname = props.administrator.nickname
-      data.form.mobile = props.administrator.mobile
-      data.form.email = props.administrator.email
-      data.form.sex = props.administrator.sex
-    })
+      data.form.avatar = props.administrator.avatar;
+      data.form.nickname = props.administrator.nickname;
+      data.form.mobile = props.administrator.mobile;
+      data.form.email = props.administrator.email;
+      data.form.sex = props.administrator.sex;
+    });
 
     return {
       refForm,
@@ -121,9 +121,9 @@ export default defineComponent({
       rules,
       submit,
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

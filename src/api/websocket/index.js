@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2022-06-24 04:27:11
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 分页列表
@@ -19,7 +19,7 @@ export function pageApi(params) {
     url: '/admin/websocket/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -33,7 +33,7 @@ export function addApi(params) {
     url: '/admin/websocket/create',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -47,7 +47,7 @@ export function delApi(params) {
     url: '/admin/websocket/delete',
     method: 'post',
     data: params
-  })
+  });
 }
 
 // todo:------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ export function globalAddApi(params) {
     url: '/admin/websocket/global/create',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -77,7 +77,7 @@ export function onlinePageApi(params) {
     url: '/admin/websocket/online/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -91,5 +91,5 @@ export function logoutApi(params) {
     url: '/admin/websocket/logout',
     method: 'post',
     data: params
-  })
+  });
 }

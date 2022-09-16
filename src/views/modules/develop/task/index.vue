@@ -141,25 +141,25 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import AddEdit from './components/add-edit'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import AddEdit from './components/add-edit';
 
-import usePage from '@/mixins/page'
-import useDictionary from '@/mixins/dictionary'
-import { clearJson, havePermission } from '@/utils'
+import usePage from '@/mixins/page';
+import useDictionary from '@/mixins/dictionary';
+import { clearJson, havePermission } from '@/utils';
 
-import { pageApi, deleteApi, runApi, resumeApi, pauseApi } from '@/api/timed-task'
+import { pageApi, deleteApi, runApi, resumeApi, pauseApi } from '@/api/timed-task';
 
 export default defineComponent({
   components: { AddEdit },
   setup() {
-    const refForm = ref()
-    const refTable = ref()
-    const refAddEdit = ref()
-    const { page } = usePage()
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const refForm = ref();
+    const refTable = ref();
+    const refAddEdit = ref();
+    const { page } = usePage();
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
@@ -168,38 +168,38 @@ export default defineComponent({
       },
       list: [],
       selection: []
-    })
+    });
 
     const getList = () => {
       const params = {
         ...data.form,
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       pageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     const addEditHandle = (id) => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refAddEdit.value.init(id)
-      })
-    }
+        refAddEdit.value.init(id);
+      });
+    };
 
     const runHandle = (id) => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '立即执行' : '批量立即执行' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -210,17 +210,17 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const resumeHandle = (id) => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '恢复' : '批量恢复' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -231,17 +231,17 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const pauseHandle = (id) => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '恢复' : '批量恢复' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -252,17 +252,17 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const deleteHandle = (id) => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '删除' : '批量删除' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -273,43 +273,43 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const commandHandle = (command, id) => {
       switch (command) {
         case 'run':
-          runHandle(id)
-          break
+          runHandle(id);
+          break;
         case 'resume':
-          resumeHandle(id)
-          break
+          resumeHandle(id);
+          break;
         case 'pause':
-          pauseHandle(id)
-          break
+          pauseHandle(id);
+          break;
       }
-    }
+    };
 
     const selectionHandle = (val) => {
-      data.selection = val
-    }
+      data.selection = val;
+    };
 
     const pageChangeHandle = (argPage) => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     onBeforeMount(() => {
-      getDictionary('task')
-      getList()
-    })
+      getDictionary('task');
+      getList();
+    });
 
     return {
       refForm,
@@ -330,9 +330,9 @@ export default defineComponent({
       selectionHandle,
       clearJson,
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

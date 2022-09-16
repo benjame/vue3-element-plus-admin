@@ -6,9 +6,9 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
-import { parseJson2Param } from '@/utils/index'
-import { getApiBaseUrl } from '@/utils'
+import service from '@/utils/request';
+import { parseJson2Param } from '@/utils/index';
+import { getApiBaseUrl } from '@/utils';
 
 /**
  * @description: 验证码
@@ -17,14 +17,14 @@ import { getApiBaseUrl } from '@/utils'
  * @author: gumingchen
  */
 export function captchaApi(params) {
-  let result = ''
+  let result = '';
   const options = {
     url: '/admin/captcha.jpg',
     method: 'get',
     params: params
-  }
-  result = `${ getApiBaseUrl() + options.url }?${ parseJson2Param(options.params) }`
-  return result
+  };
+  result = `${ getApiBaseUrl() + options.url }?${ parseJson2Param(options.params) }`;
+  return result;
 }
 
 /**
@@ -38,7 +38,7 @@ export function loginApi(params) {
     url: '/admin/login',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -51,5 +51,5 @@ export function logoutApi() {
   return service({
     url: '/admin/logout',
     method: 'post'
-  })
+  });
 }

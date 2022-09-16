@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { defineComponent, onBeforeUnmount, reactive, ref, toRefs, watch } from 'vue'
+import { defineComponent, onBeforeUnmount, reactive, ref, toRefs, watch } from 'vue';
 
 export default defineComponent({
   emits: ['refresh'],
@@ -37,7 +37,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const refForm = ref()
+    const refForm = ref();
 
     const data = reactive({
       types: [],
@@ -48,7 +48,7 @@ export default defineComponent({
         bucket: '',
         temp: ''
       }
-    })
+    });
 
     const rules = reactive(function() {
       return {
@@ -56,33 +56,33 @@ export default defineComponent({
         access: [{ required: true, message: '请输入秘钥', trigger: 'blur' }],
         secret: [{ required: true, message: '请输入私钥', trigger: 'blur' }],
         bucket: [{ required: true, message: '请输入空间名称', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     watch(props.data, (newVal) => {
       data.form = {
         ...newVal
-      }
-    }, { deep: true, immediate: true })
+      };
+    }, { deep: true, immediate: true });
 
     const validate = (fn) => {
       refForm.value.validate(valid => {
         if (typeof fn === 'function') {
-          fn(valid, data.form)
+          fn(valid, data.form);
         }
-      })
-    }
+      });
+    };
 
     onBeforeUnmount(() => {
-      refForm.value.resetFields()
-    })
+      refForm.value.resetFields();
+    });
 
     return {
       refForm,
       ...toRefs(data),
       rules,
       validate
-    }
+    };
   }
-})
+});
 </script>

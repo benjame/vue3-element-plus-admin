@@ -74,51 +74,51 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import Edit from './components/edit'
+import Edit from './components/edit';
 
-import useDictionary from '@/mixins/dictionary'
+import useDictionary from '@/mixins/dictionary';
 
-import { listApi } from '@/api/enterprise-menu'
+import { listApi } from '@/api/enterprise-menu';
 
 export default defineComponent({
   components: { Edit },
   setup() {
     const props = {
       children: 'children'
-    }
+    };
 
-    const refTable = ref()
-    const refEdit = ref()
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const refTable = ref();
+    const refEdit = ref();
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
       list: []
-    })
+    });
 
     const getList = () => {
-      data.loading = true
+      data.loading = true;
       listApi().then(r => {
         if (r) {
-          data.list = r.data
+          data.list = r.data;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     const editHandle = (row) => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refEdit.value.init(row)
-      })
-    }
+        refEdit.value.init(row);
+      });
+    };
 
     onBeforeMount(() => {
-      getDictionary('menu')
-      getList()
-    })
+      getDictionary('menu');
+      getList();
+    });
 
     return {
       props,
@@ -127,9 +127,9 @@ export default defineComponent({
       dictionaryMap,
       ...toRefs(data),
       editHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 获取所有菜单 权限
@@ -18,7 +18,7 @@ export function selectListApi() {
   return service({
     url: '/admin/menu/select/list',
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -31,7 +31,7 @@ export function infoApi(params) {
   return service({
     url: `/admin/menu/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -45,7 +45,7 @@ export function addApi(params) {
     url: `/admin/menu/create`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -59,7 +59,7 @@ export function editApi(params) {
     url: `/admin/menu/update`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -73,7 +73,7 @@ export function deleteApi(params) {
     url: `/admin/menu/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -87,5 +87,5 @@ export function dragApi(params) {
     url: `/admin/menu/drag`,
     method: 'post',
     data: params
-  })
+  });
 }

@@ -120,26 +120,26 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import Collapse from '@/components/collapse'
-import ImageUploadSingle from '@/components/image-upload-single'
+import { ElMessage } from 'element-plus';
+import Collapse from '@/components/collapse';
+import ImageUploadSingle from '@/components/image-upload-single';
 
-import useDictionary from '@/mixins/dictionary'
-import { isUsername, isPassword, isEmail, isMobile } from '@/utils/regular'
+import useDictionary from '@/mixins/dictionary';
+import { isUsername, isPassword, isEmail, isMobile } from '@/utils/regular';
 
-import { globalSelectListApi as globalRoleSelectListApi } from '@/api/role'
-import { globalInfoApi, globalAddApi, globalEditApi } from '@/api/administrator'
-import { globalSelectListApi as globalDepartmentSelectListApi } from '@/api/department'
+import { globalSelectListApi as globalRoleSelectListApi } from '@/api/role';
+import { globalInfoApi, globalAddApi, globalEditApi } from '@/api/administrator';
+import { globalSelectListApi as globalDepartmentSelectListApi } from '@/api/department';
 
 export default defineComponent({
   emits: ['refresh'],
   components: { Collapse, ImageUploadSingle },
   setup(_props, { emit }) {
-    const { dictionaryList, getDictionary } = useDictionary()
-    const refForm = ref()
-    const refCascader = ref()
+    const { dictionaryList, getDictionary } = useDictionary();
+    const refForm = ref();
+    const refCascader = ref();
     const data = reactive({
       loading: false,
       visible: false,
@@ -160,53 +160,53 @@ export default defineComponent({
         department_id: ''
       },
       roles: []
-    })
+    });
 
     const rules = computed(() => {
       const checkUsername = (_rule, value, callback) => {
         if (!isUsername(value)) {
-          callback(new Error('用户名由4-16位的数字、字母、中横线、下划线组成'))
+          callback(new Error('用户名由4-16位的数字、字母、中横线、下划线组成'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkPassword = (_rule, value, callback) => {
         if (data.form.id && !isPassword(value)) {
-          callback(new Error('用户名由8-16位的数字、字母、中横线、下划线组成'))
+          callback(new Error('用户名由8-16位的数字、字母、中横线、下划线组成'));
         } else if (!data.form.id && !isPassword(value)) {
-          callback(new Error('用户名由8-16位的数字、字母、中横线、下划线组成'))
+          callback(new Error('用户名由8-16位的数字、字母、中横线、下划线组成'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkConfirmPassword = (_rule, value, callback) => {
         if (data.form.password && data.form.password !== value) {
-          callback(new Error('新密码与确认密码不一致'))
+          callback(new Error('新密码与确认密码不一致'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkMobile = (_rule, value, callback) => {
         if (data.form.mobile !== '' && !isMobile(value)) {
-          callback(new Error('请输入正确的手机号'))
+          callback(new Error('请输入正确的手机号'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkEmail = (_rule, value, callback) => {
         if (data.form.email !== '' && !isEmail(value)) {
-          callback(new Error('请输入正确的邮箱'))
+          callback(new Error('请输入正确的邮箱'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkRole = (_rule, _value, callback) => {
         if (data.form.supervisor !== 1 && data.form.role_ids.length === 0) {
-          callback(new Error('请选择角色'))
+          callback(new Error('请选择角色'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
         username: [
@@ -227,8 +227,8 @@ export default defineComponent({
           { type: 'array', required: !data.form.supervisor, message: '请选择角色', trigger: 'blur' },
           { validator: checkRole, trigger: 'blur' }
         ]
-      }
-    })
+      };
+    });
 
     const cascaderProps = computed(() => {
       const reuslt = {
@@ -236,50 +236,50 @@ export default defineComponent({
         value: 'id',
         label: `name`,
         children: 'children'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
 
     const getRole = async () => {
-      const r = await globalRoleSelectListApi(data.form.enterprise_id)
+      const r = await globalRoleSelectListApi(data.form.enterprise_id);
       if (r) {
-        data.roles = r.data
+        data.roles = r.data;
       }
-    }
+    };
 
     const getDepartment = async () => {
-      const r = await globalDepartmentSelectListApi({ status: 1, id: data.form.enterprise_id })
+      const r = await globalDepartmentSelectListApi({ status: 1, id: data.form.enterprise_id });
       if (r) {
-        data.departments = r.data
+        data.departments = r.data;
       }
-    }
+    };
 
     const init = async (enterpriseId, id) => {
-      data.visible = true
-      data.loading = true
-      data.form.enterprise_id = enterpriseId
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.enterprise_id = enterpriseId;
+      data.form.id = id;
 
-      await getRole()
-      await getDepartment()
+      await getRole();
+      await getDepartment();
       if (id) {
-        const r = await globalInfoApi(id)
+        const r = await globalInfoApi(id);
         if (r) {
-          data.form.nickname = r.data.nickname
-          data.form.username = r.data.username
-          data.form.password = r.data.password
-          data.form.avatar = r.data.avatar
-          data.form.mobile = r.data.mobile
-          data.form.email = r.data.email
-          data.form.sex = r.data.sex
-          data.form.department_id = r.data.department_id
-          data.form.role_ids = r.data.roles.map(item => item.id)
-          data.form.supervisor = r.data.supervisor
+          data.form.nickname = r.data.nickname;
+          data.form.username = r.data.username;
+          data.form.password = r.data.password;
+          data.form.avatar = r.data.avatar;
+          data.form.mobile = r.data.mobile;
+          data.form.email = r.data.email;
+          data.form.sex = r.data.sex;
+          data.form.department_id = r.data.department_id;
+          data.form.role_ids = r.data.roles.map(item => item.id);
+          data.form.supervisor = r.data.supervisor;
         }
       }
 
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -290,30 +290,30 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const params = { ...data.form }
+          const params = { ...data.form };
           if (params.department_id) {
-            const checkedNodes = refCascader.value.getCheckedNodes()
-            params.department_id = checkedNodes.map(item => item.value).join(';')
+            const checkedNodes = refCascader.value.getCheckedNodes();
+            params.department_id = checkedNodes.map(item => item.value).join(';');
           } else {
-            params.department_id = -1
+            params.department_id = -1;
           }
-          delete params.confirmPassword
-          const r = data.form.id ? await globalEditApi(params) : await globalAddApi(params)
+          delete params.confirmPassword;
+          const r = data.form.id ? await globalEditApi(params) : await globalAddApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     onBeforeMount(() => {
-      getDictionary('sex')
-    })
+      getDictionary('sex');
+    });
 
     /**
    * @description: 弹窗关闭动画结束时的回调
@@ -322,8 +322,8 @@ export default defineComponent({
    * @author: gumingchen
    */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -335,7 +335,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

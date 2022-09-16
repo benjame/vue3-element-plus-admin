@@ -17,49 +17,49 @@
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
-import Sidebar from './components/sidebar'
-import Headbar from './components/headbar'
-import Tabsbar from './components/tabsbar'
-import View from '@/components/view'
-import NavigationActive from './components/navigation/active'
-import NavigationFixed from './components/navigation/fixed'
-import Websocket from './components/websocket'
+import Sidebar from './components/sidebar';
+import Headbar from './components/headbar';
+import Tabsbar from './components/tabsbar';
+import View from '@/components/view';
+import NavigationActive from './components/navigation/active';
+import NavigationFixed from './components/navigation/fixed';
+import Websocket from './components/websocket';
 
 export default defineComponent({
   components: { Sidebar, Headbar, Tabsbar, View, NavigationActive, NavigationFixed, Websocket },
   setup() {
-    const store = useStore()
+    const store = useStore();
 
-    const navigationMode = computed(() => store.state.settings.navigationMode)
+    const navigationMode = computed(() => store.state.settings.navigationMode);
 
-    const showTabs = computed(() => store.state.settings.showTabs)
+    const showTabs = computed(() => store.state.settings.showTabs);
 
-    const refresh = computed(() => store.state.settings.refresh)
+    const refresh = computed(() => store.state.settings.refresh);
 
     const component = computed(() => {
-      let result = ''
+      let result = '';
       switch (store.state.settings.navigationMode) {
         case 1:
-          result = NavigationFixed
-          break
+          result = NavigationFixed;
+          break;
         case 2:
-          result = NavigationActive
-          break
+          result = NavigationActive;
+          break;
       }
-      return result
-    })
+      return result;
+    });
 
     return {
       navigationMode,
       showTabs,
       refresh,
       component
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss">

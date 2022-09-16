@@ -22,45 +22,45 @@
 </template>
 
 <script>
-import { defineComponent, reactive, nextTick, onBeforeMount, toRefs } from 'vue'
+import { defineComponent, reactive, nextTick, onBeforeMount, toRefs } from 'vue';
 
-import usePage from '@/mixins/page'
+import usePage from '@/mixins/page';
 
-import { selfPageApi } from '@/api/operation-log'
+import { selfPageApi } from '@/api/operation-log';
 
 export default defineComponent({
   setup() {
-    const { page } = usePage()
+    const { page } = usePage();
     const data = reactive({
       loading: false,
       list: []
-    })
+    });
 
     const getList = () => {
       const params = {
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       selfPageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     onBeforeMount(() => {
-      getList()
-    })
+      getList();
+    });
 
     return {
       page,
       ...toRefs(data)
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

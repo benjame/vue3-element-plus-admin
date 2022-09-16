@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 当前管理员 分页
@@ -19,7 +19,7 @@ export function selfPageApi(params) {
     url: '/admin/log/operation/self/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -33,7 +33,7 @@ export function pageApi(params) {
     url: '/admin/log/operation/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -46,7 +46,7 @@ export function deleteApi() {
   return service({
     url: `/admin/log/operation/delete`,
     method: 'post'
-  })
+  });
 }
 
 // todo:------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ export function globalPageApi(params) {
     url: '/admin/log/operation/global/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -76,7 +76,7 @@ export function globalDeleteApi(params) {
     url: `/admin/log/operation/global/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -89,5 +89,5 @@ export function globalTruncateApi() {
   return service({
     url: `/admin/log/operation/global/truncate`,
     method: 'post'
-  })
+  });
 }

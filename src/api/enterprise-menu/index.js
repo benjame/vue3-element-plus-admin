@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 获取当前管理员 菜单 权限
@@ -18,7 +18,7 @@ export function selfInfoApi() {
   return service({
     url: '/admin/enterprise/menu/self/info',
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -31,7 +31,7 @@ export function listApi() {
   return service({
     url: '/admin/enterprise/menu/list',
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -45,7 +45,7 @@ export function updateApi(params) {
     url: '/admin/enterprise/menu/update',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -59,7 +59,7 @@ export function selectListApi() {
   return service({
     url: '/admin/enterprise/menu/select/list',
     method: 'get'
-  })
+  });
 }
 
 // todo:------------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ export function globalListApi(params) {
   return service({
     url: `/admin/enterprise/menu/global/list/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -87,7 +87,7 @@ export function globalIdsApi(params) {
   return service({
     url: `/admin/enterprise/menu/global/ids/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -101,7 +101,7 @@ export function globalModifyApi(params) {
     url: '/admin/enterprise/menu/global/modify',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -115,7 +115,7 @@ export function globalUpdateApi(params) {
     url: '/admin/enterprise/menu/global/update',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -129,7 +129,7 @@ export function globalDeleteApi(params) {
     url: `/admin/enterprise/menu/global/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -142,5 +142,5 @@ export function globalSelectListApi(params) {
   return service({
     url: `/admin/enterprise/menu/global/select/list/${ params }`,
     method: 'get'
-  })
+  });
 }

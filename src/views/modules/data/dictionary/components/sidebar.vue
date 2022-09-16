@@ -53,15 +53,15 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import AddEdit from './add-edit'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import AddEdit from './add-edit';
 
-import useModel from '@/mixins/model'
-import { UPDATE_MODEL_EVENT } from '@/utils/constant'
+import useModel from '@/mixins/model';
+import { UPDATE_MODEL_EVENT } from '@/utils/constant';
 
-import { listApi, deleteApi } from '@/api/dictionary'
+import { listApi, deleteApi } from '@/api/dictionary';
 
 export default defineComponent({
   emits: ['change', UPDATE_MODEL_EVENT],
@@ -73,9 +73,9 @@ export default defineComponent({
   },
   components: { AddEdit },
   setup(props, { emit }) {
-    const value = useModel(props)
+    const value = useModel(props);
 
-    const refAddEdit = ref()
+    const refAddEdit = ref();
     const data = reactive({
       loading: false,
       visible: false,
@@ -83,41 +83,41 @@ export default defineComponent({
         keyword: ''
       },
       allList: []
-    })
+    });
 
     const list = computed(() => {
       const result = data.allList.filter(item => {
         if (!data.form.keyword) {
-          return true
+          return true;
         } else {
           if (item.name.includes(data.form.keyword) || item.code.includes(data.form.keyword)) {
-            return true
+            return true;
           } else {
-            return false
+            return false;
           }
         }
-      })
-      return result
-    })
+      });
+      return result;
+    });
 
     const getList = () => {
-      data.loading = true
+      data.loading = true;
       listApi().then(r => {
         if (r) {
-          data.allList = r.data
+          data.allList = r.data;
         }
         nextTick(() => {
-          data.loading = false
-        })
-      })
-    }
+          data.loading = false;
+        });
+      });
+    };
 
     const addEditHandle = (id) => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refAddEdit.value.init(id)
-      })
-    }
+        refAddEdit.value.init(id);
+      });
+    };
 
     const deleteHandle = (id) => {
       ElMessageBox.confirm(`确定对[id=${ id }]进行[删除]操作?`, '提示', {
@@ -130,27 +130,27 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
             if (id === value.value) {
-              value.value = ''
-              emit('change', '')
+              value.value = '';
+              emit('change', '');
             }
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const clickHandle = (row) => {
-      value.value = row.id
-      emit('change', row)
-    }
+      value.value = row.id;
+      emit('change', row);
+    };
 
     onBeforeMount(() => {
-      getList()
-    })
+      getList();
+    });
 
     return {
       value,
@@ -161,9 +161,9 @@ export default defineComponent({
       addEditHandle,
       clickHandle,
       deleteHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

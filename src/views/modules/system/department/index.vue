@@ -142,27 +142,27 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import AddEdit from './components/add-edit.vue'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import AddEdit from './components/add-edit.vue';
 
-import useDictionary from '@/mixins/dictionary'
-import { clearJson, parseDate2Str, parseData2Tree } from '@/utils'
+import useDictionary from '@/mixins/dictionary';
+import { clearJson, parseDate2Str, parseData2Tree } from '@/utils';
 
-import { listApi, delApi, statusApi } from '@/api/department'
+import { listApi, delApi, statusApi } from '@/api/department';
 
 export default defineComponent({
   components: { AddEdit },
   setup() {
     const props = {
       children: 'children'
-    }
-    const refForm = ref()
-    const refTable = ref()
-    const refAddEdit = ref()
+    };
+    const refForm = ref();
+    const refTable = ref();
+    const refAddEdit = ref();
 
-    const { getDictionary } = useDictionary()
+    const { getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
@@ -177,7 +177,7 @@ export default defineComponent({
       },
       list: [],
       selection: []
-    })
+    });
 
     /**
        * @description: 获取列表
@@ -190,18 +190,18 @@ export default defineComponent({
         ...data.form,
         start: data.form.date && data.form.date.length ? parseDate2Str(data.form.date[0]) : '',
         end: data.form.date && data.form.date.length ? parseDate2Str(data.form.date[1]) : ''
-      }
-      delete params.date
-      data.loading = true
+      };
+      delete params.date;
+      data.loading = true;
       listApi(params).then(r => {
         if (r) {
-          data.list = parseData2Tree(r.data, 'id', 'parent_id', 'children')
+          data.list = parseData2Tree(r.data, 'id', 'parent_id', 'children');
         }
         nextTick(() => {
-          data.loading = false
-        })
-      })
-    }
+          data.loading = false;
+        });
+      });
+    };
 
     /**
      * @description: 重新获取、重置 数据
@@ -210,8 +210,8 @@ export default defineComponent({
      * @author: gumingchen
      */
     const reacquireHandle = () => {
-      getList()
-    }
+      getList();
+    };
 
     /**
      * @description: 新增/编辑弹窗
@@ -220,11 +220,11 @@ export default defineComponent({
      * @author: gumingchen
      */
     const addEditHandle = id => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refAddEdit.value.init(id)
-      })
-    }
+        refAddEdit.value.init(id);
+      });
+    };
 
     /**
      * @description: 删除
@@ -243,14 +243,14 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     /**
      * @description: 状态
@@ -267,26 +267,26 @@ export default defineComponent({
         const params = {
           key: row.id,
           value: row.status
-        }
+        };
         statusApi(params).then(r => {
           if (r) {
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     onBeforeMount(async () => {
-      data.statusDictionary = await getDictionary('status')
-      data.permissionDictionary = await getDictionary('dataPermission')
-      getList()
-    })
+      data.statusDictionary = await getDictionary('status');
+      data.permissionDictionary = await getDictionary('dataPermission');
+      getList();
+    });
 
     return {
       props,
@@ -300,7 +300,7 @@ export default defineComponent({
       deleteHandle,
       statusHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>

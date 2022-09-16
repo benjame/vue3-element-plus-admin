@@ -154,29 +154,29 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
+import { useStore } from 'vuex';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import AddEdit from './components/add-edit'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import AddEdit from './components/add-edit';
 
-import usePage from '@/mixins/page'
-import useDictionary from '@/mixins/dictionary'
-import { clearJson, parseDate2Str } from '@/utils'
+import usePage from '@/mixins/page';
+import useDictionary from '@/mixins/dictionary';
+import { clearJson, parseDate2Str } from '@/utils';
 
-import { pageApi, deleteApi, setStatusApi, exportApi } from '@/api/administrator'
+import { pageApi, deleteApi, setStatusApi, exportApi } from '@/api/administrator';
 
 export default defineComponent({
   components: { AddEdit },
   setup() {
-    const store = useStore()
+    const store = useStore();
 
-    const refForm = ref()
-    const refTable = ref()
-    const refAddEdit = ref()
+    const refForm = ref();
+    const refTable = ref();
+    const refAddEdit = ref();
 
-    const { page } = usePage()
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const { page } = usePage();
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
@@ -187,9 +187,9 @@ export default defineComponent({
       },
       list: [],
       selection: []
-    })
+    });
 
-    const administratorId = computed(() => store.state.administrator.administrator.id)
+    const administratorId = computed(() => store.state.administrator.administrator.id);
 
     const getList = () => {
       const params = {
@@ -199,31 +199,31 @@ export default defineComponent({
         end: data.form.date && data.form.date.length > 1 ? parseDate2Str(data.form.date[1]) : '',
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       pageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     const addEditHandle = (id) => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refAddEdit.value.init(id)
-      })
-    }
+        refAddEdit.value.init(id);
+      });
+    };
 
     const deleteHandle = (id) => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '删除' : '批量删除' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -234,31 +234,31 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const statusHandle = (row) => {
       const params = {
         key: row.id,
         value: row.status
-      }
+      };
       setStatusApi(params).then(r => {
         if (r) {
           ElMessage({
             message: '操作成功!',
             type: 'success'
-          })
+          });
         } else {
-          row.status = row.status === 1 ? 0 : 1
+          row.status = row.status === 1 ? 0 : 1;
         }
-      })
-    }
+      });
+    };
 
     const exportHandle = () => {
       const params = {
@@ -266,24 +266,24 @@ export default defineComponent({
         department: data.form.department,
         start: data.form.date && data.form.date.length > 0 ? parseDate2Str(data.form.date[0]) : '',
         end: data.form.date && data.form.date.length > 1 ? parseDate2Str(data.form.date[1]) : ''
-      }
-      exportApi(params)
-    }
+      };
+      exportApi(params);
+    };
 
     const selectionHandle = (val) => {
-      data.selection = val
-    }
+      data.selection = val;
+    };
 
     const pageChangeHandle = (argPage) => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     onBeforeMount(() => {
-      getDictionary('sex')
-      getList()
-    })
+      getDictionary('sex');
+      getList();
+    });
 
     return {
       refForm,
@@ -302,9 +302,9 @@ export default defineComponent({
       exportHandle,
       selectionHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -32,7 +32,7 @@
 </template>
 
 <script >
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -47,23 +47,23 @@ export default defineComponent({
       oscs: 'https://www.oscs1024.com/project/gmingchen/vue3-element-plus-admin?ref=badge_small',
       oscsImage: 'https://www.oscs1024.com/platform/badge/gmingchen/vue3-element-plus-admin.svg?size=small',
       text: '前端基于 Vue3、Element-plus、Vue-router、Vux、Sass、Axios 等技术栈。后端基于 Java 的 Springboot、Mysql、Shiro、Mybatis-plus 等技术栈。如果喜欢就点个星星支持一下。'
-    })
+    });
 
     const githubHandle = () => {
-      window.open(data.github)
-    }
+      window.open(data.github);
+    };
 
     const giteeHandle = () => {
-      window.open(data.gitee)
-    }
+      window.open(data.gitee);
+    };
 
     const releaseHandle = () => {
-      window.open(data.release)
-    }
+      window.open(data.release);
+    };
 
     const oscsHandle = () => {
-      window.open(data.oscs)
-    }
+      window.open(data.oscs);
+    };
 
     return {
       ...toRefs(data),
@@ -71,9 +71,9 @@ export default defineComponent({
       giteeHandle,
       releaseHandle,
       oscsHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

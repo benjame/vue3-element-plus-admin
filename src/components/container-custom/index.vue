@@ -18,30 +18,30 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup(props) {
-    const store = useStore()
+    const store = useStore();
 
-    const refScrollbar = ref()
+    const refScrollbar = ref();
 
-    const contanierMode = computed(() => store.state.settings.contanierMode)
-    const panelMode = computed(() => props.mode || store.state.settings.panelMode)
+    const contanierMode = computed(() => store.state.settings.contanierMode);
+    const panelMode = computed(() => props.mode || store.state.settings.panelMode);
 
     const setScrollTop = (top = 0) => {
-      refScrollbar.value.setScrollTop(top)
-    }
+      refScrollbar.value.setScrollTop(top);
+    };
 
     return {
       contanierMode,
       panelMode,
       refScrollbar,
       setScrollTop
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

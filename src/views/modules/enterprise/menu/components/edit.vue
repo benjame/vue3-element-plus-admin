@@ -47,17 +47,17 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRefs } from 'vue'
+import { defineComponent, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import IconSelectInput from '@/components/icon-select-input'
+import { ElMessage } from 'element-plus';
+import IconSelectInput from '@/components/icon-select-input';
 
-import { updateApi } from '@/api/enterprise-menu'
+import { updateApi } from '@/api/enterprise-menu';
 
 export default defineComponent({
   components: { IconSelectInput },
   setup() {
-    const refForm = ref()
+    const refForm = ref();
 
     const data = reactive({
       visible: false,
@@ -69,25 +69,25 @@ export default defineComponent({
         sort: ''
       },
       row: null
-    })
+    });
 
     const rules = reactive(function() {
       return {
         name_cn: [{ required: true, message: '请输入中文名称', trigger: 'blur' }],
         name_en: [{ required: true, message: '请输入英文名称', trigger: 'blur' }],
         icon: [{ required: true, message: '请选择图标', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const init = (row) => {
-      data.visible = true
-      data.row = row // todo: 引用传递 用于编辑之后修改 列表数据
-      data.form.id = row.id
-      data.form.name_cn = row.name_cn
-      data.form.name_en = row.name_en
-      data.form.icon = row.icon
-      data.form.sort = row.sort
-    }
+      data.visible = true;
+      data.row = row; // todo: 引用传递 用于编辑之后修改 列表数据
+      data.form.id = row.id;
+      data.form.name_cn = row.name_cn;
+      data.form.name_en = row.name_en;
+      data.form.icon = row.icon;
+      data.form.sort = row.sort;
+    };
 
     /**
      * @description: 表单验证提交
@@ -103,17 +103,17 @@ export default defineComponent({
               ElMessage({
                 message: '操作成功!',
                 type: 'success'
-              })
-              data.row.name_cn = data.form.name_cn
-              data.row.name_en = data.form.name_en
-              data.row.icon = data.form.icon
-              data.row.sort = data.form.sort
-              data.visible = false
+              });
+              data.row.name_cn = data.form.name_cn;
+              data.row.name_en = data.form.name_en;
+              data.row.icon = data.form.icon;
+              data.row.sort = data.form.sort;
+              data.visible = false;
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     /**
    * @description: 弹窗关闭动画结束时的回调
@@ -122,8 +122,8 @@ export default defineComponent({
    * @author: gumingchen
    */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -132,7 +132,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

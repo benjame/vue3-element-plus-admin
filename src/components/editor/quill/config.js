@@ -1,6 +1,6 @@
-import { uploadUrlApi } from '@/api/file'
+import { uploadUrlApi } from '@/api/file';
 
-const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter
+const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
 
 // toolbar工具栏的工具选项（默认展示全部）
 export const toolOptions = [
@@ -28,37 +28,37 @@ export const toolOptions = [
   ['image'], // 上传图片
   ['video'], // 上传视频
   ['clean'] // 清除
-]
+];
 export const handlers = {
   image: function image () {
-    const self = this
-    let fileInput = this.container.querySelector('input.ql-image[type=file]')
+    const self = this;
+    let fileInput = this.container.querySelector('input.ql-image[type=file]');
     if (fileInput === null) {
       // 创建图片上传input标签
-      fileInput = document.createElement('input')
-      fileInput.setAttribute('type', 'file')
+      fileInput = document.createElement('input');
+      fileInput.setAttribute('type', 'file');
       // 设置图片参数名
-      fileInput.setAttribute('name', 'file')
+      fileInput.setAttribute('name', 'file');
       // 可设置上传图片的格式
-      fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon')
-      fileInput.classList.add('ql-image')
+      fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
+      fileInput.classList.add('ql-image');
       // 监听选择文件
       fileInput.addEventListener('change', function () {
-        const formData = new FormData()
-        formData.append('file', fileInput.files[0])
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
         uploadUrlApi(formData).then(r => {
           if (r) {
-            const length = self.quill.getSelection(true).index
-            self.quill.insertEmbed(length, 'image', r.data.url)
-            self.quill.setSelection(length + 1)
+            const length = self.quill.getSelection(true).index;
+            self.quill.insertEmbed(length, 'image', r.data.url);
+            self.quill.setSelection(length + 1);
           }
-        })
-      })
-      this.container.appendChild(fileInput)
+        });
+      });
+      this.container.appendChild(fileInput);
     }
-    fileInput.click()
+    fileInput.click();
   }
-}
+};
 
 export const options = {
   debug: 'warn',
@@ -71,7 +71,7 @@ export const options = {
       handlers: handlers
     }
   }
-}
+};
 
 /**
  * 获取html字符串
@@ -80,10 +80,10 @@ export const delta2Html = (delta) => {
   const deltaOptions = {
     inlineStyles: {
       align: (val) => {
-        return `text-align: ${ val }`
+        return `text-align: ${ val }`;
       }
     }
-  }
-  const html = new QuillDeltaToHtmlConverter(delta.ops, deltaOptions).convert()
-  return html
-}
+  };
+  const html = new QuillDeltaToHtmlConverter(delta.ops, deltaOptions).convert();
+  return html;
+};

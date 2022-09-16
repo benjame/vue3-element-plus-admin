@@ -34,39 +34,39 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import { isPassword } from '@/utils/regular'
+import { isPassword } from '@/utils/regular';
 
-import { editPasswordApi } from '@/api/administrator'
+import { editPasswordApi } from '@/api/administrator';
 
 export default defineComponent({
   setup() {
-    const refForm = ref()
+    const refForm = ref();
     const data = reactive({
       form: {
         oldPassword: '',
         newPassword: '',
         confirmPassword: ''
       }
-    })
+    });
     const rules = computed(() => {
       const checkNewPassword = (_rule, value, callback) => {
         if (!isPassword(value)) {
-          callback(new Error('用户名由8-16位的数字、字母、中横线、下划线组成'))
+          callback(new Error('用户名由8-16位的数字、字母、中横线、下划线组成'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkConfirmPassword = (_rule, value, callback) => {
         if (data.form.newPassword && data.form.newPassword !== value) {
-          callback(new Error('新密码与确认密码不一致'))
+          callback(new Error('新密码与确认密码不一致'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         oldPassword: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
         newPassword: [
@@ -74,8 +74,8 @@ export default defineComponent({
           { validator: checkNewPassword, trigger: 'blur' }
         ],
         confirmPassword: [{ validator: checkConfirmPassword, trigger: 'blur' }]
-      }
-    })
+      };
+    });
 
     const submit = () => {
       refForm.value.validate(valid => {
@@ -83,27 +83,27 @@ export default defineComponent({
           const params = {
             old_password: data.form.oldPassword,
             new_password: data.form.newPassword
-          }
+          };
           editPasswordApi(params).then(r => {
             if (r) {
               ElMessage({
                 message: '操作成功!',
                 type: 'success'
-              })
+              });
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     return {
       refForm,
       ...toRefs(data),
       rules,
       submit
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

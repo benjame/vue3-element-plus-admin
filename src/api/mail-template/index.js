@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2022-06-24 09:20:25
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 分页列表
@@ -19,7 +19,7 @@ export function pageApi(params) {
     url: '/admin/mail/template/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -32,7 +32,7 @@ export function infoApi(params) {
   return service({
     url: `/admin/mail/template/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -46,7 +46,7 @@ export function addApi(params) {
     url: '/admin/mail/template/create',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -60,7 +60,7 @@ export function editApi(params) {
     url: '/admin/mail/template/update',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -74,5 +74,5 @@ export function delApi(params) {
     url: '/admin/mail/template/delete',
     method: 'post',
     data: params
-  })
+  });
 }

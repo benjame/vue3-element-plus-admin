@@ -6,9 +6,9 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2022-06-21 05:29:36
  */
-import service from '@/utils/request'
-import { parseJson2Param, getApiBaseUrl } from '@/utils'
-import { ContentType } from '@/utils/dictionary'
+import service from '@/utils/request';
+import { parseJson2Param, getApiBaseUrl } from '@/utils';
+import { ContentType } from '@/utils/dictionary';
 
 /**
  * @description: 分页列表
@@ -21,7 +21,7 @@ export function pageApi(params) {
     url: '/admin/file/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -35,7 +35,7 @@ export function delApi(params) {
     url: '/admin/file/delete',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -49,7 +49,7 @@ export function updateConfigApi(params) {
     url: '/admin/file/update/config',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -59,14 +59,14 @@ export function updateConfigApi(params) {
  * @author: gumingchen
  */
 export function uploadUrlApi(params) {
-  let result = ''
+  let result = '';
   const options = {
     url: '/admin/file/upload',
     method: 'post',
     params: params
-  }
-  result = `${ getApiBaseUrl() + options.url }${ options.params ? parseJson2Param(options.params) : '' }`
-  return result
+  };
+  result = `${ getApiBaseUrl() + options.url }${ options.params ? parseJson2Param(options.params) : '' }`;
+  return result;
 }
 
 /**
@@ -76,9 +76,9 @@ export function uploadUrlApi(params) {
  * @author: gumingchen
  */
 export function uploadApi(params) {
-  const formData = new FormData()
+  const formData = new FormData();
   for (const key in params) {
-    formData.append(key, params[key])
+    formData.append(key, params[key]);
   }
   return service({
     url: '/admin/file/upload',
@@ -87,7 +87,7 @@ export function uploadApi(params) {
     headers: {
       'Content-Type': ContentType.UPLOAD
     }
-  })
+  });
 }
 
 /**
@@ -97,9 +97,9 @@ export function uploadApi(params) {
  * @author: gumingchen
  */
 export function uploadSliceApi(params) {
-  const formData = new FormData()
+  const formData = new FormData();
   for (const key in params) {
-    formData.append(key, params[key])
+    formData.append(key, params[key]);
   }
   return service({
     url: '/admin/file/slice/upload',
@@ -108,7 +108,7 @@ export function uploadSliceApi(params) {
     headers: {
       'Content-Type': ContentType.UPLOAD
     }
-  })
+  });
 }
 
 /**
@@ -122,7 +122,7 @@ export function mergeSliceApi(params) {
     url: '/admin/file/slice/merge',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -136,5 +136,5 @@ export function deleteSliceApi(params) {
     url: '/admin/file/slice/delete',
     method: 'post',
     data: params
-  })
+  });
 }

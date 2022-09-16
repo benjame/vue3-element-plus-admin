@@ -97,27 +97,27 @@
 </template>
 
 <script >
-import { defineComponent, reactive, ref, toRefs, nextTick } from 'vue'
+import { defineComponent, reactive, ref, toRefs, nextTick } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import ContainerSidebar from '@/components/container-sidebar'
-import EnterpriseSidebar from '@/components/enterprise-sidebar'
-import AddEdit from './components/add-edit'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import ContainerSidebar from '@/components/container-sidebar';
+import EnterpriseSidebar from '@/components/enterprise-sidebar';
+import AddEdit from './components/add-edit';
 
-import usePage from '@/mixins/page'
-import { clearJson } from '@/utils'
+import usePage from '@/mixins/page';
+import { clearJson } from '@/utils';
 
-import { globalPageApi, globalDeleteApi, globalSetShowApi } from '@/api/role'
+import { globalPageApi, globalDeleteApi, globalSetShowApi } from '@/api/role';
 
 export default defineComponent({
   components: { ContainerSidebar, EnterpriseSidebar, AddEdit },
   setup() {
-    const refContainerSidebar = ref()
-    const refForm = ref()
-    const refTable = ref()
-    const refAddEdit = ref()
+    const refContainerSidebar = ref();
+    const refForm = ref();
+    const refTable = ref();
+    const refAddEdit = ref();
 
-    const { page } = usePage()
+    const { page } = usePage();
     const data = reactive({
       active: '',
       loading: false,
@@ -127,7 +127,7 @@ export default defineComponent({
       },
       list: [],
       selection: []
-    })
+    });
 
     const getList = () => {
       if (data.active) {
@@ -136,32 +136,32 @@ export default defineComponent({
           ...data.form,
           current: page.current,
           size: page.size
-        }
-        data.loading = true
+        };
+        data.loading = true;
         globalPageApi(params).then(r => {
           if (r) {
             data.list = r.data.list,
-            page.total = r.data.total
+            page.total = r.data.total;
           }
-          nextTick(() => { data.loading = false })
-        })
+          nextTick(() => { data.loading = false; });
+        });
       }
-    }
+    };
 
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     const addEditHandle = (id) => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refAddEdit.value.init(data.active, id)
-      })
-    }
+        refAddEdit.value.init(data.active, id);
+      });
+    };
 
     const deleteHandle = (id) => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '删除' : '批量删除' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -172,46 +172,46 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const showHandle = (row) => {
       const params = {
         key: row.id,
         value: row.show
-      }
+      };
       globalSetShowApi(params).then(r => {
         if (r) {
           ElMessage({
             message: '操作成功!',
             type: 'success'
-          })
+          });
         } else {
-          row.show = row.show === 1 ? 0 : 1
+          row.show = row.show === 1 ? 0 : 1;
         }
-      })
-    }
+      });
+    };
 
     const selectionHandle = (val) => {
-      data.selection = val
-    }
+      data.selection = val;
+    };
 
     const pageChangeHandle = (argPage) => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     const changeHandle = (_row) => {
-      refContainerSidebar.value.setScrollTop()
-      reacquireHandle()
-    }
+      refContainerSidebar.value.setScrollTop();
+      reacquireHandle();
+    };
 
     return {
       refContainerSidebar,
@@ -229,9 +229,9 @@ export default defineComponent({
       pageChangeHandle,
       changeHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

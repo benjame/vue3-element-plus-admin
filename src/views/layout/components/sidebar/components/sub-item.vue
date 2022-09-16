@@ -15,8 +15,8 @@
 </template>
 
 <script >
-import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'SubItem',
@@ -27,7 +27,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const router = useRouter()
+    const router = useRouter();
     /**
      * 菜单点击事件
      * @param name 路由名称
@@ -35,18 +35,18 @@ export default defineComponent({
     const clickHandle = () => {
       switch (props.data.type) {
         case 4: // 外链
-          window.open(props.data.url)
-          break
+          window.open(props.data.url);
+          break;
         case 1: // 菜单
         case 3: // iframe
-          router.push({ name: props.data.name })
-          break
+          router.push({ name: props.data.name });
+          break;
       }
-    }
+    };
 
     return {
       clickHandle
-    }
+    };
   }
-})
+});
 </script>

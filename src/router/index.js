@@ -109,8 +109,8 @@ function addRoutes(menus = [], routeList = []) {
     switch (item.type) {
       case 3:
         route = {
-          path: `/i-${item.menu_id}`,
-          name: `i-${item.menu_id}`,
+          path: `/i-${ item.menu_id }`,
+          name: `i-${ item.menu_id }`,
           component: () => import(`@/views/modules/iframe/index.vue`),
           meta: {
             id: item.menu_id,
@@ -132,9 +132,9 @@ function addRoutes(menus = [], routeList = []) {
       default:
         if (item.url && /\S/u.test(item.url)) {
           route = {
-            path: item.path || `/${item.url.replace(/\//g, '-')}`,
+            path: item.path || `/${ item.url.replace(/\//g, '-') }`,
             name: item.name || item.url.replace(/\//g, '-'),
-            component: () => import(`@/views/modules/${item.url}.vue`) || null,
+            component: () => import(`@/views/modules/${ item.url }.vue`) || null,
             meta: {
               id: item.menu_id,
               title_cn: item.name_cn,
@@ -239,7 +239,7 @@ router.push = (to) => {
   try {
     return originalPush(to);
   } catch (error) {
-    window.console.log(`%c${error}`, 'color:red');
+    window.console.log(`%c${ error }`, 'color:red');
     return originalPush({ name: '404' });
   }
 };

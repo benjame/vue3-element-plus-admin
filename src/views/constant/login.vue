@@ -52,22 +52,22 @@
 </template>
 
 <script >
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
-import { ElNotification } from 'element-plus'
+import { ElNotification } from 'element-plus';
 
-import { generateUUID } from '@/utils'
+import { generateUUID } from '@/utils';
 
-import { captchaApi } from '@/api/login'
+import { captchaApi } from '@/api/login';
 
 export default defineComponent({
   setup() {
-    const router = useRouter()
-    const store = useStore()
+    const router = useRouter();
+    const store = useStore();
 
-    const refForm = ref()
+    const refForm = ref();
     const data = reactive({
       loading: false,
       captcha: '',
@@ -77,14 +77,14 @@ export default defineComponent({
         uuid: '',
         code: ''
       }
-    })
+    });
     const rules = reactive(function() {
       return {
         username: [{ required: true, message: '账户不能为空', trigger: 'blur' }],
         password: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
         code: [{ required: true, message: '验证码不能为空', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     /**
      * @description: 获取验证码图片
@@ -93,10 +93,10 @@ export default defineComponent({
      * @author: gumingchen
      */
     const getCaptcha = () => {
-      const uuid = generateUUID()
-      data.form.uuid = uuid
-      data.captcha = captchaApi({ uuid })
-    }
+      const uuid = generateUUID();
+      data.form.uuid = uuid;
+      data.captcha = captchaApi({ uuid });
+    };
 
     /**
      * @description: 登录表单提交
@@ -107,20 +107,20 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(valid => {
         if (valid) {
-          data.loading = true
+          data.loading = true;
           store.dispatch('administrator/login', data.form).then(r => {
             if (r) {
-              router.push({ name: 'redirect', replace: true })
+              router.push({ name: 'redirect', replace: true });
             } else {
-              getCaptcha()
+              getCaptcha();
               nextTick(() => {
-                data.loading = false
-              })
+                data.loading = false;
+              });
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 提示
@@ -143,7 +143,7 @@ export default defineComponent({
           </div>
           <p>所有帐号的密码统一为：<b>superadmin</b></p>
         </div>
-      `
+      `;
       ElNotification({
         title: '提示',
         dangerouslyUseHTMLString: true,
@@ -152,13 +152,13 @@ export default defineComponent({
         position: 'bottom-right',
         duration: 0,
         customClass: 'login-notify'
-      })
-    }
+      });
+    };
 
     onBeforeMount(() => {
-      getCaptcha()
-      notifyHandle()
-    })
+      getCaptcha();
+      notifyHandle();
+    });
 
     return {
       refForm,
@@ -166,9 +166,9 @@ export default defineComponent({
       rules,
       getCaptcha,
       submit
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss">

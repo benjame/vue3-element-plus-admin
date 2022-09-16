@@ -6,9 +6,9 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-04-30 14:01:54
  */
-import cookie from 'js-cookie'
-import { IS_GET_MENU_KEY, MENU_KEY, MENU_STORAGE, PERMISSION_KEY, TOKEN_KEY, TOKEN_STORAGE, THEME_KEY, THEME_MODE_KEY, THEME_STORAGE, LAYOUT_KEY } from '@/utils/constant'
-import { StorageType } from '@/utils/dictionary'
+import cookie from 'js-cookie';
+import { IS_GET_MENU_KEY, MENU_KEY, MENU_STORAGE, PERMISSION_KEY, TOKEN_KEY, TOKEN_STORAGE, THEME_KEY, THEME_MODE_KEY, THEME_STORAGE, LAYOUT_KEY } from '@/utils/constant';
+import { StorageType } from '@/utils/dictionary';
 
 /**
  * @description: 本地存储、获取、清除
@@ -21,51 +21,51 @@ import { StorageType } from '@/utils/dictionary'
 function set(key, value = '', storage) {
   switch (storage) {
     case StorageType.COOKIE:
-      cookie.set(key, value)
-      break
+      cookie.set(key, value);
+      break;
     case StorageType.SESSION:
-      sessionStorage.setItem(key, value)
-      break
+      sessionStorage.setItem(key, value);
+      break;
     case StorageType.LOCAL:
-      localStorage.setItem(key, value)
-      break
+      localStorage.setItem(key, value);
+      break;
     default:
-      cookie.set(key, value)
-      break
+      cookie.set(key, value);
+      break;
   }
 }
 function get(key, storage) {
-  let result
+  let result;
   switch (storage) {
     case StorageType.COOKIE:
-      result = cookie.get(key)
-      break
+      result = cookie.get(key);
+      break;
     case StorageType.SESSION:
-      result = sessionStorage.getItem(key)
-      break
+      result = sessionStorage.getItem(key);
+      break;
     case StorageType.LOCAL:
-      result = localStorage.getItem(key)
-      break
+      result = localStorage.getItem(key);
+      break;
     default:
-      result = cookie.get(key)
-      break
+      result = cookie.get(key);
+      break;
   }
-  return result
+  return result;
 }
 function clear(key, storage) {
   switch (storage) {
     case StorageType.COOKIE:
-      cookie.remove(key)
-      break
+      cookie.remove(key);
+      break;
     case StorageType.SESSION:
-      sessionStorage.removeItem(key)
-      break
+      sessionStorage.removeItem(key);
+      break;
     case StorageType.LOCAL:
-      localStorage.removeItem(key)
-      break
+      localStorage.removeItem(key);
+      break;
     default:
-      cookie.remove(key)
-      break
+      cookie.remove(key);
+      break;
   }
 }
 
@@ -76,13 +76,13 @@ function clear(key, storage) {
  * @author: gumingchen
  */
 export function getToken() {
-  return JSON.parse(get(TOKEN_KEY, TOKEN_STORAGE) || '{}')
+  return JSON.parse(get(TOKEN_KEY, TOKEN_STORAGE) || '{}');
 }
 export function setToken(token) {
-  set(TOKEN_KEY, token, TOKEN_STORAGE)
+  set(TOKEN_KEY, token, TOKEN_STORAGE);
 }
 export function clearToken() {
-  clear(TOKEN_KEY, TOKEN_STORAGE)
+  clear(TOKEN_KEY, TOKEN_STORAGE);
 }
 
 /**
@@ -95,24 +95,24 @@ export function getMenuAndPermission() {
   return {
     menus: JSON.parse(get(MENU_KEY, MENU_STORAGE) || '[]') || [],
     permissions: JSON.parse(get(PERMISSION_KEY, MENU_STORAGE) || '[]') || []
-  }
+  };
 }
 export function setMenuAndPermission(data) {
-  set(MENU_KEY, JSON.stringify(data.menus), MENU_STORAGE)
-  set(PERMISSION_KEY, JSON.stringify(data.permissions), MENU_STORAGE)
+  set(MENU_KEY, JSON.stringify(data.menus), MENU_STORAGE);
+  set(PERMISSION_KEY, JSON.stringify(data.permissions), MENU_STORAGE);
 }
 export function clearMenuAndPermission() {
-  clear(MENU_KEY, MENU_STORAGE)
-  clear(PERMISSION_KEY, MENU_STORAGE)
+  clear(MENU_KEY, MENU_STORAGE);
+  clear(PERMISSION_KEY, MENU_STORAGE);
 }
 export function getGet() {
-  return get(IS_GET_MENU_KEY, MENU_STORAGE) === 'true'
+  return get(IS_GET_MENU_KEY, MENU_STORAGE) === 'true';
 }
 export function setGet(val = true) {
-  set(IS_GET_MENU_KEY, val, MENU_STORAGE)
+  set(IS_GET_MENU_KEY, val, MENU_STORAGE);
 }
 export function clearGet() {
-  clear(IS_GET_MENU_KEY, MENU_STORAGE)
+  clear(IS_GET_MENU_KEY, MENU_STORAGE);
 }
 
 /**
@@ -122,14 +122,14 @@ export function clearGet() {
  * @author: gumingchen
  */
 export function getTheme() {
-  const theme = get(THEME_KEY, THEME_STORAGE)
-  return theme ? JSON.parse(theme) : null
+  const theme = get(THEME_KEY, THEME_STORAGE);
+  return theme ? JSON.parse(theme) : null;
 }
 export function setTheme(theme) {
-  set(THEME_KEY, JSON.stringify(theme), THEME_STORAGE)
+  set(THEME_KEY, JSON.stringify(theme), THEME_STORAGE);
 }
 export function clearTheme() {
-  clear(THEME_KEY, THEME_STORAGE)
+  clear(THEME_KEY, THEME_STORAGE);
 }
 
 /**
@@ -139,14 +139,14 @@ export function clearTheme() {
  * @author: gumingchen
  */
 export function getThemeMode() {
-  const mode = get(THEME_MODE_KEY, THEME_STORAGE)
-  return mode || null
+  const mode = get(THEME_MODE_KEY, THEME_STORAGE);
+  return mode || null;
 }
 export function setThemeMode(mode) {
-  set(THEME_MODE_KEY, mode, THEME_STORAGE)
+  set(THEME_MODE_KEY, mode, THEME_STORAGE);
 }
 export function clearThemeMode() {
-  clear(THEME_MODE_KEY, THEME_STORAGE)
+  clear(THEME_MODE_KEY, THEME_STORAGE);
 }
 
 /**
@@ -156,12 +156,12 @@ export function clearThemeMode() {
  * @author: gumingchen
  */
 export function getLayout() {
-  const layout = get(LAYOUT_KEY, THEME_STORAGE)
-  return layout ? JSON.parse(layout) : null
+  const layout = get(LAYOUT_KEY, THEME_STORAGE);
+  return layout ? JSON.parse(layout) : null;
 }
 export function setLayout(layout) {
-  set(LAYOUT_KEY, JSON.stringify(layout), THEME_STORAGE)
+  set(LAYOUT_KEY, JSON.stringify(layout), THEME_STORAGE);
 }
 export function clearLayout() {
-  clear(LAYOUT_KEY, THEME_STORAGE)
+  clear(LAYOUT_KEY, THEME_STORAGE);
 }

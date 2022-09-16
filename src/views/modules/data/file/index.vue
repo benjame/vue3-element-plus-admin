@@ -134,33 +134,33 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
+import { useStore } from 'vuex';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import Set from './components/set.vue'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import Set from './components/set.vue';
 
-import usePage from '@/mixins/page'
-import useDictionary from '@/mixins/dictionary'
-import { TOKEN_KEY, SUCCESS_CODE } from '@/utils/constant'
-import { clearJson, parseDate2Str, havePermission } from '@/utils'
+import usePage from '@/mixins/page';
+import useDictionary from '@/mixins/dictionary';
+import { TOKEN_KEY, SUCCESS_CODE } from '@/utils/constant';
+import { clearJson, parseDate2Str, havePermission } from '@/utils';
 
-import { pageApi, delApi, uploadUrlApi } from '@/api/file'
+import { pageApi, delApi, uploadUrlApi } from '@/api/file';
 
-import Uploader from '@/utils/uploader'
+import Uploader from '@/utils/uploader';
 
 export default defineComponent({
   components: { Set },
   setup() {
-    const store = useStore()
+    const store = useStore();
 
-    const refForm = ref()
-    const refTable = ref()
-    const refSet = ref()
+    const refForm = ref();
+    const refTable = ref();
+    const refSet = ref();
 
-    const { page } = usePage()
-    page.size = 30
-    const { dictionaryMap, dictionaryList, getDictionary } = useDictionary()
+    const { page } = usePage();
+    page.size = 30;
+    const { dictionaryMap, dictionaryList, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
@@ -175,7 +175,7 @@ export default defineComponent({
       action: uploadUrlApi(),
       tokenKey: TOKEN_KEY,
       token: store.getters['administrator/tokenVal']
-    })
+    });
 
     /**
      * @description: 获取分页列表
@@ -190,19 +190,19 @@ export default defineComponent({
         end: data.form.date && data.form.date.length ? parseDate2Str(data.form.date[1]) : '',
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       pageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
-          data.urls = data.list.map(item => item.url)
+          data.list = r.data.list;
+          page.total = r.data.total;
+          data.urls = data.list.map(item => item.url);
         }
         nextTick(() => {
-          data.loading = false
-        })
-      })
-    }
+          data.loading = false;
+        });
+      });
+    };
 
     /**
      * @description: 重新获取、重置 数据
@@ -211,9 +211,9 @@ export default defineComponent({
      * @author: gumingchen
      */
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     /**
      * @description: 配置弹窗
@@ -222,11 +222,11 @@ export default defineComponent({
      * @author: gumingchen
      */
     const setHandle = () => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refSet.value.init()
-      })
-    }
+        refSet.value.init();
+      });
+    };
 
     /**
      * @description: 删除
@@ -235,7 +235,7 @@ export default defineComponent({
      * @author: gumingchen
      */
     const deleteHandle = id => {
-      const ids = id ? [id] : data.selection
+      const ids = id ? [id] : data.selection;
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '删除' : '批量删除' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -246,14 +246,14 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     /**
      * @description: 上传文件成功回调
@@ -263,14 +263,14 @@ export default defineComponent({
      */
     const successHandle = (r) => {
       if (SUCCESS_CODE.includes(r.code)) {
-        getList()
+        getList();
       } else {
         ElMessage({
           message: r.message,
           type: 'warning'
-        })
+        });
       }
-    }
+    };
 
     /**
      * @description: 上传之前回调
@@ -279,8 +279,8 @@ export default defineComponent({
      * @author: gumingchen
      */
     const beforeHandle = (r) => {
-      return true
-    }
+      return true;
+    };
 
     /**
      * @description: 分片上传
@@ -289,16 +289,16 @@ export default defineComponent({
      * @author: gumingchen
      */
     const uploadHandle = (request) => {
-      const uploader = new Uploader(request.file)
+      const uploader = new Uploader(request.file);
       uploader.start(null, null, (r) => {
-        getList()
+        getList();
       }, (message) => {
         ElMessage({
           message: message,
           type: 'warning'
-        })
-      })
-    }
+        });
+      });
+    };
 
     /**
      * @description: table多选事件
@@ -309,16 +309,16 @@ export default defineComponent({
     const selectionHandle = val => {
       switch (val) {
         case 1:
-          data.selection = data.list.map(item => item.id)
-          break
+          data.selection = data.list.map(item => item.id);
+          break;
         case 2:
-          data.selection = data.list.filter(item => !data.selection.includes(item.id)).map(item => item.id)
-          break
+          data.selection = data.list.filter(item => !data.selection.includes(item.id)).map(item => item.id);
+          break;
         case 0:
-          data.selection = []
-          break
+          data.selection = [];
+          break;
       }
-    }
+    };
 
     /**
      * @description: 分页变化事件
@@ -327,15 +327,15 @@ export default defineComponent({
      * @author: gumingchen
      */
     const pageChangeHandle = argPage => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     onBeforeMount(() => {
-      getDictionary('oss')
-      getList()
-    })
+      getDictionary('oss');
+      getList();
+    });
 
     return {
       refForm,
@@ -356,9 +356,9 @@ export default defineComponent({
       pageChangeHandle,
       clearJson,
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -11,8 +11,7 @@
     <h2 class="status-code">404</h2>
     <p class="describe">抱歉！您访问的页面<em>走丢</em>啦...</p>
     <p class="timeout">
-      <em>{{ endTime }}</em
-      >秒后自动返回首页
+      <em>{{ endTime }}</em>秒后自动返回首页
     </p>
     <el-button @click="jump(0)">返回</el-button>
     <el-button type="primary" @click="jump(1)">首页</el-button>

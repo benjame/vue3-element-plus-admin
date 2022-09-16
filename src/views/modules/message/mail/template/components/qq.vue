@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { defineComponent, onBeforeUnmount, reactive, ref, toRefs, watch } from 'vue'
+import { defineComponent, onBeforeUnmount, reactive, ref, toRefs, watch } from 'vue';
 
 export default defineComponent({
   emits: ['refresh'],
@@ -34,7 +34,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const refForm = ref()
+    const refForm = ref();
 
     const data = reactive({
       types: [],
@@ -45,7 +45,7 @@ export default defineComponent({
         host: '',
         port: ''
       }
-    })
+    });
 
     const rules = reactive(function() {
       return {
@@ -54,33 +54,33 @@ export default defineComponent({
         protocol: [{ required: true, message: '请输入协议', trigger: 'blur' }],
         host: [{ required: true, message: '请输入主机', trigger: 'blur' }],
         port: [{ required: true, message: '请输入端口', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     watch(props.data, (newVal) => {
       data.form = {
         ...newVal
-      }
-    }, { deep: true, immediate: true })
+      };
+    }, { deep: true, immediate: true });
 
     const validate = (fn) => {
       refForm.value.validate(valid => {
         if (typeof fn === 'function') {
-          fn(valid, data.form)
+          fn(valid, data.form);
         }
-      })
-    }
+      });
+    };
 
     onBeforeUnmount(() => {
-      refForm.value.resetFields()
-    })
+      refForm.value.resetFields();
+    });
 
     return {
       refForm,
       ...toRefs(data),
       rules,
       validate
-    }
+    };
   }
-})
+});
 </script>

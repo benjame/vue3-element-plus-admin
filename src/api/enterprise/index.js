@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 获取当前管理员所在企业
@@ -18,7 +18,7 @@ export function selfInfoApi() {
   return service({
     url: '/admin/enterprise/self/info',
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -32,7 +32,7 @@ export function pageApi(params) {
     url: '/admin/enterprise/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -45,7 +45,7 @@ export function infoApi(params) {
   return service({
     url: `/admin/enterprise/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -59,7 +59,7 @@ export function addApi(params) {
     url: `/admin/enterprise/create`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -73,7 +73,7 @@ export function editApi(params) {
     url: `/admin/enterprise/update`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -87,7 +87,7 @@ export function deleteApi(params) {
     url: `/admin/enterprise/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -101,7 +101,7 @@ export function setStatusApi(params) {
     url: `/admin/enterprise/status`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -115,5 +115,5 @@ export function pageSimplifyApi(params) {
     url: '/admin/enterprise/global/page',
     method: 'get',
     params: params
-  })
+  });
 }

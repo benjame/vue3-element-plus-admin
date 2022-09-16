@@ -59,17 +59,17 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-import useModel from '@/mixins/model'
-import useDictionary from '@/mixins/dictionary'
-import { UPDATE_MODEL_EVENT } from '@/utils/constant'
-import { havePermission } from '@/utils'
-import { VIRTUAL_ID_KEY } from '../index.js'
+import useModel from '@/mixins/model';
+import useDictionary from '@/mixins/dictionary';
+import { UPDATE_MODEL_EVENT } from '@/utils/constant';
+import { havePermission } from '@/utils';
+import { VIRTUAL_ID_KEY } from '../index.js';
 
-import { selectListApi, deleteApi, dragApi } from '@/api/menu'
+import { selectListApi, deleteApi, dragApi } from '@/api/menu';
 
 export default defineComponent({
   emits: ['change', UPDATE_MODEL_EVENT],
@@ -80,10 +80,10 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const value = useModel(props)
+    const value = useModel(props);
 
-    const refTree = ref()
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const refTree = ref();
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       form: {
@@ -91,28 +91,28 @@ export default defineComponent({
       },
       list: [],
       index: 1
-    })
+    });
 
     const treeProps = computed(() => {
       const reuslt = {
         children: 'children',
         label: 'name_cn'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
 
     const getList = () => {
-      data.loading = true
+      data.loading = true;
       selectListApi().then(r => {
         if (r) {
-          data.list = r.data
+          data.list = r.data;
         }
         nextTick(() => {
-          data.loading = false
-          refTree.value.filter(data.form.name)
-        })
-      })
-    }
+          data.loading = false;
+          refTree.value.filter(data.form.name);
+        });
+      });
+    };
 
     const addHandle = (row) => {
       const menu = {
@@ -121,21 +121,21 @@ export default defineComponent({
         name_en: `Unnamed ${ data.index }`,
         parent_id: 0,
         type: 0
-      }
+      };
       if (row) {
-        menu.parent_id = row.id
+        menu.parent_id = row.id;
         if (row.type === 1) {
-          menu.type = 2
+          menu.type = 2;
         }
         if (!row.children) {
-          row.children = []
+          row.children = [];
         }
-        row.children.push(menu)
+        row.children.push(menu);
       } else {
-        data.list.push(menu)
+        data.list.push(menu);
       }
-      data.index++
-    }
+      data.index++;
+    };
 
     const delHandle = (id, list, index) => {
       ElMessageBox.confirm(`确定对[id=${ id }]进行[删除]操作?`, '提示', {
@@ -148,129 +148,129 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            list.splice(index, 1)
+            });
+            list.splice(index, 1);
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const deleteHandle = (node, row) => {
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex((item) => item.id === row.id)
+      const parent = node.parent;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex((item) => item.id === row.id);
       if ((row.id + '').includes(VIRTUAL_ID_KEY)) {
-        children.splice(index, 1)
+        children.splice(index, 1);
       } else {
-        delHandle(row.id, children, index)
+        delHandle(row.id, children, index);
       }
-    }
+    };
 
     const clickHandle = (row, node) => {
-      value.value = row.id
-      emit('change', { row, parentType: node.parent.data.type || 0 })
-    }
+      value.value = row.id;
+      emit('change', { row, parentType: node.parent.data.type || 0 });
+    };
 
     const allowDragHandle = (node) => {
       if ((node.data.id + '').includes(VIRTUAL_ID_KEY)) {
-        return false
+        return false;
       }
-      return true
-    }
+      return true;
+    };
 
     const allowDropHandle = (dragNode, dropNode, type) => {
-      let result = true
-      const dragData = dragNode.data
-      const dropData = dropNode.data
-      let dropParentType
+      let result = true;
+      const dragData = dragNode.data;
+      const dropData = dropNode.data;
+      let dropParentType;
       switch (type) {
         case 'inner':
-          dropParentType = dropData.type
-          break
+          dropParentType = dropData.type;
+          break;
         case 'prev':
         case 'next':
-          dropParentType = dropNode.parent.data.type || 0
-          break
+          dropParentType = dropNode.parent.data.type || 0;
+          break;
       }
       switch (dragData.type) {
         case 0:
           if (dropParentType !== 0) {
-            result = false
+            result = false;
           }
-          break
+          break;
         case 1:
           if (dropParentType !== 0) {
-            result = false
+            result = false;
           }
-          break
+          break;
         case 2:
           if (dropParentType !== 1) {
-            result = false
+            result = false;
           }
-          break
+          break;
         case 3:
           if (dropParentType !== 0) {
-            result = false
+            result = false;
           }
-          break
+          break;
         case 4:
           if (dropParentType !== 0) {
-            result = false
+            result = false;
           }
-          break
+          break;
       }
-      return result
-    }
+      return result;
+    };
 
     const nodeDropHandle = (dragNode, dropNode, position) => {
-      const dragData = dragNode.data
-      const dropData = dropNode.data
-      const dropParentData = dropNode.parent.data
-      let dropParentId
-      let dropChildren
+      const dragData = dragNode.data;
+      const dropData = dropNode.data;
+      const dropParentData = dropNode.parent.data;
+      let dropParentId;
+      let dropChildren;
       switch (position) {
         case 'inner':
-          dropParentId = dropData.id
-          dropChildren = dropData.children
-          break
+          dropParentId = dropData.id;
+          dropChildren = dropData.children;
+          break;
         case 'before':
         case 'after':
-          dropParentId = dropParentData.id || 0
-          dropChildren = dropParentData.children || dropParentData
-          break
+          dropParentId = dropParentData.id || 0;
+          dropChildren = dropParentData.children || dropParentData;
+          break;
       }
       const params = {
         id: dragData.id,
         parent_id: dropParentId,
         sort_ids: dropChildren.map(item => item.id)
-      }
+      };
       dragApi(params).then(r => {
         if (r) {
           ElMessage({
             message: '操作成功!',
             type: 'success'
-          })
+          });
         } else {
-          getList()
+          getList();
         }
-      })
-    }
+      });
+    };
 
     const filterNodeHandle = (keyword, row) => {
-      if (!keyword) return true
-      return row.name_cn.includes(keyword) || row.name_en.includes(keyword)
-    }
+      if (!keyword) return true;
+      return row.name_cn.includes(keyword) || row.name_en.includes(keyword);
+    };
 
     const inputHandle = () => {
-      refTree.value.filter(data.form.name)
-    }
+      refTree.value.filter(data.form.name);
+    };
 
     onBeforeMount(() => {
-      getDictionary('menu')
-      getList()
-    })
+      getDictionary('menu');
+      getList();
+    });
 
     return {
       value,
@@ -288,9 +288,9 @@ export default defineComponent({
       filterNodeHandle,
       inputHandle,
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

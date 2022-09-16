@@ -6,12 +6,12 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-04-18 09:16:20
  */
-import { getGet, setGet, clearGet, getMenuAndPermission, setMenuAndPermission, clearMenuAndPermission } from '@/utils/storage'
-import { MENU_KEY, PERMISSION_KEY } from '@/utils/constant'
-import { selfInfoApi } from '@/api/enterprise-menu'
+import { getGet, setGet, clearGet, getMenuAndPermission, setMenuAndPermission, clearMenuAndPermission } from '@/utils/storage';
+import { MENU_KEY, PERMISSION_KEY } from '@/utils/constant';
+import { selfInfoApi } from '@/api/enterprise-menu';
 
 // 初始化菜单 权限 数据
-const data = getMenuAndPermission()
+const data = getMenuAndPermission();
 
 /**
  * @description: 递归筛选出 目录、菜单
@@ -21,7 +21,7 @@ const data = getMenuAndPermission()
  * @author: gumingchen
  */
 function menuProcessing(list = [], mode = 1) {
-  const result = []
+  const result = [];
   list.forEach(item => {
     if (item.type !== 2) {
       if (mode === 2 || item.show === 1) {
@@ -35,15 +35,15 @@ function menuProcessing(list = [], mode = 1) {
           path: item.type === 3 ? `/i-${ item.menu_id }` : item.path || (item.url ? `/${ item.url.replace(/\//g, '-') }` : ''),
           name: item.type === 3 ? `i-${ item.menu_id }` : item.name || (item.url ? item.url.replace(/\//g, '-') : ''),
           children: []
-        }
+        };
         if (item.children && item.children.length > 0) {
-          menu.children = menuProcessing(item.children, mode)
+          menu.children = menuProcessing(item.children, mode);
         }
-        result.push(menu)
+        result.push(menu);
       }
     }
-  })
-  return result
+  });
+  return result;
 }
 
 export default {
@@ -56,30 +56,30 @@ export default {
   },
   getters: {
     menus: state => {
-      return menuProcessing(state.menus)
+      return menuProcessing(state.menus);
     },
     pages: state => {
-      return menuProcessing(state.menus, 2)
+      return menuProcessing(state.menus, 2);
     },
     permissions: state => {
-      return state.permissions
+      return state.permissions;
     }
   },
   mutations: {
     SET_GET: (state, get) => {
-      state.get = get
+      state.get = get;
     },
     SET_MENUS: (state, menus) => {
-      state.menus = menus
+      state.menus = menus;
     },
     SET_PERMISSIONS: (state, permissions) => {
-      state.permissions = permissions
+      state.permissions = permissions;
     },
     SET_ACTIVE: (state, active) => {
-      state.active = active
+      state.active = active;
     },
     SET_COLLAPSE: (state, collapse) => {
-      state.collapse = collapse
+      state.collapse = collapse;
     }
   },
   actions: {
@@ -89,8 +89,8 @@ export default {
      * @returns
      */
     setGet({ commit }, val = true) {
-      setGet(val)
-      commit('SET_GET', val)
+      setGet(val);
+      commit('SET_GET', val);
     },
     /**
      * 获取当前管理员 菜单 权限
@@ -98,14 +98,14 @@ export default {
      * @returns
      */
     async getMenuAndPermission({ commit, dispatch }) {
-      const r = await selfInfoApi()
+      const r = await selfInfoApi();
       if (r) {
-        dispatch('setGet', true)
-        setMenuAndPermission(r.data)
-        commit('SET_MENUS', r.data.menus)
-        commit('SET_PERMISSIONS', r.data.permissions)
+        dispatch('setGet', true);
+        setMenuAndPermission(r.data);
+        commit('SET_MENUS', r.data.menus);
+        commit('SET_PERMISSIONS', r.data.permissions);
       }
-      return r && r.data ? r.data.menus : []
+      return r && r.data ? r.data.menus : [];
     },
     /**
      * 设置选中菜单
@@ -113,7 +113,7 @@ export default {
      * @returns
      */
     setActive({ commit }, active) {
-      commit('SET_ACTIVE', active)
+      commit('SET_ACTIVE', active);
     },
     /**
      * 设置菜单是否折叠
@@ -121,18 +121,18 @@ export default {
      * @returns
      */
     setCollapse({ commit }, collapse) {
-      commit('SET_COLLAPSE', collapse)
+      commit('SET_COLLAPSE', collapse);
     },
     /**
      * 清除菜单 权限 信息
      * @param {*}
      */
     clear({ commit }) {
-      clearGet()
-      clearMenuAndPermission()
-      commit('SET_GET', false)
-      commit('SET_MENUS', [])
-      commit('SET_PERMISSIONS', [])
+      clearGet();
+      clearMenuAndPermission();
+      commit('SET_GET', false);
+      commit('SET_MENUS', []);
+      commit('SET_PERMISSIONS', []);
     }
   }
-}
+};

@@ -6,8 +6,8 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
-import { download } from '@/utils'
+import service from '@/utils/request';
+import { download } from '@/utils';
 
 /**
  * @description: 获取当前管理员
@@ -19,7 +19,7 @@ export function selfInfoApi() {
   return service({
     url: '/admin/administrator/self/info',
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -33,7 +33,7 @@ export function editBasicApi(params) {
     url: `/admin/administrator/update/basic`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -47,7 +47,7 @@ export function editPasswordApi(params) {
     url: `/admin/administrator/update/password`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -61,7 +61,7 @@ export function pageApi(params) {
     url: '/admin/administrator/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -74,7 +74,7 @@ export function infoApi(params) {
   return service({
     url: `/admin/administrator/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -88,7 +88,7 @@ export function addApi(params) {
     url: `/admin/administrator/create`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -102,7 +102,7 @@ export function editApi(params) {
     url: `/admin/administrator/update`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -116,7 +116,7 @@ export function deleteApi(params) {
     url: `/admin/administrator/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -130,7 +130,7 @@ export function setStatusApi(params) {
     url: `/admin/administrator/status`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -145,10 +145,10 @@ export async function exportApi(params) {
     method: 'get',
     responseType: 'blob',
     data: params
-  })
+  });
   if (r) {
-    const { blob, name } = r
-    download(blob, name)
+    const { blob, name } = r;
+    download(blob, name);
   }
 }
 
@@ -165,7 +165,7 @@ export function globalPageApi(params) {
     url: '/admin/administrator/global/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -178,7 +178,7 @@ export function globalInfoApi(params) {
   return service({
     url: `/admin/administrator/global/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -192,7 +192,7 @@ export function globalAddApi(params) {
     url: `/admin/administrator/global/create`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -206,7 +206,7 @@ export function globalEditApi(params) {
     url: `/admin/administrator/global/update`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -220,7 +220,7 @@ export function globalDeleteApi(params) {
     url: `/admin/administrator/global/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -234,5 +234,5 @@ export function globalSetStatusApi(params) {
     url: `/admin/administrator/global/status`,
     method: 'post',
     data: params
-  })
+  });
 }

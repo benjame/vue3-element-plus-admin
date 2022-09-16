@@ -72,84 +72,84 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import screenfull from 'screenfull'
+import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import screenfull from 'screenfull';
 
-import { ElMessage } from 'element-plus'
-import Theme from './theme.vue'
+import { ElMessage } from 'element-plus';
+import Theme from './theme.vue';
 
-import { ThemeMode } from '@/utils/dictionary'
+import { ThemeMode } from '@/utils/dictionary';
 
 export default defineComponent({
   components: { Theme },
   setup() {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
 
-    const refTheme = ref()
+    const refTheme = ref();
 
     const data = reactive({
       visible: false
-    })
+    });
 
-    const fullScreen = computed(() => store.state.settings.fullScreen)
+    const fullScreen = computed(() => store.state.settings.fullScreen);
 
-    const administrator = computed(() => store.state.administrator.administrator)
+    const administrator = computed(() => store.state.administrator.administrator);
 
     const mode = computed({
       get: () => {
-        return store.state.theme.mode
+        return store.state.theme.mode;
       },
       set: (val) => {
-        store.dispatch('theme/setMode', val)
+        store.dispatch('theme/setMode', val);
       }
-    })
+    });
 
     const iconfontClickHandle = (type) => {
       switch (type) {
         case 'full-screen':
           if (screenfull.isEnabled) {
-            screenfull.toggle()
-            store.dispatch('settings/setFullScreen', !screenfull.isFullscreen)
+            screenfull.toggle();
+            store.dispatch('settings/setFullScreen', !screenfull.isFullscreen);
           } else {
             ElMessage({
               message: `Your browser doesn't support full screen`,
               type: 'warning'
-            })
+            });
           }
-          break
+          break;
         case 'refresh':
-          store.dispatch('settings/setRefresh', true)
+          store.dispatch('settings/setRefresh', true);
           nextTick(() => {
-            store.dispatch('settings/setRefresh', false)
-          })
-          break
+            store.dispatch('settings/setRefresh', false);
+          });
+          break;
         case 'setting':
-          data.visible = true
+          data.visible = true;
           nextTick(() => {
-            refTheme.value.init()
-          })
-          break
+            refTheme.value.init();
+          });
+          break;
         case 'clear':
-          store.dispatch('clear')
-          break
+          store.dispatch('clear');
+          break;
       }
-    }
+    };
 
     const dropdownHandle = async (command) => {
       switch (command) {
         case 'personal':
-          router.push({ name: 'personal' })
-          break
+          router.push({ name: 'personal' });
+          break;
         case 'logout':
-          await store.dispatch('administrator/logout')
-          store.dispatch('logout')
-          router.push({ name: 'login' })
-          break
+          await store.dispatch('administrator/logout');
+          store.dispatch('logout');
+          router.push({ name: 'login' });
+          break;
       }
-    }
+    };
 
     return {
       refTheme,
@@ -160,9 +160,9 @@ export default defineComponent({
       mode,
       iconfontClickHandle,
       dropdownHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

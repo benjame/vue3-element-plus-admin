@@ -1,12 +1,12 @@
-const { defineConfig } = require('@vue/cli-service')
-const AutoImport = require('unplugin-auto-import/webpack')
-const Components = require('unplugin-vue-components/webpack')
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const { defineConfig } = require('@vue/cli-service');
+const AutoImport = require('unplugin-auto-import/webpack');
+const Components = require('unplugin-vue-components/webpack');
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const path = require('path')
+const path = require('path');
 function resolve (dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
 
 module.exports = defineConfig({
@@ -100,8 +100,8 @@ module.exports = defineConfig({
       // config.plugin('webpack-bundle-analyzer').use(analyzer)
     }
     config.resolve.alias
-      .set('@', resolve('src'))
-    config.module.rules.delete('svg')
+      .set('@', resolve('src'));
+    config.module.rules.delete('svg');
     config.module
       .rule('svg-smart')
       .test(/\.svg$/)
@@ -111,7 +111,7 @@ module.exports = defineConfig({
       .loader('svg-sprite-loader')
       .options({
         symbolId: '[name]'
-      })
+      });
     config.optimization.splitChunks({
       // 优化块：all-所有 async-异步 initial-同步
       chunks: 'all',
@@ -174,8 +174,8 @@ module.exports = defineConfig({
           chunks: 'initial'
         }
       }
-    })
+    });
     // 页面太多会导致很多无意义的请求
-    config.plugins.delete('prefetch')
+    config.plugins.delete('prefetch');
   }
-})
+});

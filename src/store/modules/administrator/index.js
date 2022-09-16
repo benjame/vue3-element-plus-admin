@@ -6,10 +6,10 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-04-18 09:16:20
  */
-import { clearJson } from '@/utils/index'
-import { clearToken, getToken, setToken } from '@/utils/storage'
-import { loginApi, logoutApi } from '@/api/login'
-import { selfInfoApi } from '@/api/administrator'
+import { clearJson } from '@/utils/index';
+import { clearToken, getToken, setToken } from '@/utils/storage';
+import { loginApi, logoutApi } from '@/api/login';
+import { selfInfoApi } from '@/api/administrator';
 
 export default {
   state: {
@@ -29,21 +29,21 @@ export default {
   },
   getters: {
     tokenVal: state => {
-      return state.token.token
+      return state.token.token;
     }
   },
   mutations: {
     SET_ADMINISTRATOR: (state, administrator) => {
-      state.administrator = administrator
+      state.administrator = administrator;
     },
     SET_TOKEN: (state, token) => {
-      state.token = token
+      state.token = token;
     },
     CLEAR_ADMINISTRATOR: state => {
-      clearJson(state.administrator)
+      clearJson(state.administrator);
     },
     CLEAR_TOKEN: state => {
-      clearJson(state.token)
+      clearJson(state.token);
     }
   },
   actions: {
@@ -53,31 +53,31 @@ export default {
      * @returns
      */
     async login({ commit }, params) {
-      const r = await loginApi(params)
+      const r = await loginApi(params);
       if (r) {
-        setToken(JSON.stringify(r.data))
-        commit('SET_TOKEN', r.data)
+        setToken(JSON.stringify(r.data));
+        commit('SET_TOKEN', r.data);
       }
-      return r
+      return r;
     },
     /**
      * 获取当前用户信息
      * @returns
      */
     async getAdministrator({ commit }) {
-      const r = await selfInfoApi()
+      const r = await selfInfoApi();
       if (r) {
-        commit('SET_ADMINISTRATOR', r.data)
+        commit('SET_ADMINISTRATOR', r.data);
       }
-      return r
+      return r;
     },
     /**
      * 退出当前账户
      * @returns
      */
     async logout() {
-      const r = await logoutApi()
-      return r
+      const r = await logoutApi();
+      return r;
     },
     /**
      * 清除登录用户信息
@@ -85,7 +85,7 @@ export default {
      * @param {*} flag
      */
     clearAdministrator({ commit }) {
-      commit('CLEAR_ADMINISTRATOR')
+      commit('CLEAR_ADMINISTRATOR');
     },
     /**
      * 清除登录用户凭证
@@ -93,8 +93,8 @@ export default {
      * @param {*} flag
      */
     clearToken({ commit }) {
-      commit('CLEAR_TOKEN')
-      clearToken()
+      commit('CLEAR_TOKEN');
+      clearToken();
     }
   }
-}
+};

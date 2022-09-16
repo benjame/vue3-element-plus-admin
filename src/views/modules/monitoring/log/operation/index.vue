@@ -121,24 +121,24 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import ContainerSidebar from '@/components/container-sidebar'
-import EnterpriseSidebar from '@/components/enterprise-sidebar'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import ContainerSidebar from '@/components/container-sidebar';
+import EnterpriseSidebar from '@/components/enterprise-sidebar';
 
-import usePage from '@/mixins/page'
-import { clearJson, parseDate2Str } from '@/utils'
+import usePage from '@/mixins/page';
+import { clearJson, parseDate2Str } from '@/utils';
 
-import { globalPageApi, globalDeleteApi, globalTruncateApi } from '@/api/operation-log'
+import { globalPageApi, globalDeleteApi, globalTruncateApi } from '@/api/operation-log';
 
 export default defineComponent({
   components: { ContainerSidebar, EnterpriseSidebar },
   setup() {
-    const refContainerSidebar = ref()
-    const refForm = ref()
-    const refTable = ref()
-    const { page } = usePage()
+    const refContainerSidebar = ref();
+    const refForm = ref();
+    const refTable = ref();
+    const { page } = usePage();
     const data = reactive({
       active: '',
       loading: false,
@@ -148,7 +148,7 @@ export default defineComponent({
         date: []
       },
       list: []
-    })
+    });
 
     const getList = () => {
       const params = {
@@ -159,21 +159,21 @@ export default defineComponent({
         end: data.form.date && data.form.date.length > 1 ? parseDate2Str(data.form.date[1]) : '',
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       globalPageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     const deleteHandle = () => {
       ElMessageBox.confirm(`确定进行[删除]操作?`, '提示', {
@@ -186,14 +186,14 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const celarHandle = () => {
       ElMessageBox.confirm(`确定进行[清空]操作?`, '提示', {
@@ -206,29 +206,29 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const rowClickHandle = (row) => {
-      refTable.value.toggleRowExpansion(row)
-    }
+      refTable.value.toggleRowExpansion(row);
+    };
 
     const pageChangeHandle = (argPage) => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     const changeHandle = (_row) => {
-      refContainerSidebar.value.setScrollTop()
-      reacquireHandle()
-    }
+      refContainerSidebar.value.setScrollTop();
+      reacquireHandle();
+    };
 
     return {
       refContainerSidebar,
@@ -244,9 +244,9 @@ export default defineComponent({
       rowClickHandle,
       changeHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -114,4 +114,4 @@ module.exports = {
     'yield-star-spacing': [1, 'both'], // 强制在 yield* 表达式中 * 周围使用空格
     'space-before-function-paren': 0 // 函数 括号前需要空格
   }
-}
+};

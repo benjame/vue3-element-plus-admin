@@ -115,26 +115,26 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import AddEdit from './components/add-edit.vue'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import AddEdit from './components/add-edit.vue';
 
-import usePage from '@/mixins/page'
-import useDictionary from '@/mixins/dictionary'
-import { clearJson, parseDate2Str } from '@/utils'
+import usePage from '@/mixins/page';
+import useDictionary from '@/mixins/dictionary';
+import { clearJson, parseDate2Str } from '@/utils';
 
-import { pageApi, delApi, statusApi } from '@/api/configuration'
+import { pageApi, delApi, statusApi } from '@/api/configuration';
 
 export default defineComponent({
   components: { AddEdit },
   setup() {
-    const refForm = ref()
-    const refTable = ref()
-    const refAddEdit = ref()
+    const refForm = ref();
+    const refTable = ref();
+    const refAddEdit = ref();
 
-    const { page } = usePage()
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const { page } = usePage();
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
@@ -144,7 +144,7 @@ export default defineComponent({
       },
       list: [],
       selection: []
-    })
+    });
 
     /**
        * @description: 获取分页列表
@@ -159,18 +159,18 @@ export default defineComponent({
         end: data.form.date && data.form.date.length ? parseDate2Str(data.form.date[1]) : '',
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       pageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
         nextTick(() => {
-          data.loading = false
-        })
-      })
-    }
+          data.loading = false;
+        });
+      });
+    };
 
     /**
        * @description: 重新获取、重置 数据
@@ -179,9 +179,9 @@ export default defineComponent({
        * @author: gumingchen
        */
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     /**
        * @description: 新增/编辑弹窗
@@ -190,11 +190,11 @@ export default defineComponent({
        * @author: gumingchen
        */
     const addEditHandle = id => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refAddEdit.value.init(id)
-      })
-    }
+        refAddEdit.value.init(id);
+      });
+    };
 
     /**
        * @description: 删除
@@ -203,7 +203,7 @@ export default defineComponent({
        * @author: gumingchen
        */
     const deleteHandle = id => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '删除' : '批量删除' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -214,14 +214,14 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     /**
        * @description: 状态
@@ -238,20 +238,20 @@ export default defineComponent({
         const params = {
           key: row.id,
           value: row.status
-        }
+        };
         statusApi(params).then(r => {
           if (r) {
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     /**
        * @description: table多选事件
@@ -260,8 +260,8 @@ export default defineComponent({
        * @author: gumingchen
        */
     const selectionHandle = val => {
-      data.selection = val
-    }
+      data.selection = val;
+    };
 
     /**
        * @description: 分页变化事件
@@ -270,15 +270,15 @@ export default defineComponent({
        * @author: gumingchen
        */
     const pageChangeHandle = argPage => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     onBeforeMount(() => {
-      getDictionary('status')
-      getList()
-    })
+      getDictionary('status');
+      getList();
+    });
 
     return {
       refForm,
@@ -295,7 +295,7 @@ export default defineComponent({
       selectionHandle,
       pageChangeHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>

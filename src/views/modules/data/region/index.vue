@@ -76,30 +76,30 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import AddEdit from './components/add-edit.vue'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import AddEdit from './components/add-edit.vue';
 
-import useDictionary from '@/mixins/dictionary'
-import { havePermission } from '@/utils'
+import useDictionary from '@/mixins/dictionary';
+import { havePermission } from '@/utils';
 
-import { listApi, delApi } from '@/api/region'
+import { listApi, delApi } from '@/api/region';
 
 export default defineComponent({
   components: { AddEdit },
   setup() {
-    const refForm = ref()
-    const refTable = ref()
-    const refAddEdit = ref()
+    const refForm = ref();
+    const refTable = ref();
+    const refAddEdit = ref();
 
-    const props = { children: 'children', hasChildren: 'hasChildren' }
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const props = { children: 'children', hasChildren: 'hasChildren' };
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
       list: []
-    })
+    });
 
     /**
      * @description: 获取分页列表
@@ -108,16 +108,16 @@ export default defineComponent({
      * @author: gumingchen
      */
     const getList = async (id = 0) => {
-      const r = await listApi(id)
+      const r = await listApi(id);
       if (r) {
         r.data.forEach(item => {
           if (item.level < 3) {
-            item.hasChildren = true
+            item.hasChildren = true;
           }
-        })
+        });
       }
-      return r
-    }
+      return r;
+    };
 
     /**
      * @description: 首次加载获取值
@@ -126,13 +126,13 @@ export default defineComponent({
      * @author: gumingchen
      */
     const init = async () => {
-      data.loading = true
-      data.list = []
-      data.list = (await getList()).data || []
+      data.loading = true;
+      data.list = [];
+      data.list = (await getList()).data || [];
       nextTick(() => {
-        data.loading = false
-      })
-    }
+        data.loading = false;
+      });
+    };
 
     /**
      * @description: 懒加载事件
@@ -143,12 +143,12 @@ export default defineComponent({
     const loadHandle = (row, _treeNode, resolve) => {
       getList(row.id).then(r => {
         if (r) {
-          resolve(r.data)
+          resolve(r.data);
         } else {
-          resolve([])
+          resolve([]);
         }
-      })
-    }
+      });
+    };
 
     /**
        * @description: 新增/编辑弹窗
@@ -157,11 +157,11 @@ export default defineComponent({
        * @author: gumingchen
        */
     const addEditHandle = id => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refAddEdit.value.init(id)
-      })
-    }
+        refAddEdit.value.init(id);
+      });
+    };
 
     /**
      * @description: 删除
@@ -180,19 +180,19 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            init()
+            });
+            init();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     onBeforeMount(() => {
-      getDictionary('region')
-      init()
-    })
+      getDictionary('region');
+      init();
+    });
 
     return {
       refForm,
@@ -206,7 +206,7 @@ export default defineComponent({
       addEditHandle,
       deleteHandle,
       havePermission
-    }
+    };
   }
-})
+});
 </script>

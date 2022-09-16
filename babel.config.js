@@ -1,7 +1,7 @@
-const plugins = []
+const plugins = [];
 if (process.env.NODE_ENV === 'production') {
   // exclude(忽略)
-  plugins.push(['transform-remove-console', { 'exclude': ['error', 'warn'] }])
+  plugins.push(['transform-remove-console', { 'exclude': ['error', 'warn'] }]);
 }
 
 module.exports = {
@@ -9,4 +9,4 @@ module.exports = {
     '@vue/cli-plugin-babel/preset'
   ],
   plugins
-}
+};

@@ -8,15 +8,15 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onMounted, reactive, ref, toRefs, markRaw, onBeforeUnmount } from 'vue'
+import { defineComponent, nextTick, onMounted, reactive, ref, toRefs, markRaw, onBeforeUnmount } from 'vue';
 
-import * as echarts from 'echarts'
+import * as echarts from 'echarts';
 
-import { visitsApi } from '@/api/home'
+import { visitsApi } from '@/api/home';
 
 export default defineComponent({
   setup() {
-    const refEchart = ref()
+    const refEchart = ref();
     const data = reactive({
       echart: null,
       option: {
@@ -44,48 +44,48 @@ export default defineComponent({
         ]
       },
       list: []
-    })
+    });
 
     const getList = async () => {
-      const r = await visitsApi()
+      const r = await visitsApi();
       if (r) {
-        data.list = r.data
+        data.list = r.data;
       } else {
-        data.list = []
+        data.list = [];
       }
-    }
+    };
 
     const init = async () => {
-      await getList()
-      data.option.xAxis.data = data.list.map(item => item.date)
-      data.option.series[0].data = data.list.map(item => item.count)
-      data.echart = markRaw(echarts.init(refEchart.value))
-      data.echart.setOption(data.option)
-    }
+      await getList();
+      data.option.xAxis.data = data.list.map(item => item.date);
+      data.option.series[0].data = data.list.map(item => item.count);
+      data.echart = markRaw(echarts.init(refEchart.value));
+      data.echart.setOption(data.option);
+    };
 
     const resizeHandle = () => {
       if (data.echart) {
-        data.echart.resize()
+        data.echart.resize();
       }
-    }
+    };
 
     onMounted(() => {
       nextTick(() => {
-        init()
-        window.addEventListener('resize', resizeHandle)
-      })
-    })
+        init();
+        window.addEventListener('resize', resizeHandle);
+      });
+    });
 
     onBeforeUnmount(() => {
-      window.removeEventListener('resize', resizeHandle)
-    })
+      window.removeEventListener('resize', resizeHandle);
+    });
 
     return {
       refEchart,
       ...toRefs(data)
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
-import WebsocketClass from '@/utils/websocket'
-import { parseStringDate } from '@/utils'
+import WebsocketClass from '@/utils/websocket';
+import { parseStringDate } from '@/utils';
 
 export default {
   state: {
@@ -10,34 +10,34 @@ export default {
   },
   mutations: {
     INIT: (state, token) => {
-      const url = process.env.VUE_APP_WS_URL + token
+      const url = process.env.VUE_APP_WS_URL + token;
       state.socket = new WebsocketClass(url, data => {
-        state.response = data
+        state.response = data;
         switch (data.type) {
           case -1:
-            break
+            break;
           default:
-            console.log('🚲~~:', data)
-            break
+            console.log('🚲~~:', data);
+            break;
         }
-      })
-      state.socket.connect()
+      });
+      state.socket.connect();
     },
     SEND: (state, data) => {
       const params = {
         type: 1,
         requestBody: data
-      }
-      console.log('✈️:~~', params)
-      state.socket.send(params)
+      };
+      console.log('✈️:~~', params);
+      state.socket.send(params);
     },
     CLOSE: (state) => {
       if (state.socket) {
-        state.socket.close()
+        state.socket.close();
       }
-      state.response = null
-      state.body = null
-      state.socket = null
+      state.response = null;
+      state.body = null;
+      state.socket = null;
     }
   },
   actions: {
@@ -51,7 +51,7 @@ export default {
      */
     init({ commit, rootState, state }) {
       if (!state.socket) {
-        commit('INIT', rootState.administrator.token.token)
+        commit('INIT', rootState.administrator.token.token);
       }
     },
 
@@ -63,7 +63,7 @@ export default {
      * @author: gumingchen
      */
     send({ commit }, data) {
-      commit('SEND', data)
+      commit('SEND', data);
     },
 
     /**
@@ -73,7 +73,7 @@ export default {
      * @author: gumingchen
      */
     close({ commit }) {
-      commit('CLOSE')
+      commit('CLOSE');
     }
   }
-}
+};

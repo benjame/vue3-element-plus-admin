@@ -50,19 +50,19 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import Collapse from '@/components/collapse'
-import ImageUploadSingle from '@/components/image-upload-single'
+import { ElMessage } from 'element-plus';
+import Collapse from '@/components/collapse';
+import ImageUploadSingle from '@/components/image-upload-single';
 
-import { infoApi, addApi, editApi } from '@/api/enterprise'
+import { infoApi, addApi, editApi } from '@/api/enterprise';
 
 export default defineComponent({
   emits: ['refresh'],
   components: { Collapse, ImageUploadSingle },
   setup(_props, { emit }) {
-    const refForm = ref()
+    const refForm = ref();
     const data = reactive({
       loading: false,
       visible: false,
@@ -73,28 +73,28 @@ export default defineComponent({
         describe: ''
       },
       roles: []
-    })
+    });
 
     const rules = reactive(function() {
       return {
         name: [{ required: true, message: '请输入名称', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const init = async (id) => {
-      data.visible = true
-      data.loading = true
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.id = id;
       if (id) {
-        const r = await infoApi(id)
+        const r = await infoApi(id);
         if (r) {
-          data.form.name = r.data.name
-          data.form.logo = r.data.logo
-          data.form.describe = r.data.describe
+          data.form.name = r.data.name;
+          data.form.logo = r.data.logo;
+          data.form.describe = r.data.describe;
         }
       }
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -105,18 +105,18 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const r = data.form.id ? await editApi(data.form) : await addApi(data.form)
+          const r = data.form.id ? await editApi(data.form) : await addApi(data.form);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
    * @description: 弹窗关闭动画结束时的回调
@@ -125,8 +125,8 @@ export default defineComponent({
    * @author: gumingchen
    */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -135,7 +135,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

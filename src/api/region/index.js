@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2022-06-17 09:50:35
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 分页列表
@@ -18,7 +18,7 @@ export function listApi(params) {
   return service({
     url: `/admin/region/list/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -31,7 +31,7 @@ export function infoApi(params) {
   return service({
     url: `/admin/region/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -45,7 +45,7 @@ export function addApi(params) {
     url: '/admin/region/create',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -59,7 +59,7 @@ export function editApi(params) {
     url: '/admin/region/update',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -73,7 +73,7 @@ export function delApi(params) {
     url: '/admin/region/delete',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -86,5 +86,5 @@ export function selectListApi(params) {
   return service({
     url: `/admin/region/select/list/${ params }`,
     method: 'get'
-  })
+  });
 }

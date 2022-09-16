@@ -87,23 +87,23 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-import usePage from '@/mixins/page'
-import useDictionary from '@/mixins/dictionary'
-import { clearJson } from '@/utils'
+import usePage from '@/mixins/page';
+import useDictionary from '@/mixins/dictionary';
+import { clearJson } from '@/utils';
 
-import { onlinePageApi, logoutApi } from '@/api/websocket'
+import { onlinePageApi, logoutApi } from '@/api/websocket';
 
 export default defineComponent({
   setup() {
-    const refForm = ref()
-    const refTable = ref()
+    const refForm = ref();
+    const refTable = ref();
 
-    const { page } = usePage()
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const { page } = usePage();
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
@@ -112,28 +112,28 @@ export default defineComponent({
         date: []
       },
       list: []
-    })
+    });
 
     const getList = () => {
       const params = {
         name: data.form.name,
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       onlinePageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     const logoutHandle = (row) => {
       ElMessageBox.confirm(`确定进行[强制退出]操作?`, '提示', {
@@ -146,25 +146,25 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const pageChangeHandle = (argPage) => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     onBeforeMount(() => {
-      getDictionary('sex')
-      getList()
-    })
+      getDictionary('sex');
+      getList();
+    });
 
     return {
       refForm,
@@ -177,9 +177,9 @@ export default defineComponent({
       reacquireHandle,
       logoutHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>
