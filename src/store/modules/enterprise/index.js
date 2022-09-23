@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-04-18 09:16:20
  */
-import { selfInfoApi } from '@/api/enterprise'
+import { selfInfoApi } from '@/api/enterprise';
 
 export default {
   state: {
@@ -20,7 +20,7 @@ export default {
   },
   mutations: {
     SET_ENTERPRISE: (state, enterprise) => {
-      state.enterprise = enterprise
+      state.enterprise = enterprise;
     }
   },
   actions: {
@@ -29,11 +29,11 @@ export default {
      * @returns
      */
     async getEnterprise({ commit }) {
-      const r = await selfInfoApi()
+      const r = await selfInfoApi();
       if (r) {
-        commit('SET_ENTERPRISE', r.data)
+        commit('SET_ENTERPRISE', r.data);
       }
-      return r
+      return r;
     }
   }
-}
+};

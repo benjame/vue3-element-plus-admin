@@ -17,21 +17,21 @@
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
-import Crumb from './components/crumb'
-import Action from './components/action'
+import Crumb from './components/crumb';
+import Action from './components/action';
 
 export default defineComponent({
   components: { Crumb, Action },
   setup() {
-    const store = useStore()
+    const store = useStore();
 
     const collapse = computed({
       get: () => store.state.menu.collapse,
       set: (val) => store.dispatch('menu/setCollapse', val)
-    })
+    });
 
     /**
      * @description: 菜单栏折叠事件
@@ -40,15 +40,15 @@ export default defineComponent({
      * @author: gumingchen
      */
     const collapseHandle = () => {
-      collapse.value = !collapse.value
-    }
+      collapse.value = !collapse.value;
+    };
 
     return {
       collapse,
       collapseHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

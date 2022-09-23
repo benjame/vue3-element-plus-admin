@@ -1,45 +1,45 @@
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-const prompt = Symbol('prompt')
+const prompt = Symbol('prompt');
 
 export default class Prompt {
   success (options, single = true) {
-    options.type = 'success'
-    this[prompt](options, single)
+    options.type = 'success';
+    this[prompt](options, single);
   }
   warning (options, single = true) {
-    options.type = 'warning'
-    this[prompt](options, single)
+    options.type = 'warning';
+    this[prompt](options, single);
   }
   info (options, single = true) {
-    options.type = 'info'
-    this[prompt](options, single)
+    options.type = 'info';
+    this[prompt](options, single);
   }
   error (options, single = true) {
-    options.type = 'error'
-    this[prompt](options, single)
+    options.type = 'error';
+    this[prompt](options, single);
   }
   [prompt] (options, single) {
     if (single) {
       if (document.getElementsByClassName('el-message').length === 0) {
-        ElMessage(options)
-        return
+        ElMessage(options);
+        return;
       }
-      const elements = document.getElementsByClassName('el-message')
+      const elements = document.getElementsByClassName('el-message');
       if (elements.length) {
-        let flag = false
+        let flag = false;
         for (let index = 0; index < elements.length; index++) {
-          const element = elements[index]
+          const element = elements[index];
           if (element.style.display !== 'none' && element.style.display !== '') {
-            flag = true
+            flag = true;
           }
         }
         if (flag) {
-          ElMessage(options)
+          ElMessage(options);
         }
       }
     } else {
-      ElMessage(options)
+      ElMessage(options);
     }
   }
 }

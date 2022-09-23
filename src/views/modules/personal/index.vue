@@ -67,35 +67,35 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, reactive, toRefs } from 'vue';
+import { useStore } from 'vuex';
 
-import ContainerCustom from '@/components/container-custom'
-import BasicInfo from './components/basic-info'
-import EditPassword from './components/edit-password'
-import LoginLog from './components/login-log'
-import OperationLog from './components/operation-log'
+import ContainerCustom from '@/components/container-custom';
+import BasicInfo from './components/basic-info';
+import EditPassword from './components/edit-password';
+import LoginLog from './components/login-log';
+import OperationLog from './components/operation-log';
 
-import { havePermission } from '@/utils'
+import { havePermission } from '@/utils';
 
 export default defineComponent({
   components: { ContainerCustom, BasicInfo, EditPassword, LoginLog, OperationLog },
   setup() {
-    const store = useStore()
+    const store = useStore();
 
-    const administrator = computed(() => store.state.administrator.administrator)
+    const administrator = computed(() => store.state.administrator.administrator);
 
     const data = reactive({
       active: 'basic'
-    })
+    });
 
     return {
       administrator,
       ...toRefs(data),
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

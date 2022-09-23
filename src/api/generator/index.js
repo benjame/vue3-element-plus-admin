@@ -6,8 +6,8 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
-import { download } from '@/utils'
+import service from '@/utils/request';
+import { download } from '@/utils';
 
 /**
  * @description: 表格分页列表
@@ -20,7 +20,7 @@ export function pageApi(params) {
     url: '/generator/table/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -35,9 +35,9 @@ export async function generatorApi(params) {
     method: 'post',
     responseType: 'blob',
     data: params
-  })
+  });
   if (r) {
-    const { blob, name } = r
-    download(blob, name)
+    const { blob, name } = r;
+    download(blob, name);
   }
 }

@@ -19,7 +19,7 @@
  *    3.color     颜色
 -->
 <script >
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   props: {
@@ -41,13 +41,13 @@ export default defineComponent({
       return {
         'font-size': props.size,
         color: props.color
-      }
-    })
+      };
+    });
     return {
       style
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2022-08-08 05:22:22
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 列表
@@ -19,7 +19,7 @@ export function listApi(params) {
     url: '/admin/department/list',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -32,7 +32,7 @@ export function infoApi(params) {
   return service({
     url: `/admin/department/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -46,7 +46,7 @@ export function addApi(params) {
     url: '/admin/department/create',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -60,7 +60,7 @@ export function editApi(params) {
     url: '/admin/department/update',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -74,7 +74,7 @@ export function delApi(params) {
     url: '/admin/department/delete',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -88,7 +88,7 @@ export function statusApi(params) {
     url: '/admin/department/status',
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -102,7 +102,7 @@ export function selectListApi(params) {
     url: '/admin/department/select/list',
     method: 'get',
     params: params
-  })
+  });
 }
 
 // todo:------------------------------------------------------------------------------------
@@ -118,5 +118,5 @@ export function globalSelectListApi(params) {
     url: '/admin/department/global/select/list',
     method: 'get',
     params: params
-  })
+  });
 }

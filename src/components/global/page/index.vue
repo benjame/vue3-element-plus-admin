@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   emits: ['change'],
@@ -31,8 +31,8 @@ export default defineComponent({
      * @author: gumingchen
      */
     const currentChangeHandle = val => {
-      emit('change', { current: val, size: props.page.size })
-    }
+      emit('change', { current: val, size: props.page.size });
+    };
 
     /**
      * @description: 当前页数变化事件
@@ -41,15 +41,15 @@ export default defineComponent({
      * @author: gumingchen
      */
     const sizeChangeHandle = val => {
-      emit('change', { current: props.page.current, size: val })
-    }
+      emit('change', { current: props.page.current, size: val });
+    };
 
     return {
       currentChangeHandle,
       sizeChangeHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

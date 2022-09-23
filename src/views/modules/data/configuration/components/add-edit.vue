@@ -51,20 +51,20 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, reactive, ref, toRefs, onBeforeMount } from 'vue'
+import { defineComponent, nextTick, reactive, ref, toRefs, onBeforeMount } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import useDictionary from '@/mixins/dictionary'
+import useDictionary from '@/mixins/dictionary';
 
-import { infoApi, addApi, editApi } from '@/api/configuration'
+import { infoApi, addApi, editApi } from '@/api/configuration';
 
 export default defineComponent({
   emits: ['refresh'],
   setup(_props, { emit }) {
-    const refForm = ref()
+    const refForm = ref();
 
-    const { dictionaryList, getDictionary } = useDictionary()
+    const { dictionaryList, getDictionary } = useDictionary();
     const data = reactive({
       visible: false,
       loading: false,
@@ -77,7 +77,7 @@ export default defineComponent({
         remark: '',
         status: 0
       }
-    })
+    });
 
     const rules = reactive(function() {
       return {
@@ -85,27 +85,27 @@ export default defineComponent({
         json_key: [{ required: true, message: '请输入键', trigger: 'blur' }],
         json_value: [{ required: true, message: '请输入Json值', trigger: 'blur' }],
         type: [{ required: true, message: '请输入类型值', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const init = async (id) => {
-      data.visible = true
-      data.loading = true
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.id = id;
       if (id) {
-        const r = await infoApi(data.form.id)
+        const r = await infoApi(data.form.id);
         if (r) {
-          data.form.id = r.data.id
-          data.form.name = r.data.name
-          data.form.json_key = r.data.json_key
-          data.form.json_value = r.data.json_value
-          data.form.type = r.data.type
-          data.form.remark = r.data.remark
-          data.form.status = r.data.status
+          data.form.id = r.data.id;
+          data.form.name = r.data.name;
+          data.form.json_key = r.data.json_key;
+          data.form.json_value = r.data.json_value;
+          data.form.type = r.data.type;
+          data.form.remark = r.data.remark;
+          data.form.status = r.data.status;
         }
       }
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -116,19 +116,19 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const params = { ...data.form }
-          const r = data.form.id ? await editApi(params) : await addApi(params)
+          const params = { ...data.form };
+          const r = data.form.id ? await editApi(params) : await addApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 弹窗关闭动画结束时的回调
@@ -137,12 +137,12 @@ export default defineComponent({
      * @author: gumingchen
      */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     onBeforeMount(() => {
-      getDictionary('status')
-    })
+      getDictionary('status');
+    });
 
     return {
       refForm,
@@ -152,7 +152,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

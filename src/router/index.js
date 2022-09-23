@@ -1,11 +1,11 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import { defineComponent, h } from 'vue'
-import store from '@/store'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-import { parseStr2Date } from '@/utils'
+import { createRouter, createWebHashHistory } from 'vue-router';
+import { defineComponent, h } from 'vue';
+import store from '@/store';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import { parseStr2Date } from '@/utils';
 
-let refresh = true
+let refresh = true;
 
 const constant = [
   { path: '/', redirect: { name: 'login' }, meta: { title_cn: '重定向', title_en: 'Redirect' } },
@@ -13,7 +13,7 @@ const constant = [
   { path: '/401', name: '401', component: () => import('@/views/constant/401.vue'), meta: { title_cn: '401', title_en: '401' } },
   { path: '/404', name: '404', component: () => import('@/views/constant/404.vue'), meta: { title_cn: '404', title_en: '404' } },
   { path: '/500', name: '500', component: () => import('@/views/constant/500.vue'), meta: { title_cn: '500', title_en: '500' } }
-]
+];
 
 const main = {
   path: '/layout',
@@ -25,33 +25,33 @@ const main = {
     { path: '/redirect', name: 'redirect', component: defineComponent({ render: () => h('div') }), meta: {} }
   ],
   async beforeEnter(to, _from, next) {
-    const token = store.getters['administrator/tokenVal']
+    const token = store.getters['administrator/tokenVal'];
     if (!token || !/\S/u.test(token)) {
       // eslint-disable-next-line no-use-before-define
-      clearRouter()
-      store.dispatch('logout')
-      next({ name: 'login', replace: true })
+      clearRouter();
+      store.dispatch('logout');
+      next({ name: 'login', replace: true });
     } else {
-      await store.dispatch('administrator/getAdministrator')
-      await store.dispatch('enterprise/getEnterprise')
+      await store.dispatch('administrator/getAdministrator');
+      await store.dispatch('enterprise/getEnterprise');
       if (to.name === 'redirect') {
-        const exists = main.children.filter(item => item.name !== 'redirect') || []
-        const name = exists.length ? exists[0].name : '404'
-        store.dispatch('menu/setActive', name)
-        next({ name, replace: true })
+        const exists = main.children.filter(item => item.name !== 'redirect') || [];
+        const name = exists.length ? exists[0].name : '404';
+        store.dispatch('menu/setActive', name);
+        next({ name, replace: true });
       } else {
-        next()
+        next();
       }
     }
   }
-}
+};
 
-const routes = constant.concat(main)
+const routes = constant.concat(main);
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL || '/'),
   routes
-})
+});
 
 /**
  * @description: 判断当前路由类型, constant: 常量路由, main: 主入口路由
@@ -61,15 +61,15 @@ const router = createRouter({
  * @author: gumingchen
  */
 function currentRouteType(route, constantRoutes = []) {
-  let temp = []
+  let temp = [];
   for (let i = 0; i < constantRoutes.length; i++) {
     if (route.path === constantRoutes[i].path) {
-      return 'constant'
+      return 'constant';
     } else if (constantRoutes[i].children && constantRoutes[i].children.length >= 1) {
-      temp = temp.concat(constantRoutes[i].children)
+      temp = temp.concat(constantRoutes[i].children);
     }
   }
-  return temp.length >= 1 ? currentRouteType(route, temp) : 'main'
+  return temp.length >= 1 ? currentRouteType(route, temp) : 'main';
 }
 
 /**
@@ -80,12 +80,12 @@ function currentRouteType(route, constantRoutes = []) {
  * @author: gumingchen
  */
 function addRoutes(menus = [], routeList = []) {
-  let list = []
+  let list = [];
   menus.forEach((item, _index) => {
     if (item.children && item.children.length > 0) {
-      list = list.concat(item.children)
+      list = list.concat(item.children);
     }
-    let route
+    let route;
     switch (item.type) {
       case 3:
         route = {
@@ -103,12 +103,12 @@ function addRoutes(menus = [], routeList = []) {
             keepalive: item.keepalive === 1,
             multiple: item.multiple === 1
           }
-        }
-        break
+        };
+        break;
       case 0:
-        break
+        break;
       case 4:
-        break
+        break;
       default:
         if (item.url && /\S/u.test(item.url)) {
           route = {
@@ -126,22 +126,22 @@ function addRoutes(menus = [], routeList = []) {
               keepalive: item.keepalive === 1,
               multiple: item.multiple === 1
             }
-          }
+          };
         }
-        break
+        break;
     }
     if (route) {
-      routeList.push(route)
+      routeList.push(route);
     }
-  })
+  });
   if (list.length >= 1) {
-    addRoutes(list, routeList)
+    addRoutes(list, routeList);
   } else {
-    main.children = main.children.concat(routeList)
-    console.log('%c!<-------------------- 动态(菜单)路由 s -------------------->', 'color:blue')
-    console.log(main.children)
-    console.log('%c!<-------------------- 动态(菜单)路由 e -------------------->', 'color:blue')
-    router.addRoute(main)
+    main.children = main.children.concat(routeList);
+    console.log('%c!<-------------------- 动态(菜单)路由 s -------------------->', 'color:blue');
+    console.log(main.children);
+    console.log('%c!<-------------------- 动态(菜单)路由 e -------------------->', 'color:blue');
+    router.addRoute(main);
   }
 }
 
@@ -153,75 +153,75 @@ function addRoutes(menus = [], routeList = []) {
  * @author: gumingchen
  */
 function clearRouter() {
-  const routers = router.getRoutes().filter(item => item.meta.isDynamic)
+  const routers = router.getRoutes().filter(item => item.meta.isDynamic);
   routers.forEach(item => {
-    router.removeRoute(item.name)
-  })
+    router.removeRoute(item.name);
+  });
   // 其实只要这一行就可以
-  main.children = main.children.filter(item => !item.meta.dynamic)
+  main.children = main.children.filter(item => !item.meta.dynamic);
 }
 
 router.beforeEach(async (to, _from, next) => {
   // 标题控制
-  document.title = to.meta.title_cn || document.title
+  document.title = to.meta.title_cn || document.title;
   // 跳转到登录页如果 token 还未过期则调整到系统内部
   if (to.name === 'login') {
-    const { expired_at } = store.state.administrator.token
-    const now = +new Date()
-    const expired = expired_at ? +parseStr2Date(expired_at) : 0
+    const { expired_at } = store.state.administrator.token;
+    const now = +new Date();
+    const expired = expired_at ? +parseStr2Date(expired_at) : 0;
     if (expired > now) {
-      next({ name: 'redirect', replace: true })
+      next({ name: 'redirect', replace: true });
     }
   }
-  NProgress.start()
+  NProgress.start();
   // 处理动态路由页 刷新跳转 401 问题
   if (refresh) {
     // 添加 401 重定向
-    router.addRoute({ path: '/:pathMatch(.*)', redirect: { name: '401' } })
+    router.addRoute({ path: '/:pathMatch(.*)', redirect: { name: '401' } });
   }
   // todo: 动态添加路由
-  const isCommon = currentRouteType(to, constant) === 'constant'
+  const isCommon = currentRouteType(to, constant) === 'constant';
   if (isCommon) {
-    next()
+    next();
   } else {
-    const isGet = store.state['menu'].get
+    const isGet = store.state['menu'].get;
     if (isGet) {
       if (!refresh) {
-        next()
-        return
+        next();
+        return;
       }
     } else {
-      const menus = await store.dispatch('menu/getMenuAndPermission')
+      const menus = await store.dispatch('menu/getMenuAndPermission');
       if (!menus) {
-        next()
-        return
+        next();
+        return;
       }
     }
-    refresh = false
-    const menus = store.state.menu.menus
+    refresh = false;
+    const menus = store.state.menu.menus;
     if (!menus || menus.length === 0) {
-      store.dispatch('menu/setGet', false)
-      next({ name: '404', replace: true })
+      store.dispatch('menu/setGet', false);
+      next({ name: '404', replace: true });
     } else {
-      addRoutes(menus)
-      next({ ...to, replace: true })
+      addRoutes(menus);
+      next({ ...to, replace: true });
     }
   }
-})
+});
 
 router.afterEach((_to, _from) => {
-  NProgress.done()
-})
+  NProgress.done();
+});
 
 // 添加异常处理
-const originalPush = router.push
+const originalPush = router.push;
 router.push = (to) => {
   try {
-    return originalPush(to)
+    return originalPush(to);
   } catch (error) {
-    window.console.log(`%c${ error }`, 'color:red')
-    return originalPush({ name: '404' })
+    window.console.log(`%c${ error }`, 'color:red');
+    return originalPush({ name: '404' });
   }
-}
+};
 
-export default router
+export default router;

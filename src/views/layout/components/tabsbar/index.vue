@@ -17,69 +17,69 @@
 </template>
 
 <script >
-import { computed, defineComponent, nextTick, onBeforeMount } from 'vue'
-import { onBeforeRouteUpdate, useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { computed, defineComponent, nextTick, onBeforeMount } from 'vue';
+import { onBeforeRouteUpdate, useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
-    const router = useRouter()
-    const route = useRoute()
-    const store = useStore()
+    const router = useRouter();
+    const route = useRoute();
+    const store = useStore();
 
     const active = computed({
       get: () => {
-        return store.state.tabs.active
+        return store.state.tabs.active;
       },
       set: (val) => {
-        store.dispatch('tabs/setActive', val)
+        store.dispatch('tabs/setActive', val);
       }
-    })
+    });
 
-    const tabs = computed(() => store.state.tabs.tabs)
+    const tabs = computed(() => store.state.tabs.tabs);
 
     /**
      * 点击跳转
      */
     const clickHandle = ({ index }) => {
-      const tab = tabs.value[+index]
+      const tab = tabs.value[+index];
       router.push({
         name: tab.name,
         query: tab.query,
         params: tab.params
-      })
-    }
+      });
+    };
 
     /**
      * 移除标签
      */
     const removeHandle = (name) => {
-      store.dispatch('tabs/removeHandle', [name])
-    }
+      store.dispatch('tabs/removeHandle', [name]);
+    };
 
     onBeforeRouteUpdate((to) => {
-      store.dispatch('tabs/changeHandle', to)
-      const meta = to.meta
+      store.dispatch('tabs/changeHandle', to);
+      const meta = to.meta;
       if (meta.multiple) {
-        store.dispatch('settings/setRefresh', true)
+        store.dispatch('settings/setRefresh', true);
         nextTick(() => {
-          store.dispatch('settings/setRefresh', false)
-        })
+          store.dispatch('settings/setRefresh', false);
+        });
       }
-    })
+    });
 
     onBeforeMount(() => {
-      store.dispatch('tabs/changeHandle', route)
-    })
+      store.dispatch('tabs/changeHandle', route);
+    });
 
     return {
       active,
       tabs,
       clickHandle,
       removeHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

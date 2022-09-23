@@ -101,22 +101,22 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, reactive, ref, toRefs, onBeforeMount } from 'vue'
+import { computed, defineComponent, nextTick, reactive, ref, toRefs, onBeforeMount } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import useDictionary from '@/mixins/dictionary'
+import useDictionary from '@/mixins/dictionary';
 
-import { infoApi, addApi, editApi, selectListApi } from '@/api/department'
+import { infoApi, addApi, editApi, selectListApi } from '@/api/department';
 
 export default defineComponent({
   emits: ['refresh'],
   setup(_props, { emit }) {
-    const refForm = ref()
-    const refParaentCascader = ref()
-    const refPermissionCascader = ref()
+    const refForm = ref();
+    const refParaentCascader = ref();
+    const refPermissionCascader = ref();
 
-    const { getDictionary } = useDictionary()
+    const { getDictionary } = useDictionary();
     const data = reactive({
       visible: false,
       loading: false,
@@ -135,21 +135,21 @@ export default defineComponent({
         status: 1,
         parent_id: ''
       }
-    })
+    });
 
     const rules = reactive(function() {
       const checkCustom = (_rule, value, callback) => {
         if (data.form.permission === 4 && (value.length < 1)) {
-          callback(new Error('请选择自定义数据权限'))
+          callback(new Error('请选择自定义数据权限'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
         custom: [{ validator: checkCustom, trigger: 'change' }]
-      }
-    }())
+      };
+    }());
 
     const parentCascaderProps = computed(() => {
       const reuslt = {
@@ -157,9 +157,9 @@ export default defineComponent({
         value: 'id',
         label: `name`,
         children: 'children'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
     const permissionCascaderProps = computed(() => {
       const reuslt = {
         multiple: true,
@@ -167,40 +167,40 @@ export default defineComponent({
         value: 'id',
         label: `name`,
         children: 'children'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
 
     const getDepartment = () => {
       selectListApi().then(r => {
         if (r) {
-          data.departments = r.data
+          data.departments = r.data;
         }
-      })
-    }
+      });
+    };
 
     const init = async (id) => {
-      data.visible = true
-      data.loading = true
-      data.form.id = id
-      getDepartment()
+      data.visible = true;
+      data.loading = true;
+      data.form.id = id;
+      getDepartment();
       if (id) {
-        const r = await infoApi(data.form.id)
+        const r = await infoApi(data.form.id);
         if (r) {
-          data.form.id = r.data.id
-          data.form.name = r.data.name
-          data.form.leader = r.data.leader
-          data.form.mobile = r.data.mobile
-          data.form.permission = r.data.permission
-          data.form.custom = r.data.custom ? r.data.custom.split(';').map(item => +item) : []
-          data.form.sort = r.data.sort
-          data.form.remark = r.data.remark
-          data.form.status = r.data.status
-          data.form.parent_id = r.data.parent_id
+          data.form.id = r.data.id;
+          data.form.name = r.data.name;
+          data.form.leader = r.data.leader;
+          data.form.mobile = r.data.mobile;
+          data.form.permission = r.data.permission;
+          data.form.custom = r.data.custom ? r.data.custom.split(';').map(item => +item) : [];
+          data.form.sort = r.data.sort;
+          data.form.remark = r.data.remark;
+          data.form.status = r.data.status;
+          data.form.parent_id = r.data.parent_id;
         }
       }
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -211,31 +211,31 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const params = { ...data.form }
+          const params = { ...data.form };
           if (params.parent_id) {
-            const checkedNodes = refParaentCascader.value.getCheckedNodes()
-            params.parent_id = checkedNodes.map(item => item.value).join(';')
+            const checkedNodes = refParaentCascader.value.getCheckedNodes();
+            params.parent_id = checkedNodes.map(item => item.value).join(';');
           } else {
-            params.parent_id = 0
+            params.parent_id = 0;
           }
           if (params.permission === 4) {
-            const checkedNodes = refPermissionCascader.value.getCheckedNodes()
-            params.custom = checkedNodes.map(item => item.value).join(';')
+            const checkedNodes = refPermissionCascader.value.getCheckedNodes();
+            params.custom = checkedNodes.map(item => item.value).join(';');
           } else {
-            params.custom = ''
+            params.custom = '';
           }
-          const r = data.form.id ? await editApi(params) : await addApi(params)
+          const r = data.form.id ? await editApi(params) : await addApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 弹窗关闭动画结束时的回调
@@ -244,13 +244,13 @@ export default defineComponent({
      * @author: gumingchen
      */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     onBeforeMount(async () => {
-      data.statusDictionary = await getDictionary('status')
-      data.permissionDictionary = await getDictionary('dataPermission')
-    })
+      data.statusDictionary = await getDictionary('status');
+      data.permissionDictionary = await getDictionary('dataPermission');
+    });
 
     return {
       refForm,
@@ -263,7 +263,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

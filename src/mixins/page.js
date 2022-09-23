@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 export default function () {
   const page = reactive({
@@ -6,9 +6,9 @@ export default function () {
     size: 10,
     total: 0,
     sizes: [10, 20, 30, 40, 50, 100, 200]
-  })
+  });
 
   return {
     page
-  }
+  };
 }

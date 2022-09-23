@@ -95,33 +95,33 @@
 </template>
 
 <script >
-import { defineComponent, reactive, ref, toRefs, nextTick, onBeforeMount } from 'vue'
+import { defineComponent, reactive, ref, toRefs, nextTick, onBeforeMount } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import ContainerSidebar from '@/components/container-sidebar'
-import EnterpriseSidebar from '@/components/enterprise-sidebar'
-import Modify from './components/modify'
-import Edit from './components/edit'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import ContainerSidebar from '@/components/container-sidebar';
+import EnterpriseSidebar from '@/components/enterprise-sidebar';
+import Modify from './components/modify';
+import Edit from './components/edit';
 
-import useDictionary from '@/mixins/dictionary'
-import { clearJson, havePermission } from '@/utils'
+import useDictionary from '@/mixins/dictionary';
+import { clearJson, havePermission } from '@/utils';
 
-import { globalListApi, globalDeleteApi } from '@/api/enterprise-menu'
+import { globalListApi, globalDeleteApi } from '@/api/enterprise-menu';
 
 export default defineComponent({
   components: { ContainerSidebar, EnterpriseSidebar, Modify, Edit },
   setup() {
     const props = {
       children: 'children'
-    }
+    };
 
-    const refContainerSidebar = ref()
-    const refForm = ref()
-    const refTable = ref()
-    const refModify = ref()
-    const refEdit = ref()
+    const refContainerSidebar = ref();
+    const refForm = ref();
+    const refTable = ref();
+    const refModify = ref();
+    const refEdit = ref();
 
-    const { dictionaryMap, getDictionary } = useDictionary()
+    const { dictionaryMap, getDictionary } = useDictionary();
     const data = reactive({
       active: '',
       loading: false,
@@ -132,33 +132,33 @@ export default defineComponent({
         date: []
       },
       list: []
-    })
+    });
 
     const getList = () => {
       if (data.active) {
-        data.loading = true
+        data.loading = true;
         globalListApi(data.active).then(r => {
           if (r) {
-            data.list = r.data
+            data.list = r.data;
           }
-          nextTick(() => { data.loading = false })
-        })
+          nextTick(() => { data.loading = false; });
+        });
       }
-    }
+    };
 
     const modifyHandle = () => {
-      data.modifyVisible = true
+      data.modifyVisible = true;
       nextTick(() => {
-        refModify.value.init(data.active)
-      })
-    }
+        refModify.value.init(data.active);
+      });
+    };
 
     const editHandle = (row) => {
-      data.editVisible = true
+      data.editVisible = true;
       nextTick(() => {
-        refEdit.value.init(row)
-      })
-    }
+        refEdit.value.init(row);
+      });
+    };
 
     const deleteHandle = (id) => {
       ElMessageBox.confirm(`确定对[id=${ id }]进行[删除]操作?`, '提示', {
@@ -171,23 +171,23 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const changeHandle = (_row) => {
-      refContainerSidebar.value.setScrollTop()
-      getList()
-    }
+      refContainerSidebar.value.setScrollTop();
+      getList();
+    };
 
     onBeforeMount(() => {
-      getDictionary('menu')
-    })
+      getDictionary('menu');
+    });
 
     return {
       refContainerSidebar,
@@ -205,9 +205,9 @@ export default defineComponent({
       changeHandle,
       clearJson,
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

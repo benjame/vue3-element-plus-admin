@@ -76,24 +76,24 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import useDictionary from '@/mixins/dictionary'
+import useDictionary from '@/mixins/dictionary';
 
-import { selectListApi } from '@/api/enterprise-menu'
-import { selectListApi as departmentSelectApi } from '@/api/department'
-import { infoApi, addApi, editApi } from '@/api/role'
+import { selectListApi } from '@/api/enterprise-menu';
+import { selectListApi as departmentSelectApi } from '@/api/department';
+import { infoApi, addApi, editApi } from '@/api/role';
 
 export default defineComponent({
   emits: ['refresh'],
   setup(_props, { emit }) {
-    const refForm = ref()
-    const refCascader = ref()
-    const refPermissionCascader = ref()
+    const refForm = ref();
+    const refCascader = ref();
+    const refPermissionCascader = ref();
 
-    const { dictionaryList, getDictionary } = useDictionary()
+    const { dictionaryList, getDictionary } = useDictionary();
     const data = reactive({
       loading: false,
       visible: false,
@@ -107,22 +107,22 @@ export default defineComponent({
         enterprise_menu_ids: []
       },
       menus: []
-    })
+    });
 
     const rules = reactive(function() {
       const checkCustom = (_rule, value, callback) => {
         if (data.form.permission === 4 && (value.length < 1)) {
-          callback(new Error('请选择自定义数据权限'))
+          callback(new Error('请选择自定义数据权限'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
         custom: [{ validator: checkCustom, trigger: 'change' }],
         enterprise_menu_ids: [{ type: 'array', required: true, message: '请选择权限', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const cascaderProps = computed(() => {
       const reuslt = {
@@ -132,9 +132,9 @@ export default defineComponent({
         value: 'id',
         label: `name_cn`,
         children: 'children'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
     const permissionCascaderProps = computed(() => {
       const reuslt = {
         multiple: true,
@@ -142,12 +142,12 @@ export default defineComponent({
         value: 'id',
         label: `name`,
         children: 'children'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
 
     const getEnterpriseMenu = async () => {
-      const r = await selectListApi()
+      const r = await selectListApi();
       if (r) {
         const list = [{
           id: 0,
@@ -155,38 +155,38 @@ export default defineComponent({
           name_en: 'First level menu',
           parent_id: 0,
           children: r.data
-        }]
-        data.menus = list
+        }];
+        data.menus = list;
       }
-    }
+    };
 
     const getDepartment = async () => {
-      const r = await departmentSelectApi({ status: 1 })
+      const r = await departmentSelectApi({ status: 1 });
       if (r) {
-        data.departments = r.data
+        data.departments = r.data;
       }
-    }
+    };
 
     const init = async (id) => {
-      data.visible = true
-      data.loading = true
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.id = id;
 
-      await getEnterpriseMenu()
-      await getDepartment()
+      await getEnterpriseMenu();
+      await getDepartment();
       if (id) {
-        const r = await infoApi(id)
+        const r = await infoApi(id);
         if (r) {
-          data.form.name = r.data.name
-          data.form.permission = r.data.permission
-          data.form.custom = r.data.custom ? r.data.custom.split(';').map(item => +item) : []
-          data.form.remark = r.data.remark
-          data.form.enterprise_menu_ids = r.data.enterprise_menu_ids
+          data.form.name = r.data.name;
+          data.form.permission = r.data.permission;
+          data.form.custom = r.data.custom ? r.data.custom.split(';').map(item => +item) : [];
+          data.form.remark = r.data.remark;
+          data.form.enterprise_menu_ids = r.data.enterprise_menu_ids;
         }
       }
 
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -197,36 +197,36 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const params = { ...data.form }
+          const params = { ...data.form };
           // 处理已选 菜单 权限
-          const checkedNodes = refCascader.value.getCheckedNodes(true)
-          const enterpriseMenuIds = []
+          const checkedNodes = refCascader.value.getCheckedNodes(true);
+          const enterpriseMenuIds = [];
           checkedNodes.forEach(item => {
-            enterpriseMenuIds.push.apply(enterpriseMenuIds, item.pathValues)
-          })
-          params.enterprise_menu_ids = Array.from(new Set(enterpriseMenuIds)).filter(item => item !== 0)
+            enterpriseMenuIds.push.apply(enterpriseMenuIds, item.pathValues);
+          });
+          params.enterprise_menu_ids = Array.from(new Set(enterpriseMenuIds)).filter(item => item !== 0);
           if (params.permission === 4) {
-            const departmentCheckedNodes = refPermissionCascader.value.getCheckedNodes()
-            params.custom = departmentCheckedNodes.map(item => item.value).join(';')
+            const departmentCheckedNodes = refPermissionCascader.value.getCheckedNodes();
+            params.custom = departmentCheckedNodes.map(item => item.value).join(';');
           } else {
-            params.custom = ''
+            params.custom = '';
           }
-          const r = data.form.id ? await editApi(params) : await addApi(params)
+          const r = data.form.id ? await editApi(params) : await addApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     onBeforeMount(() => {
-      getDictionary('dataPermission')
-    })
+      getDictionary('dataPermission');
+    });
 
     /**
    * @description: 弹窗关闭动画结束时的回调
@@ -235,8 +235,8 @@ export default defineComponent({
    * @author: gumingchen
    */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -250,7 +250,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

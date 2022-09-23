@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-04-18 09:16:20
  */
-import { getLayout, setLayout, clearLayout } from '@/utils/storage'
+import { getLayout, setLayout, clearLayout } from '@/utils/storage';
 
 /**
  * 存储layout处理
@@ -18,8 +18,8 @@ const setLayoutHandle = (state) => {
     contanierMode: state.contanierMode,
     panelMode: state.panelMode,
     showTabs: state.showTabs
-  })
-}
+  });
+};
 
 export default {
   state: {
@@ -59,22 +59,22 @@ export default {
   },
   mutations: {
     SET_NAVIGATION_MODE: (state, navigationMode) => {
-      state.navigationMode = navigationMode
+      state.navigationMode = navigationMode;
     },
     SET_CONTANIER_MODE: (state, contanierMode) => {
-      state.contanierMode = contanierMode
+      state.contanierMode = contanierMode;
     },
     SET_PANEL_MODE: (state, panelMode) => {
-      state.panelMode = panelMode
+      state.panelMode = panelMode;
     },
     SET_SHOW_TABS: (state, show) => {
-      state.showTabs = show
+      state.showTabs = show;
     },
     SET_FULL_SCREEN: (state, fullScreen) => {
-      state.fullScreen = fullScreen
+      state.fullScreen = fullScreen;
     },
     SET_REFRESH: (state, refresh) => {
-      state.refresh = refresh
+      state.refresh = refresh;
     }
   },
   actions: {
@@ -83,14 +83,14 @@ export default {
      * @param {*} param0
      */
     getLayout({ commit }) {
-      const layout = getLayout()
+      const layout = getLayout();
       if (layout) {
-        const { navigationMode, contanierMode, panelMode, showTabs } = layout
-        commit('SET_NAVIGATION_MODE', navigationMode || 1)
-        commit('SET_CONTANIER_MODE', contanierMode || 2)
-        commit('SET_PANEL_MODE', panelMode || 1)
+        const { navigationMode, contanierMode, panelMode, showTabs } = layout;
+        commit('SET_NAVIGATION_MODE', navigationMode || 1);
+        commit('SET_CONTANIER_MODE', contanierMode || 2);
+        commit('SET_PANEL_MODE', panelMode || 1);
         // eslint-disable-next-line no-undefined
-        commit('SET_SHOW_TABS', showTabs !== undefined ? showTabs : true)
+        commit('SET_SHOW_TABS', showTabs !== undefined ? showTabs : true);
       }
     },
     /**
@@ -98,53 +98,53 @@ export default {
      * @returns
      */
     setNavigationMode({ commit, state }, navigationMode) {
-      commit('SET_NAVIGATION_MODE', navigationMode)
-      setLayoutHandle(state)
+      commit('SET_NAVIGATION_MODE', navigationMode);
+      setLayoutHandle(state);
     },
     /**
      * 设置主内容容器布局
      * @returns
      */
     setContanierMode({ commit, state }, contanierMode) {
-      commit('SET_CONTANIER_MODE', contanierMode)
-      setLayoutHandle(state)
+      commit('SET_CONTANIER_MODE', contanierMode);
+      setLayoutHandle(state);
     },
     /**
      * 设置面板模式
      * @returns
      */
     setPanelMode({ commit, state }, panelMode) {
-      commit('SET_PANEL_MODE', panelMode)
-      setLayoutHandle(state)
+      commit('SET_PANEL_MODE', panelMode);
+      setLayoutHandle(state);
     },
     /**
      * 是否显示标签页
      * @returns
      */
     setShowTabs({ commit, state }, show) {
-      commit('SET_SHOW_TABS', show)
-      setLayoutHandle(state)
+      commit('SET_SHOW_TABS', show);
+      setLayoutHandle(state);
     },
     /**
      * 设置是否全屏
      * @returns
      */
     setFullScreen({ commit }, fullScreen) {
-      commit('SET_FULL_SCREEN', fullScreen)
+      commit('SET_FULL_SCREEN', fullScreen);
     },
     /**
      * 设置刷新
      * @returns
      */
     setRefresh({ commit }, refresh) {
-      commit('SET_REFRESH', refresh)
+      commit('SET_REFRESH', refresh);
     },
     /**
      * 清除布局模式
      * @param {*}
      */
     clear({ commit }) {
-      clearLayout()
+      clearLayout();
     }
   }
-}
+};

@@ -16,15 +16,15 @@
 </template>
 
 <script >
-import { defineComponent, reactive, toRefs } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, reactive, toRefs } from 'vue';
+import { useStore } from 'vuex';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import useModel from '@/mixins/model'
-import { TOKEN_KEY, SUCCESS_CODE } from '@/utils/constant'
+import useModel from '@/mixins/model';
+import { TOKEN_KEY, SUCCESS_CODE } from '@/utils/constant';
 
-import { uploadUrlApi } from '@/api/file'
+import { uploadUrlApi } from '@/api/file';
 
 export default defineComponent({
   props: {
@@ -44,34 +44,34 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const store = useStore()
+    const store = useStore();
 
-    const value = useModel(props)
+    const value = useModel(props);
 
     const data = reactive({
       action: uploadUrlApi(),
       tokenKey: TOKEN_KEY,
       token: store.getters['administrator/tokenVal']
-    })
+    });
 
     const successHandle = (r) => {
       if (SUCCESS_CODE.includes(r.code)) {
-        value.value = r.data.url
+        value.value = r.data.url;
       } else {
         ElMessage({
           message: r.message,
           type: 'warning'
-        })
+        });
       }
-    }
+    };
 
     return {
       value,
       ...toRefs(data),
       successHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

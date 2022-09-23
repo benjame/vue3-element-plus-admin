@@ -105,25 +105,25 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import ContainerSidebar from '@/components/container-sidebar'
-import Sidebar from './components/sidebar'
-import IconSelectInput from '@/components/icon-select-input'
+import { ElMessage } from 'element-plus';
+import ContainerSidebar from '@/components/container-sidebar';
+import Sidebar from './components/sidebar';
+import IconSelectInput from '@/components/icon-select-input';
 
-import useDictionary from '@/mixins/dictionary'
-import { havePermission } from '@/utils'
-import { VIRTUAL_ID_KEY } from './index.js'
+import useDictionary from '@/mixins/dictionary';
+import { havePermission } from '@/utils';
+import { VIRTUAL_ID_KEY } from './index.js';
 
-import { infoApi, addApi, editApi } from '@/api/menu'
+import { infoApi, addApi, editApi } from '@/api/menu';
 
 export default defineComponent({
   components: { ContainerSidebar, Sidebar, IconSelectInput },
   setup() {
-    const refContainerSidebar = ref()
-    const refForm = ref()
-    const { dictionaryList, getDictionary } = useDictionary()
+    const refContainerSidebar = ref();
+    const refForm = ref();
+    const { dictionaryList, getDictionary } = useDictionary();
     const data = reactive({
       active: '',
       loading: false,
@@ -146,33 +146,33 @@ export default defineComponent({
       },
       row: null, // todo: 引用传递 用于编辑之后修改 列表数据
       parentType: 0 // 父级的类型
-    })
+    });
 
     const rules = reactive(function() {
       const checkUrl = (_rule, value, callback) => {
-        const types = [1, 3, 4]
+        const types = [1, 3, 4];
         if (types.includes(data.form.type) && !value) {
-          callback(new Error('请输入路由Path / Http[s] URL'))
+          callback(new Error('请输入路由Path / Http[s] URL'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkPermission = (_rule, value, callback) => {
-        const types = [2]
+        const types = [2];
         if (types.includes(data.form.type) && !value) {
-          callback(new Error('请输入授权标识'))
+          callback(new Error('请输入授权标识'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       const checkIcon = (_rule, value, callback) => {
-        const types = [0, 1, 3, 4]
+        const types = [0, 1, 3, 4];
         if (types.includes(data.form.type) && !value) {
-          callback(new Error('请输入授权标识'))
+          callback(new Error('请输入授权标识'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         name_cn: [{ required: true, message: '请输入中文名称', trigger: 'blur' }],
         name_en: [{ required: false, message: '请输入英文名称', trigger: 'blur' }],
@@ -188,110 +188,110 @@ export default defineComponent({
         //   { required: false, message: '请选择图标', trigger: 'change' },
         //   { validator: checkIcon, trigger: 'blur' }
         // ]
-      }
-    }())
+      };
+    }());
 
     const getInfo = async () => {
-      data.loading = true
-      const r = await infoApi(data.form.id)
+      data.loading = true;
+      const r = await infoApi(data.form.id);
       if (r) {
-        data.form.name_cn = r.data.name_cn
-        data.form.name_en = r.data.name_en
-        data.form.path = r.data.path
-        data.form.name = r.data.name
-        data.form.url = r.data.url
-        data.form.permission = r.data.permission
-        data.form.type = r.data.type
-        data.form.icon = r.data.icon || ''
-        data.form.show = r.data.show
-        data.form.tab = r.data.tab
-        data.form.multiple = r.data.multiple
-        data.form.keepalive = r.data.keepalive
-        data.form.sort = r.data.sort
-        data.form.parent_id = r.data.parent_id
+        data.form.name_cn = r.data.name_cn;
+        data.form.name_en = r.data.name_en;
+        data.form.path = r.data.path;
+        data.form.name = r.data.name;
+        data.form.url = r.data.url;
+        data.form.permission = r.data.permission;
+        data.form.type = r.data.type;
+        data.form.icon = r.data.icon || '';
+        data.form.show = r.data.show;
+        data.form.tab = r.data.tab;
+        data.form.multiple = r.data.multiple;
+        data.form.keepalive = r.data.keepalive;
+        data.form.sort = r.data.sort;
+        data.form.parent_id = r.data.parent_id;
       }
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     const clearFrom = () => {
       data.form.id = null,
-      data.form.name_cn = ''
-      data.form.name_en = ''
-      data.form.path = ''
-      data.form.name = ''
-      data.form.url = ''
-      data.form.permission = ''
-      data.form.icon = ''
+      data.form.name_cn = '';
+      data.form.name_en = '';
+      data.form.path = '';
+      data.form.name = '';
+      data.form.url = '';
+      data.form.permission = '';
+      data.form.icon = '';
       // refForm.value.resetFields()
-    }
+    };
 
     const clearRouterParams = () => {
-      data.form.show = 1
-      data.form.tab = 1
-      data.form.multiple = 0
-      data.form.keepalive = 0
-    }
+      data.form.show = 1;
+      data.form.tab = 1;
+      data.form.multiple = 0;
+      data.form.keepalive = 0;
+    };
 
     const changeHandle = ({ row, parentType }) => {
-      refContainerSidebar.value.setScrollTop()
-      data.row = row
-      data.parentType = parentType
+      refContainerSidebar.value.setScrollTop();
+      data.row = row;
+      data.parentType = parentType;
       if ((row.id + '').includes(VIRTUAL_ID_KEY)) {
-        clearFrom()
-        data.form.name_cn = row.name_cn
-        data.form.name_en = row.name_en
-        data.form.parent_id = row.parent_id
-        data.form.type = row.type
-        data.form.tab = 0
-        data.form.sort = 1
+        clearFrom();
+        data.form.name_cn = row.name_cn;
+        data.form.name_en = row.name_en;
+        data.form.parent_id = row.parent_id;
+        data.form.type = row.type;
+        data.form.tab = 0;
+        data.form.sort = 1;
       } else {
-        data.form.id = row.id
-        getInfo()
+        data.form.id = row.id;
+        getInfo();
       }
-    }
+    };
 
     const buttonHandle = (val) => {
-      let result = false
+      let result = false;
       switch (data.parentType) {
         case 0:
           if (val === 2) {
-            result = true
+            result = true;
           }
-          break
+          break;
         case 1:
           if (val === 0 || val === 3 || val === 4) {
-            result = true
+            result = true;
           }
-          break
+          break;
       }
-      return result
-    }
+      return result;
+    };
 
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const r = data.form.id ? await editApi(data.form) : await addApi(data.form)
+          const r = data.form.id ? await editApi(data.form) : await addApi(data.form);
           if (r) {
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
+            });
             if (r.data) {
-              data.row.id = r.data
-              data.form.id = r.data
+              data.row.id = r.data;
+              data.form.id = r.data;
             }
-            data.row.name_cn = data.form.name_cn
-            data.row.name_en = data.form.name_en
-            data.row.type = data.form.type
+            data.row.name_cn = data.form.name_cn;
+            data.row.name_en = data.form.name_en;
+            data.row.type = data.form.type;
           }
           //
         }
-      })
-    }
+      });
+    };
 
     onBeforeMount(() => {
-      getDictionary('menu')
-    })
+      getDictionary('menu');
+    });
 
     return {
       refContainerSidebar,
@@ -304,9 +304,9 @@ export default defineComponent({
       buttonHandle,
       submit,
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

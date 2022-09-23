@@ -37,21 +37,21 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import Region from '@/components/region'
+import { ElMessage } from 'element-plus';
+import Region from '@/components/region';
 
-import { isInteger } from '@/utils/regular'
+import { isInteger } from '@/utils/regular';
 
-import { infoApi, addApi, editApi } from '@/api/region'
+import { infoApi, addApi, editApi } from '@/api/region';
 
 export default defineComponent({
   emits: ['refresh'],
   components: { Region },
   setup(_props, { emit }) {
-    const refForm = ref()
-    const refRegion = ref()
+    const refForm = ref();
+    const refRegion = ref();
     const data = reactive({
       visible: false,
       loading: false,
@@ -62,16 +62,16 @@ export default defineComponent({
         level: '',
         parent_id: ''
       }
-    })
+    });
 
     const rules = reactive(function() {
       const checkCode = (_rule, value, callback) => {
         if (!isInteger(value)) {
-          callback(new Error('请输入整数'))
+          callback(new Error('请输入整数'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
         code: [
@@ -79,26 +79,26 @@ export default defineComponent({
           { validator: checkCode, trigger: 'blur' }
         ],
         parent_id: [{ required: true, message: '请选择上级', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const init = async (id) => {
-      data.visible = true
-      data.loading = true
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.id = id;
 
       if (id) {
-        const r = await infoApi(data.form.id)
+        const r = await infoApi(data.form.id);
         if (r) {
-          data.form.id = r.data.id
-          data.form.name = r.data.name
-          data.form.code = r.data.code
-          data.form.level = r.data.level
-          data.form.parent_id = r.data.parent_id
+          data.form.id = r.data.id;
+          data.form.name = r.data.name;
+          data.form.code = r.data.code;
+          data.form.level = r.data.level;
+          data.form.parent_id = r.data.parent_id;
         }
       }
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -112,19 +112,19 @@ export default defineComponent({
           const params = {
             ...data.form,
             level: refRegion.value.getCheckedNodes().level + 1
-          }
-          const r = data.form.id ? await editApi(params) : await addApi(params)
+          };
+          const r = data.form.id ? await editApi(params) : await addApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 弹窗关闭动画结束时的回调
@@ -133,8 +133,8 @@ export default defineComponent({
      * @author: gumingchen
      */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -144,7 +144,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

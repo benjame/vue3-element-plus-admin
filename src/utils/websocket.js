@@ -7,13 +7,13 @@ export default class WebsocketClass {
    * @author: gumingchen
    */
   constructor(url, callback) {
-    this.url = url
-    this.callback = callback
-    this.ws = null // websocket 对象
-    this.status = 0 // 连接状态: 0-关闭 1-连接 2-手动关闭
-    this.ping = 10000 // 心跳时长
-    this.pingInterval = null // 心跳定时器
-    this.reconnect = 5000 // 重连间隔
+    this.url = url;
+    this.callback = callback;
+    this.ws = null; // websocket 对象
+    this.status = 0; // 连接状态: 0-关闭 1-连接 2-手动关闭
+    this.ping = 10000; // 心跳时长
+    this.pingInterval = null; // 心跳定时器
+    this.reconnect = 5000; // 重连间隔
   }
 
   /**
@@ -23,24 +23,24 @@ export default class WebsocketClass {
    * @author: gumingchen
    */
   connect() {
-    this.ws = new WebSocket(this.url)
+    this.ws = new WebSocket(this.url);
     // 监听socket连接
     this.ws.onopen = () => {
-      this.status = 1
-      this.heartHandler()
-    }
+      this.status = 1;
+      this.heartHandler();
+    };
     // 监听socket消息
     this.ws.onmessage = (e) => {
-      this.callback(JSON.parse(e.data))
-    }
+      this.callback(JSON.parse(e.data));
+    };
     // 监听socket错误信息
     this.ws.onerror = (e) => {
-      console.log(e)
-    }
+      console.log(e);
+    };
     // 监听socket关闭
     this.ws.onclose = (e) => {
-      this.onClose(e)
-    }
+      this.onClose(e);
+    };
   }
 
   /**
@@ -50,7 +50,7 @@ export default class WebsocketClass {
    * @author: gumingchen
    */
   send(data) {
-    return this.ws.send(JSON.stringify(data))
+    return this.ws.send(JSON.stringify(data));
   }
 
   /**
@@ -60,8 +60,8 @@ export default class WebsocketClass {
    * @author: gumingchen
    */
   close() {
-    this.status = 2
-    this.ws.close()
+    this.status = 2;
+    this.ws.close();
   }
 
   /**
@@ -71,13 +71,13 @@ export default class WebsocketClass {
    * @author: gumingchen
    */
   onClose(e) {
-    console.error(e)
-    this.status = this.status === 2 ? this.status : 0
+    console.error(e);
+    this.status = this.status === 2 ? this.status : 0;
     setTimeout(() => {
       if (this.status === 0) {
-        this.connect()
+        this.connect();
       }
-    }, this.reconnect)
+    }, this.reconnect);
   }
 
   /**
@@ -89,13 +89,13 @@ export default class WebsocketClass {
   heartHandler() {
     const data = {
       type: -1
-    }
+    };
     this.pingInterval = setInterval(() => {
       if (this.status === 1) {
-        this.ws.send(JSON.stringify(data))
+        this.ws.send(JSON.stringify(data));
       } else {
-        clearInterval(this.pingInterval)
+        clearInterval(this.pingInterval);
       }
-    }, this.ping)
+    }, this.ping);
   }
 }

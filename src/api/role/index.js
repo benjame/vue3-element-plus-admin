@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 超级管理员获取当前企业下的所有角色 否则 获取当前管理员创建的角色
@@ -19,7 +19,7 @@ export function pageApi(params) {
     url: '/admin/role/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -32,7 +32,7 @@ export function infoApi(params) {
   return service({
     url: `/admin/role/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -46,7 +46,7 @@ export function addApi(params) {
     url: `/admin/role/create`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -60,7 +60,7 @@ export function editApi(params) {
     url: `/admin/role/update`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -74,7 +74,7 @@ export function deleteApi(params) {
     url: `/admin/role/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -88,7 +88,7 @@ export function setShowApi(params) {
     url: `/admin/role/show`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -101,7 +101,7 @@ export function selectListApi() {
   return service({
     url: `/admin/role/select/list`,
     method: 'get'
-  })
+  });
 }
 
 // todo:------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ export function globalPageApi(params) {
     url: '/admin/role/global/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -130,7 +130,7 @@ export function globalInfoApi(params) {
   return service({
     url: `/admin/role/global/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -144,7 +144,7 @@ export function globalAddApi(params) {
     url: `/admin/role/global/create`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -158,7 +158,7 @@ export function globalEditApi(params) {
     url: `/admin/role/global/update`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -172,7 +172,7 @@ export function globalDeleteApi(params) {
     url: `/admin/role/global/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -186,7 +186,7 @@ export function globalSetShowApi(params) {
     url: `/admin/role/global/show`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -199,5 +199,5 @@ export function globalSelectListApi(params) {
   return service({
     url: `/admin/role/global/select/list/${ params }`,
     method: 'get'
-  })
+  });
 }

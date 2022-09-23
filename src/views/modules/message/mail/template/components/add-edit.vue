@@ -49,19 +49,19 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import Quill from '@/components/editor/quill'
+import { ElMessage } from 'element-plus';
+import Quill from '@/components/editor/quill';
 
-import { infoApi, addApi, editApi } from '@/api/mail-template'
+import { infoApi, addApi, editApi } from '@/api/mail-template';
 
 export default defineComponent({
   emits: ['refresh'],
   components: { Quill },
   setup(_props, { emit }) {
-    const refForm = ref()
-    const refQuill = ref()
+    const refForm = ref();
+    const refQuill = ref();
 
     const data = reactive({
       visible: false,
@@ -72,31 +72,31 @@ export default defineComponent({
         content: '',
         remark: ''
       }
-    })
+    });
 
     const rules = reactive(function() {
       return {
         id: [{ required: true, message: '请输入', trigger: 'blur' }],
         subject: [{ required: true, message: '请输入标题', trigger: 'blur' }],
         content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const init = async (id) => {
-      data.visible = true
-      data.loading = true
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.id = id;
       if (id) {
-        const r = await infoApi(data.form.id)
+        const r = await infoApi(data.form.id);
         if (r) {
-          data.form.id = r.data.id
-          data.form.subject = r.data.subject
-          data.form.content = r.data.content
-          data.form.remark = r.data.remark
+          data.form.id = r.data.id;
+          data.form.subject = r.data.subject;
+          data.form.content = r.data.content;
+          data.form.remark = r.data.remark;
         }
       }
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -107,20 +107,20 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const params = { ...data.form }
-          params.content = refQuill.value.getEncodeHtml()
-          const r = data.form.id ? await editApi(params) : await addApi(params)
+          const params = { ...data.form };
+          params.content = refQuill.value.getEncodeHtml();
+          const r = data.form.id ? await editApi(params) : await addApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 弹窗关闭动画结束时的回调
@@ -129,8 +129,8 @@ export default defineComponent({
      * @author: gumingchen
      */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -140,7 +140,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

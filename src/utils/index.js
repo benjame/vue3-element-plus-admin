@@ -1,5 +1,5 @@
-import store from '@/store'
-import { MAPPING } from '@/utils/constant'
+import store from '@/store';
+import { MAPPING } from '@/utils/constant';
 
 /**
  * @description: 生成UUID
@@ -8,14 +8,14 @@ import { MAPPING } from '@/utils/constant'
  * @author: gumingchen
  */
 export function generateUUID() {
-  let result = ''
-  const code = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+  let result = '';
+  const code = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
   result = code.replace(/[xy]/gu, item => {
-    const random = (Math.random() * 16) | 0
-    const value = item === 'x' ? random : (random & 0x3) | 0x8
-    return value.toString(16)
-  })
-  return result
+    const random = (Math.random() * 16) | 0;
+    const value = item === 'x' ? random : (random & 0x3) | 0x8;
+    return value.toString(16);
+  });
+  return result;
 }
 
 /**
@@ -33,26 +33,26 @@ export function parseData2Tree(
   parentKey = 'parentId',
   childrenKey = 'children'
 ) {
-  const result = []
-  const temp = {}
+  const result = [];
+  const temp = {};
   for (let i = 0; i < data.length; i++) {
-    temp[(data[i])[key]] = data[i]
+    temp[(data[i])[key]] = data[i];
   }
   for (let k = 0; k < data.length; k++) {
     if (temp[(data[k])[parentKey]] && (data[k])[key] !== (data[k])[parentKey]) {
       if (!temp[(data[k])[parentKey]][childrenKey]) {
-        temp[(data[k])[parentKey]][childrenKey] = []
+        temp[(data[k])[parentKey]][childrenKey] = [];
       }
       if (!temp[(data[k])[parentKey]]['_level']) {
-        temp[(data[k])[parentKey]]['_level'] = 1
+        temp[(data[k])[parentKey]]['_level'] = 1;
       }
-      (data[k])['_level'] = temp[(data[k])[parentKey]]._level + 1
-      temp[(data[k])[parentKey]][childrenKey].push(data[k])
+      (data[k])['_level'] = temp[(data[k])[parentKey]]._level + 1;
+      temp[(data[k])[parentKey]][childrenKey].push(data[k]);
     } else {
-      result.push(data[k])
+      result.push(data[k]);
     }
   }
-  return result
+  return result;
 }
 
 /**
@@ -63,13 +63,13 @@ export function parseData2Tree(
  * @author: gumingchen
  */
 export function parseDate2Str(time = new Date(), format = '{y}-{M}-{d} {h}:{m}:{s}') {
-  let result = ''
-  let date = new Date()
-  const type = typeof time
+  let result = '';
+  let date = new Date();
+  const type = typeof time;
   if (type === 'object') {
-    date = time
+    date = time;
   } else if (type === 'number') {
-    date = new Date(time)
+    date = new Date(time);
   }
   const formatObj = {
     y: date.getFullYear(),
@@ -79,16 +79,16 @@ export function parseDate2Str(time = new Date(), format = '{y}-{M}-{d} {h}:{m}:{
     m: date.getMinutes(),
     s: date.getSeconds(),
     a: date.getDay()
-  }
+  };
   result = format.replace(/\{[yMdhmsa]+\}/g, (val) => {
-    const key = val.replace(/\{|\}/g, '')
-    const value = formatObj[key]
+    const key = val.replace(/\{|\}/g, '');
+    const value = formatObj[key];
     if (key === 'a') {
-      return ['日', '一', '二', '三', '四', '五', '六'][value]
+      return ['日', '一', '二', '三', '四', '五', '六'][value];
     }
-    return value.toString().padStart(2, '0')
-  })
-  return result
+    return value.toString().padStart(2, '0');
+  });
+  return result;
 }
 
 /**
@@ -99,18 +99,18 @@ export function parseDate2Str(time = new Date(), format = '{y}-{M}-{d} {h}:{m}:{
  * @author: gumingchen
  */
 export function parseStr2Date(time = '', separator = ['-', ' ', ':']) {
-  let result = new Date()
-  const regexp = `/[${ separator.join('') }]/g`
-  const data = time.split(eval(regexp))
+  let result = new Date();
+  const regexp = `/[${ separator.join('') }]/g`;
+  const data = time.split(eval(regexp));
   switch (data.length) {
     case 3:
-      result = new Date(+data[0], +data[1] - 1, +data[2])
-      break
+      result = new Date(+data[0], +data[1] - 1, +data[2]);
+      break;
     case 6:
-      result = new Date(+data[0], +data[1] - 1, +data[2], +data[3], +data[4], +data[5])
-      break
+      result = new Date(+data[0], +data[1] - 1, +data[2], +data[3], +data[4], +data[5]);
+      break;
   }
-  return result
+  return result;
 }
 
 /**
@@ -120,15 +120,15 @@ export function parseStr2Date(time = '', separator = ['-', ' ', ':']) {
  * @author: gumingchen
  */
 export function parseJson2Param(json) {
-  let result = ''
+  let result = '';
   result = Object.keys(json)
     .map(key => {
-      if (!json[key]) return ''
-      const temp = encodeURIComponent(key) + '=' + encodeURIComponent(json[key])
-      return temp
+      if (!json[key]) return '';
+      const temp = encodeURIComponent(key) + '=' + encodeURIComponent(json[key]);
+      return temp;
     })
-    .join('&')
-  return result
+    .join('&');
+  return result;
 }
 
 /**
@@ -138,20 +138,20 @@ export function parseJson2Param(json) {
  * @author: gumingchen
  */
 export function parseParam2Json(url) {
-  const result = {}
-  const search = decodeURIComponent(url.split('?')[1]).replace(/\+/gu, ' ')
+  const result = {};
+  const search = decodeURIComponent(url.split('?')[1]).replace(/\+/gu, ' ');
   if (search) {
-    const searchArr = search.split('&')
+    const searchArr = search.split('&');
     searchArr.forEach(r => {
-      const index = r.indexOf('=')
+      const index = r.indexOf('=');
       if (index !== -1) {
-        const key = r.substring(0, index)
-        const val = r.substring(index + 1, r.length)
-        result[key] = val
+        const key = r.substring(0, index);
+        const val = r.substring(index + 1, r.length);
+        result[key] = val;
       }
-    })
+    });
   }
-  return result
+  return result;
 }
 
 /**
@@ -161,15 +161,15 @@ export function parseParam2Json(url) {
  * @author: gumingchen
  */
 export function clearJson(data) {
-  const json = data
-  let key
+  const json = data;
+  let key;
   for (key in json) {
     if (json[key] instanceof Array) {
-      json[key] = []
+      json[key] = [];
     } else if (typeof json[key] === 'object' && Object.prototype.toString.call(json[key]).toLowerCase() === '[object object]' && !json[key].length) {
-      json[key] = {}
+      json[key] = {};
     } else {
-      json[key] = ''
+      json[key] = '';
     }
   }
 }
@@ -182,22 +182,22 @@ export function clearJson(data) {
  * @author: gumingchen
  */
 export function havePermission(permission, separator = '&') {
-  let result = false
-  const permissions = permission.split(separator)
-  let fn = ''
+  let result = false;
+  const permissions = permission.split(separator);
+  let fn = '';
   switch (separator) {
     case '&':
-      fn = 'every'
-      break
+      fn = 'every';
+      break;
     case '|':
-      fn = 'some'
-      break
+      fn = 'some';
+      break;
   }
-  const list = store.getters['menu/permissions']
+  const list = store.getters['menu/permissions'];
   result = fn && permissions[fn](item => {
-    return list.indexOf(item) !== -1
-  })
-  return result
+    return list.indexOf(item) !== -1;
+  });
+  return result;
 }
 
 /**
@@ -209,8 +209,8 @@ export function havePermission(permission, separator = '&') {
 export function getApiBaseUrl () {
   const baseUrl = process.env.VUE_APP_PROXY === 'true'
     ? `/proxy${ MAPPING }`
-    : process.env.VUE_APP_BASE_API + MAPPING
-  return baseUrl
+    : process.env.VUE_APP_BASE_API + MAPPING;
+  return baseUrl;
 }
 
 /**
@@ -220,8 +220,8 @@ export function getApiBaseUrl () {
  * @author: gumingchen
  */
 export async function getDictionaryList(code) {
-  const result = await store.dispatch('dictionary/getDictionary', code)
-  return result
+  const result = await store.dispatch('dictionary/getDictionary', code);
+  return result;
 }
 
 /**
@@ -231,12 +231,12 @@ export async function getDictionaryList(code) {
  * @author: gumingchen
  */
 export async function getDictionaryMap(code) {
-  const response = await store.dispatch('dictionary/getDictionary', code)
-  const result = {}
+  const response = await store.dispatch('dictionary/getDictionary', code);
+  const result = {};
   response.forEach(item => {
-    result[item.value] = item.label
-  })
-  return result
+    result[item.value] = item.label;
+  });
+  return result;
 }
 
 /**
@@ -246,12 +246,12 @@ export async function getDictionaryMap(code) {
  * @author: gumingchen
  */
 export function hex2Rgb(color) {
-  color = color.replace('#', '')
-  const result = color.match(/../g)
+  color = color.replace('#', '');
+  const result = color.match(/../g);
   for (let i = 0; i < 3; i++) {
-    result[i] = parseInt(result[i], 16)
+    result[i] = parseInt(result[i], 16);
   }
-  return result
+  return result;
 }
 
 /**
@@ -261,14 +261,14 @@ export function hex2Rgb(color) {
  * @author: gumingchen
  */
 export function rgb2Hex(r, g, b) {
-  const hexs = [r.toString(16), g.toString(16), b.toString(16)]
+  const hexs = [r.toString(16), g.toString(16), b.toString(16)];
   for (let i = 0; i < 3; i++) {
     if (hexs[i].length === 1) {
-      hexs[i] = '0' + hexs[i]
+      hexs[i] = '0' + hexs[i];
     }
   }
-  const result = '#' + hexs.join('')
-  return result
+  const result = '#' + hexs.join('');
+  return result;
 }
 
 /**
@@ -278,12 +278,12 @@ export function rgb2Hex(r, g, b) {
  * @author: gumingchen
  */
 export function lighten(color, level) {
-  const rgb = hex2Rgb(color)
+  const rgb = hex2Rgb(color);
   for (let i = 0; i < 3; i++) {
-    rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i])
+    rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i]);
   }
-  const result = rgb2Hex(rgb[0], rgb[1], rgb[2])
-  return result
+  const result = rgb2Hex(rgb[0], rgb[1], rgb[2]);
+  return result;
 }
 
 /**
@@ -293,12 +293,12 @@ export function lighten(color, level) {
  * @author: gumingchen
  */
 export function darken(color, level) {
-  const rgb = hex2Rgb(color)
+  const rgb = hex2Rgb(color);
   for (let i = 0; i < 3; i++) {
-    rgb[i] = Math.floor(rgb[i] * (1 - level))
+    rgb[i] = Math.floor(rgb[i] * (1 - level));
   }
-  const result = rgb2Hex(rgb[0], rgb[1], rgb[2])
-  return result
+  const result = rgb2Hex(rgb[0], rgb[1], rgb[2]);
+  return result;
 }
 
 /**
@@ -310,13 +310,13 @@ export function darken(color, level) {
  */
 export function download(blob, name) {
   if (blob) {
-    const href = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = href
-    a.download = name
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    window.URL.revokeObjectURL(href)
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(href);
   }
 }

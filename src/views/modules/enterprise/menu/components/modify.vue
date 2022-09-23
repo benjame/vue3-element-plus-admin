@@ -39,18 +39,18 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import { selectListApi } from '@/api/menu'
-import { globalIdsApi, globalModifyApi } from '@/api/enterprise-menu'
+import { selectListApi } from '@/api/menu';
+import { globalIdsApi, globalModifyApi } from '@/api/enterprise-menu';
 
 export default defineComponent({
   emits: ['refresh'],
   setup(_props, { emit }) {
-    const refForm = ref()
-    const refCascader = ref()
+    const refForm = ref();
+    const refCascader = ref();
 
     const data = reactive({
       visible: false,
@@ -59,13 +59,13 @@ export default defineComponent({
         enterprise_id: null,
         menu_ids: []
       }
-    })
+    });
 
     const rules = reactive(function() {
       return {
         menu_ids: [{ type: 'array', required: true, message: '请选择菜单权限', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const cascaderProps = computed(() => {
       const reuslt = {
@@ -75,12 +75,12 @@ export default defineComponent({
         value: 'id',
         label: `name_cn`,
         children: 'children'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
 
     const getMenu = async () => {
-      const r = await selectListApi()
+      const r = await selectListApi();
       if (r) {
         const list = [{
           id: 0,
@@ -88,24 +88,24 @@ export default defineComponent({
           name_en: 'First level menu',
           parent_id: 0,
           children: r.data
-        }]
-        data.menus = list
+        }];
+        data.menus = list;
       }
-    }
+    };
 
     const getMenuId = async () => {
-      const r = await globalIdsApi(data.form.enterprise_id)
+      const r = await globalIdsApi(data.form.enterprise_id);
       if (r) {
-        data.form.menu_ids = r.data
+        data.form.menu_ids = r.data;
       }
-    }
+    };
 
     const init = async (enterpriseId) => {
-      data.visible = true
-      data.form.enterprise_id = enterpriseId
-      await getMenu()
-      await getMenuId()
-    }
+      data.visible = true;
+      data.form.enterprise_id = enterpriseId;
+      await getMenu();
+      await getMenuId();
+    };
 
     /**
      * @description: 表单验证提交
@@ -117,25 +117,25 @@ export default defineComponent({
       refForm.value.validate(valid => {
         if (valid) {
           // 处理已选 菜单 权限
-          const checkedNodes = refCascader.value.getCheckedNodes(true)
-          const menuIds = []
+          const checkedNodes = refCascader.value.getCheckedNodes(true);
+          const menuIds = [];
           checkedNodes.forEach(item => {
-            menuIds.push.apply(menuIds, item.pathValues)
-          })
-          data.form.menu_ids = Array.from(new Set(menuIds)).filter(item => item !== 0)
+            menuIds.push.apply(menuIds, item.pathValues);
+          });
+          data.form.menu_ids = Array.from(new Set(menuIds)).filter(item => item !== 0);
           globalModifyApi(data.form).then(r => {
             if (r) {
-              data.visible = false
+              data.visible = false;
               ElMessage({
                 message: '操作成功!',
                 type: 'success'
-              })
-              emit('refresh')
+              });
+              emit('refresh');
             }
-          })
+          });
         }
-      })
-    }
+      });
+    };
 
     /**
    * @description: 弹窗关闭动画结束时的回调
@@ -144,8 +144,8 @@ export default defineComponent({
    * @author: gumingchen
    */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -156,7 +156,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

@@ -56,13 +56,13 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, reactive, toRefs, nextTick, watch, onBeforeUnmount } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@/utils/constant'
-import * as Quill from 'quill'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import { options as defaultOptions, delta2Html } from './config'
+import { defineComponent, onMounted, ref, reactive, toRefs, nextTick, watch, onBeforeUnmount } from 'vue';
+import { UPDATE_MODEL_EVENT } from '@/utils/constant';
+import * as Quill from 'quill';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import { options as defaultOptions, delta2Html } from './config';
 
 export default defineComponent({
   props: {
@@ -85,22 +85,22 @@ export default defineComponent({
   },
   emits: [UPDATE_MODEL_EVENT, 'input', 'change', 'blur', 'focus', 'ready'],
   setup(props, { emit }) {
-    const refQuill = ref()
-    const refToolbar = ref()
+    const refQuill = ref();
+    const refToolbar = ref();
     const data = reactive({
       quill: null,
       options: {},
       content: ''
-    })
+    });
 
     /**
      * 监听富文本内容 用于通知父组件更新
      */
     watch(() => data.content, (newVal, _oldVal) => {
       if (data.quill) {
-        emit(UPDATE_MODEL_EVENT, newVal)
+        emit(UPDATE_MODEL_EVENT, newVal);
       }
-    })
+    });
 
     /**
      * 监听传入的内容 主要用于首次渲染
@@ -108,103 +108,103 @@ export default defineComponent({
     watch(() => props.modelValue, (newVal, _oldVal) => {
       if (data.quill) {
         if (newVal !== data.content) {
-          data.quill.root.innerHTML = newVal
+          data.quill.root.innerHTML = newVal;
         }
       }
-    })
+    });
 
     /**
      * 监听传入是否可以编辑
      */
     watch(() => props.disabled, (newVal, _oldVal) => {
       if (data.quill) {
-        data.quill.enable(newVal)
+        data.quill.enable(newVal);
       }
-    })
+    });
 
     /**
      * 初始化参数
      */
     const initOptions = () => {
-      data.options = props.options || defaultOptions
+      data.options = props.options || defaultOptions;
       if (props.placeholder) {
-        data.options.placeholder = props.placeholder
+        data.options.placeholder = props.placeholder;
       }
       if (!props.options) {
-        data.options.modules.toolbar.container = refToolbar.value
+        data.options.modules.toolbar.container = refToolbar.value;
       }
-      data.options.readOnly = props.disabled
-    }
+      data.options.readOnly = props.disabled;
+    };
 
     /**
      * 设置响应参数
      */
     const getParams = () => {
-      let html = ''
+      let html = '';
       if ('<p><br></p>' === data.quill.root.innerHTML) {
-        html = ''
+        html = '';
       } else {
-        html = delta2Html(data.quill.getContents())
+        html = delta2Html(data.quill.getContents());
       }
       const obj = {
         html,
         quill: data.quill
-      }
-      return obj
-    }
+      };
+      return obj;
+    };
 
     /**
      * 初始化
      */
     const init = () => {
-      initOptions()
-      data.quill = new Quill(refQuill.value, data.options)
+      initOptions();
+      data.quill = new Quill(refQuill.value, data.options);
 
       data.quill.on('text-change', () => {
-        const params = getParams()
-        data.content = params.html
-        emit('input', params)
-        emit('change', params)
-      })
+        const params = getParams();
+        data.content = params.html;
+        emit('input', params);
+        emit('change', params);
+      });
 
       data.quill.on('selection-change', range => {
-        const params = getParams()
+        const params = getParams();
         if (!range) {
-          emit('blur', params)
+          emit('blur', params);
         } else {
-          emit('focus', params)
+          emit('focus', params);
         }
-      })
+      });
 
-      emit('ready', data.quill)
-    }
+      emit('ready', data.quill);
+    };
 
     /**
      * 对内容中的<, >, /, ', ", &个字符进行编码
      */
     const getEncodeHtml = () => {
-      return encodeURI(data.content)
-    }
+      return encodeURI(data.content);
+    };
 
     /**
      * 对内容中的<, >, /, ', ", &个字符进行编码
      * 包括html文字
      */
     const getEncodeText = () => {
-      const text = data.quill.getText()
-      return encodeURI(text)
-    }
+      const text = data.quill.getText();
+      return encodeURI(text);
+    };
 
     onMounted(() => {
       nextTick(() => {
-        init()
-      })
-    })
+        init();
+      });
+    });
 
     onBeforeUnmount(() => {
-      data.quill = null
-      delete data.quill
-    })
+      data.quill = null;
+      delete data.quill;
+    });
 
     return {
       refQuill,
@@ -212,9 +212,9 @@ export default defineComponent({
       ...toRefs(data),
       getEncodeHtml,
       getEncodeText
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

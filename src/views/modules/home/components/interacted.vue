@@ -17,7 +17,7 @@
 </template>
 
 <script >
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -44,13 +44,13 @@ export default defineComponent({
           url: 'http://oss.gumingchen.icu/image/qq-qr-code.jpg'
         }
       ]
-    })
+    });
 
     return {
       ...toRefs(data)
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

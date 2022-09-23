@@ -63,16 +63,16 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import { subInfoApi, subAddApi, subEditApi } from '@/api/dictionary'
+import { subInfoApi, subAddApi, subEditApi } from '@/api/dictionary';
 
 export default defineComponent({
   emits: ['refresh'],
   setup(_props, { emit }) {
-    const refForm = ref()
+    const refForm = ref();
     const data = reactive({
       loading: false,
       visible: false,
@@ -86,35 +86,35 @@ export default defineComponent({
         status: 1
       },
       roles: []
-    })
+    });
 
     const rules = computed(() => {
       return {
         code: [{ required: true, message: '请输入编码', trigger: 'blur' }],
         name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
         status: [{ required: true, message: '请选择状态', trigger: 'change' }]
-      }
-    })
+      };
+    });
 
     const init = async ({ dictionaryId, id }) => {
-      data.visible = true
-      data.loading = true
-      data.form.dictionary_id = dictionaryId
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.dictionary_id = dictionaryId;
+      data.form.id = id;
 
       if (id) {
-        const r = await subInfoApi(id)
+        const r = await subInfoApi(id);
         if (r) {
-          data.form.code = r.data.code
-          data.form.name = r.data.name
-          data.form.sort = r.data.sort
-          data.form.remark = r.data.remark
-          data.form.status = r.data.status
+          data.form.code = r.data.code;
+          data.form.name = r.data.name;
+          data.form.sort = r.data.sort;
+          data.form.remark = r.data.remark;
+          data.form.status = r.data.status;
         }
       }
 
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -125,18 +125,18 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const r = data.form.id ? await subEditApi(data.form) : await subAddApi(data.form)
+          const r = data.form.id ? await subEditApi(data.form) : await subAddApi(data.form);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
    * @description: 弹窗关闭动画结束时的回调
@@ -145,8 +145,8 @@ export default defineComponent({
    * @author: gumingchen
    */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -155,7 +155,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

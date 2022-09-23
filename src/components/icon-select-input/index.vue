@@ -37,11 +37,11 @@
 </template>
 
 <script >
-import { computed, defineComponent, onBeforeMount, reactive, toRefs, watch, watchEffect } from 'vue'
-import axios from 'axios'
+import { computed, defineComponent, onBeforeMount, reactive, toRefs, watch, watchEffect } from 'vue';
+import axios from 'axios';
 
-import useModel from '@/mixins/model'
-import { UPDATE_MODEL_EVENT, CONTENT_TYPE, TIME_OUT } from '@/utils/constant'
+import useModel from '@/mixins/model';
+import { UPDATE_MODEL_EVENT, CONTENT_TYPE, TIME_OUT } from '@/utils/constant';
 
 export default defineComponent({
   emits: [UPDATE_MODEL_EVENT],
@@ -56,7 +56,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const value = useModel(props)
+    const value = useModel(props);
 
     const data = reactive({
       icons: [],
@@ -64,22 +64,22 @@ export default defineComponent({
         current: 1,
         size: 30
       }
-    })
+    });
 
     const list = computed(() => {
-      const { current, size } = data.page
-      let result = data.icons.slice(size * (current - 1), size * (current - 1) + size)
+      const { current, size } = data.page;
+      let result = data.icons.slice(size * (current - 1), size * (current - 1) + size);
       if (current !== 1 && result.length === 0) {
-        result = data.icons.slice(size * (current - 2), size * (current - 2) + size)
+        result = data.icons.slice(size * (current - 2), size * (current - 2) + size);
       }
-      return result
-    })
+      return result;
+    });
 
     watchEffect(() => {
-      const index = data.icons.indexOf(value.value)
-      const page = parseInt(index / data.page.size) + 1
-      data.page.current = page
-    })
+      const index = data.icons.indexOf(value.value);
+      const page = parseInt(index / data.page.size) + 1;
+      data.page.current = page;
+    });
 
     const getIconfont = () => {
       const service = axios.create({
@@ -87,36 +87,36 @@ export default defineComponent({
         headers: {
           'Content-Type': CONTENT_TYPE
         }
-      })
+      });
       service({
         url: '//at.alicdn.com/t/c/font_3225946_j1j10aooqn.css',
         method: 'get'
       }).then(r => {
         if (r.status === 200) {
-          const arr = r.data.match(/.icon-(.+?):/g)
+          const arr = r.data.match(/.icon-(.+?):/g);
           data.icons = arr.map(item => {
-            return item.match(/.icon-(.+?):/)[1]
-          })
+            return item.match(/.icon-(.+?):/)[1];
+          });
         }
-      })
-    }
+      });
+    };
 
     const clickHandle = (icon) => {
-      value.value = icon
-    }
+      value.value = icon;
+    };
 
     onBeforeMount(() => {
-      getIconfont()
-    })
+      getIconfont();
+    });
 
     return {
       value,
       ...toRefs(data),
       list,
       clickHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

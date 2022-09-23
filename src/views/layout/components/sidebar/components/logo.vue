@@ -21,23 +21,23 @@
 </template>
 
 <script >
-import { computed, defineComponent, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useStore();
 
-    const enterprise = computed(() => store.state.enterprise.enterprise)
+    const enterprise = computed(() => store.state.enterprise.enterprise);
 
-    const collapse = computed(() => store.state.menu.collapse)
+    const collapse = computed(() => store.state.menu.collapse);
 
     return {
       enterprise,
       collapse
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -55,18 +55,18 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import { globalSelectListApi } from '@/api/enterprise-menu'
-import { globalInfoApi, globalAddApi, globalEditApi } from '@/api/role'
+import { globalSelectListApi } from '@/api/enterprise-menu';
+import { globalInfoApi, globalAddApi, globalEditApi } from '@/api/role';
 
 export default defineComponent({
   emits: ['refresh'],
   setup(_props, { emit }) {
-    const refForm = ref()
-    const refCascader = ref()
+    const refForm = ref();
+    const refCascader = ref();
 
     const data = reactive({
       loading: false,
@@ -79,14 +79,14 @@ export default defineComponent({
         enterprise_id: ''
       },
       menus: []
-    })
+    });
 
     const rules = reactive(function() {
       return {
         name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
         enterprise_menu_ids: [{ type: 'array', required: true, message: '请选择权限', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const cascaderProps = computed(() => {
       const reuslt = {
@@ -96,12 +96,12 @@ export default defineComponent({
         value: 'id',
         label: `name_cn`,
         children: 'children'
-      }
-      return reuslt
-    })
+      };
+      return reuslt;
+    });
 
     const getEnterpriseMenu = async () => {
-      const r = await globalSelectListApi(data.form.enterprise_id)
+      const r = await globalSelectListApi(data.form.enterprise_id);
       if (r) {
         const list = [{
           id: 0,
@@ -109,29 +109,29 @@ export default defineComponent({
           name_en: 'First level menu',
           parent_id: 0,
           children: r.data
-        }]
-        data.menus = list
+        }];
+        data.menus = list;
       }
-    }
+    };
 
     const init = async (enterpriseId, id) => {
-      data.visible = true
-      data.loading = true
-      data.form.enterprise_id = enterpriseId
-      data.form.id = id
+      data.visible = true;
+      data.loading = true;
+      data.form.enterprise_id = enterpriseId;
+      data.form.id = id;
 
-      await getEnterpriseMenu()
+      await getEnterpriseMenu();
       if (id) {
-        const r = await globalInfoApi(id)
+        const r = await globalInfoApi(id);
         if (r) {
-          data.form.name = r.data.name
-          data.form.remark = r.data.remark
-          data.form.enterprise_menu_ids = r.data.enterprise_menu_ids
+          data.form.name = r.data.name;
+          data.form.remark = r.data.remark;
+          data.form.enterprise_menu_ids = r.data.enterprise_menu_ids;
         }
       }
 
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     /**
      * @description: 表单验证提交
@@ -143,24 +143,24 @@ export default defineComponent({
       refForm.value.validate(async valid => {
         if (valid) {
           // 处理已选 菜单 权限
-          const checkedNodes = refCascader.value.getCheckedNodes(true)
-          const enterpriseMenuIds = []
+          const checkedNodes = refCascader.value.getCheckedNodes(true);
+          const enterpriseMenuIds = [];
           checkedNodes.forEach(item => {
-            enterpriseMenuIds.push.apply(enterpriseMenuIds, item.pathValues)
-          })
-          data.form.enterprise_menu_ids = Array.from(new Set(enterpriseMenuIds)).filter(item => item !== 0)
-          const r = data.form.id ? await globalEditApi(data.form) : await globalAddApi(data.form)
+            enterpriseMenuIds.push.apply(enterpriseMenuIds, item.pathValues);
+          });
+          data.form.enterprise_menu_ids = Array.from(new Set(enterpriseMenuIds)).filter(item => item !== 0);
+          const r = data.form.id ? await globalEditApi(data.form) : await globalAddApi(data.form);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
    * @description: 弹窗关闭动画结束时的回调
@@ -169,8 +169,8 @@ export default defineComponent({
    * @author: gumingchen
    */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -181,7 +181,7 @@ export default defineComponent({
       init,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

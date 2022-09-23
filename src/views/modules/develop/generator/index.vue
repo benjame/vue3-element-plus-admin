@@ -84,18 +84,18 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import usePage from '@/mixins/page'
-import { clearJson } from '@/utils'
+import usePage from '@/mixins/page';
+import { clearJson } from '@/utils';
 
-import { pageApi, generatorApi } from '@/api/generator'
+import { pageApi, generatorApi } from '@/api/generator';
 
 export default defineComponent({
   setup() {
-    const refForm = ref()
-    const refTable = ref()
-    const { page } = usePage()
+    const refForm = ref();
+    const refTable = ref();
+    const { page } = usePage();
     const data = reactive({
       loading: false,
       visible: false,
@@ -104,49 +104,49 @@ export default defineComponent({
       },
       list: [],
       selection: []
-    })
+    });
 
     const getList = () => {
       const params = {
         ...data.form,
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       pageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     const selectionHandle = (val) => {
-      data.selection = val
-    }
+      data.selection = val;
+    };
 
     const generateHandle = (name) => {
       const names = name ? [name] : data.selection.map(item => {
-        return item.name
-      })
-      generatorApi(names)
-    }
+        return item.name;
+      });
+      generatorApi(names);
+    };
 
     const pageChangeHandle = (argPage) => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     onBeforeMount(() => {
-      getList()
-    })
+      getList();
+    });
 
     return {
       refForm,
@@ -159,9 +159,9 @@ export default defineComponent({
       generateHandle,
       selectionHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

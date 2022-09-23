@@ -11,7 +11,7 @@
 </template>
 
 <script >
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -23,18 +23,18 @@ export default defineComponent({
         'vue3-element-plus-admin 是一个基于 Vue3 + Element-plus + Java 的多企业后台权限管理系统，提供了完善的权限体系，让开发者把注意力集中到具体业务当中，降低开发成本，提高项目效率。',
         '可以用于网站管理后台、SAAS、CMS、CRM、OA、ERP等，企业和个人都可以免费使用。欢迎提交PR（需求），若开发中遇到问题可以上 Github 提 Issues。'
       ]
-    })
+    });
 
     const documentHandle = () => {
-      window.open(data.document)
-    }
+      window.open(data.document);
+    };
 
     return {
       ...toRefs(data),
       documentHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

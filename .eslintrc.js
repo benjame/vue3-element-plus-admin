@@ -32,7 +32,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'quotes': [1, 'single', { 'avoidEscape': true, 'allowTemplateLiterals': true }], // 默认都使用 '' 或者 ``
-    'semi': [1, 'never'], // 结尾处不使用分号
+    'semi': [1, 'always'], // 结尾处不使用分号
     'no-extra-parens': [1, 'functions'], // 禁止不必要的括号
     'comma-dangle': [1, 'never'], // 禁止末尾逗号
     'comma-spacing': [1, { 'before': false, 'after': true }], // 逗号后空一格
@@ -114,4 +114,4 @@ module.exports = {
     'yield-star-spacing': [1, 'both'], // 强制在 yield* 表达式中 * 周围使用空格
     'space-before-function-paren': 0 // 函数 括号前需要空格
   }
-}
+};

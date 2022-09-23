@@ -11,20 +11,20 @@
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useStore();
 
-    const contanierMode = computed(() => store.state.settings.contanierMode)
+    const contanierMode = computed(() => store.state.settings.contanierMode);
 
     return {
       contanierMode
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

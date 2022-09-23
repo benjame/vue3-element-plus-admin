@@ -140,14 +140,14 @@
 </template>
 
 <script >
-import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, reactive, toRefs } from 'vue';
+import { useStore } from 'vuex';
 
-import { ThemeMode } from '@/utils/dictionary'
+import { ThemeMode } from '@/utils/dictionary';
 
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useStore();
 
     /**
      * 主题颜色处理
@@ -163,107 +163,107 @@ export default defineComponent({
         menu: {
           ...store.state.theme.theme.menu
         }
-      }
-      theme[type][key] = value
-      return theme
-    }
+      };
+      theme[type][key] = value;
+      return theme;
+    };
 
     const mode = computed({
       get: () => {
-        return store.state.theme.mode
+        return store.state.theme.mode;
       },
       set: (val) => {
-        store.dispatch('theme/setMode', val)
+        store.dispatch('theme/setMode', val);
       }
-    })
+    });
 
     const navigation = computed({
       get: () => {
-        return store.state.settings.navigationMode
+        return store.state.settings.navigationMode;
       },
       set: (val) => {
-        store.dispatch('settings/setNavigationMode', val)
+        store.dispatch('settings/setNavigationMode', val);
       }
-    })
+    });
     const contanier = computed({
       get: () => {
-        return store.state.settings.contanierMode
+        return store.state.settings.contanierMode;
       },
       set: (val) => {
-        store.dispatch('settings/setContanierMode', val)
+        store.dispatch('settings/setContanierMode', val);
       }
-    })
+    });
     const panel = computed({
       get: () => {
-        return store.state.settings.panelMode
+        return store.state.settings.panelMode;
       },
       set: (val) => {
-        store.dispatch('settings/setPanelMode', val)
+        store.dispatch('settings/setPanelMode', val);
       }
-    })
+    });
     const tabs = computed({
       get: () => {
-        return store.state.settings.showTabs
+        return store.state.settings.showTabs;
       },
       set: (val) => {
-        store.dispatch('settings/setShowTabs', val)
+        store.dispatch('settings/setShowTabs', val);
       }
-    })
+    });
 
     const colorPrimary = computed({
       get: () => {
-        return store.state.theme.theme.color.primary
+        return store.state.theme.theme.color.primary;
       },
       set: (val) => {
-        const theme = paramsHandle('color', 'primary', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('color', 'primary', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
     const colorSuccess = computed({
       get: () => {
-        return store.state.theme.theme.color.success
+        return store.state.theme.theme.color.success;
       },
       set: (val) => {
-        const theme = paramsHandle('color', 'success', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('color', 'success', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
     const colorWarning = computed({
       get: () => {
-        return store.state.theme.theme.color.warning
+        return store.state.theme.theme.color.warning;
       },
       set: (val) => {
-        const theme = paramsHandle('color', 'warning', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('color', 'warning', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
     const colorDanger = computed({
       get: () => {
-        return store.state.theme.theme.color.danger
+        return store.state.theme.theme.color.danger;
       },
       set: (val) => {
-        const theme = paramsHandle('color', 'danger', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('color', 'danger', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
     const colorError = computed({
       get: () => {
-        return store.state.theme.theme.color.error
+        return store.state.theme.theme.color.error;
       },
       set: (val) => {
-        const theme = paramsHandle('color', 'error', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('color', 'error', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
     const colorInfo = computed({
       get: () => {
-        return store.state.theme.theme.color.info
+        return store.state.theme.theme.color.info;
       },
       set: (val) => {
-        const theme = paramsHandle('color', 'info', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('color', 'info', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
 
     // const textPrimary = computed({
     //   get: () => {
@@ -313,31 +313,31 @@ export default defineComponent({
 
     const menuBackgroundColor = computed({
       get: () => {
-        return store.state.theme.theme.menu.backgroundColor
+        return store.state.theme.theme.menu.backgroundColor;
       },
       set: (val) => {
-        const theme = paramsHandle('menu', 'backgroundColor', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('menu', 'backgroundColor', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
     const menuTextColor = computed({
       get: () => {
-        return store.state.theme.theme.menu.textColor
+        return store.state.theme.theme.menu.textColor;
       },
       set: (val) => {
-        const theme = paramsHandle('menu', 'textColor', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('menu', 'textColor', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
     const menuActiveTextColor = computed({
       get: () => {
-        return store.state.theme.theme.menu.activeTextColor
+        return store.state.theme.theme.menu.activeTextColor;
       },
       set: (val) => {
-        const theme = paramsHandle('menu', 'activeTextColor', val)
-        store.dispatch('theme/setTheme', theme)
+        const theme = paramsHandle('menu', 'activeTextColor', val);
+        store.dispatch('theme/setTheme', theme);
       }
-    })
+    });
 
     const data = reactive({
       visible: false,
@@ -354,11 +354,11 @@ export default defineComponent({
         { label: '左右面板分离', value: 2 },
         { label: '整个容器为面板', value: 3 }
       ]
-    })
+    });
 
     const init = () => {
-      data.visible = true
-    }
+      data.visible = true;
+    };
 
     return {
       mode,
@@ -387,9 +387,9 @@ export default defineComponent({
       ...toRefs(data),
       ThemeMode,
       init
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

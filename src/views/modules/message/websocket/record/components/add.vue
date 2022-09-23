@@ -46,21 +46,21 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRefs, onBeforeMount } from 'vue'
+import { defineComponent, reactive, ref, toRefs, onBeforeMount } from 'vue';
 
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus';
 
-import useDictionary from '@/mixins/dictionary'
-import { havePermission } from '@/utils'
+import useDictionary from '@/mixins/dictionary';
+import { havePermission } from '@/utils';
 
-import { addApi, globalAddApi } from '@/api/websocket'
+import { addApi, globalAddApi } from '@/api/websocket';
 
 export default defineComponent({
   emits: ['refresh'],
   setup(_props, { emit }) {
-    const refForm = ref()
+    const refForm = ref();
 
-    const { dictionaryList, getDictionary } = useDictionary()
+    const { dictionaryList, getDictionary } = useDictionary();
     const data = reactive({
       visible: false,
       loading: false,
@@ -68,18 +68,18 @@ export default defineComponent({
         content: '',
         type: 1
       }
-    })
+    });
 
     const rules = reactive(function() {
       return {
         content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
         type: [{ required: true, message: '请选择消息类型', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const init = () => {
-      data.visible = true
-    }
+      data.visible = true;
+    };
 
     /**
      * @description: 表单验证提交
@@ -90,19 +90,19 @@ export default defineComponent({
     const submit = () => {
       refForm.value.validate(async valid => {
         if (valid) {
-          const params = { ...data.form }
-          const r = data.form.type === 0 ? await globalAddApi(params) : await addApi(params)
+          const params = { ...data.form };
+          const r = data.form.type === 0 ? await globalAddApi(params) : await addApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 弹窗关闭动画结束时的回调
@@ -111,12 +111,12 @@ export default defineComponent({
      * @author: gumingchen
      */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     onBeforeMount(() => {
-      getDictionary('websocket')
-    })
+      getDictionary('websocket');
+    });
 
     return {
       refForm,
@@ -127,7 +127,7 @@ export default defineComponent({
       submit,
       dialogClosedHandle,
       havePermission
-    }
+    };
   }
-})
+});
 </script>

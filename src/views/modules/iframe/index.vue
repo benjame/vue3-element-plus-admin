@@ -13,40 +13,40 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   setup() {
-    const route = useRoute()
+    const route = useRoute();
 
-    const refContainer = ref()
-    const refIframe = ref()
+    const refContainer = ref();
+    const refIframe = ref();
 
-    const loading = ref(false)
+    const loading = ref(false);
 
     const url = computed(() => {
-      return route.meta.url
-    })
+      return route.meta.url;
+    });
 
     watch(url, () => {
-      loading.value = true
-    })
+      loading.value = true;
+    });
 
     onMounted(() => {
-      loading.value = true
+      loading.value = true;
       refIframe.value.onload = () => {
-        loading.value = false
-      }
-    })
+        loading.value = false;
+      };
+    });
 
     return {
       refContainer,
       refIframe,
       loading,
       url
-    }
+    };
   }
-})
+});
 
 </script>

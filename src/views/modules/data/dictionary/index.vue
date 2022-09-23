@@ -84,55 +84,55 @@
 </template>
 
 <script >
-import { defineComponent, reactive, ref, toRefs, nextTick } from 'vue'
+import { defineComponent, reactive, ref, toRefs, nextTick } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import ContainerSidebar from '@/components/container-sidebar'
-import Sidebar from './components/sidebar'
-import SubAddEdit from './components/sub-add-edit'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import ContainerSidebar from '@/components/container-sidebar';
+import Sidebar from './components/sidebar';
+import SubAddEdit from './components/sub-add-edit';
 
-import { havePermission } from '@/utils'
+import { havePermission } from '@/utils';
 
-import { subListApi, subDeleteApi, subSetStatusApi } from '@/api/dictionary'
+import { subListApi, subDeleteApi, subSetStatusApi } from '@/api/dictionary';
 
 export default defineComponent({
   components: { ContainerSidebar, Sidebar, SubAddEdit },
   setup() {
-    const refContainerSidebar = ref()
-    const refTable = ref()
-    const refSubAddEdit = ref()
+    const refContainerSidebar = ref();
+    const refTable = ref();
+    const refSubAddEdit = ref();
     const data = reactive({
       active: '',
       loading: false,
       visible: false,
       list: [],
       selection: []
-    })
+    });
 
     const getList = () => {
       if (data.active) {
-        data.loading = true
+        data.loading = true;
         const params = {
           id: data.active
-        }
+        };
         subListApi(params).then(r => {
           if (r) {
-            data.list = r.data
+            data.list = r.data;
           }
-          nextTick(() => { data.loading = false })
-        })
+          nextTick(() => { data.loading = false; });
+        });
       }
-    }
+    };
 
     const addEditHandle = (id) => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refSubAddEdit.value.init({ dictionaryId: data.active, id })
-      })
-    }
+        refSubAddEdit.value.init({ dictionaryId: data.active, id });
+      });
+    };
 
     const deleteHandle = (id) => {
-      const ids = id ? [id] : data.selection.map(item => item.id)
+      const ids = id ? [id] : data.selection.map(item => item.id);
       ElMessageBox.confirm(`确定对[id=${ ids.join(',') }]进行[${ id ? '删除' : '批量删除' }]操作?`, '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
@@ -143,44 +143,44 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const statusHandle = (row) => {
       const params = {
         key: row.id,
         value: row.status
-      }
+      };
       subSetStatusApi(params).then(r => {
         if (r) {
           ElMessage({
             message: '操作成功!',
             type: 'success'
-          })
+          });
         } else {
-          row.status = row.status === 1 ? 0 : 1
+          row.status = row.status === 1 ? 0 : 1;
         }
-      })
-    }
+      });
+    };
 
     const selectionHandle = (val) => {
-      data.selection = val
-    }
+      data.selection = val;
+    };
 
     const changeHandle = (row) => {
-      refContainerSidebar.value.setScrollTop()
+      refContainerSidebar.value.setScrollTop();
       if (row) {
-        getList()
+        getList();
       } else {
-        data.list = []
+        data.list = [];
       }
-    }
+    };
     return {
       refContainerSidebar,
       refTable,
@@ -193,9 +193,9 @@ export default defineComponent({
       selectionHandle,
       changeHandle,
       havePermission
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

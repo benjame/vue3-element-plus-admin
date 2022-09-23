@@ -34,20 +34,20 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue'
+import { computed, defineComponent, nextTick, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import Local from './local'
-import Qiniu from './qiniu'
+import { ElMessage } from 'element-plus';
+import Local from './local';
+import Qiniu from './qiniu';
 
-import { listApi } from '@/api/configuration'
-import { updateConfigApi } from '@/api/file'
+import { listApi } from '@/api/configuration';
+import { updateConfigApi } from '@/api/file';
 
 export default defineComponent({
   emits: ['refresh'],
   components: { Local, Qiniu },
   setup() {
-    const refForm = ref()
+    const refForm = ref();
 
     const data = reactive({
       visible: false,
@@ -59,57 +59,57 @@ export default defineComponent({
         type: '',
         json_value: {}
       }
-    })
+    });
 
     const component = computed(() => {
-      let result = ''
+      let result = '';
       switch (data.current.type) {
         case 1:
-          result = 'Local'
-          break
+          result = 'Local';
+          break;
         case 2:
-          result = 'Qiniu'
-          break
+          result = 'Qiniu';
+          break;
       }
-      return result
-    })
+      return result;
+    });
 
     const init = async () => {
-      data.visible = true
-      data.loading = true
-      const r = await listApi(data.key)
+      data.visible = true;
+      data.loading = true;
+      const r = await listApi(data.key);
       if (r) {
-        data.types = r.data
+        data.types = r.data;
         for (let i = 0; i < data.types.length; i++) {
-          const item = data.types[i]
+          const item = data.types[i];
           if (item.status === 1) {
-            data.id = item.id
-            const val = item.json_value ? JSON.parse(item.json_value) : {}
+            data.id = item.id;
+            const val = item.json_value ? JSON.parse(item.json_value) : {};
             data.current = {
               ...item,
               json_value: val
-            }
-            break
+            };
+            break;
           }
         }
       }
-      nextTick(() => { data.loading = false })
-    }
+      nextTick(() => { data.loading = false; });
+    };
 
     const changeHandle = (id) => {
       for (let i = 0; i < data.types.length; i++) {
-        const item = data.types[i]
+        const item = data.types[i];
         if (item.id === id) {
-          data.id = item.id
-          const val = item.json_value ? JSON.parse(item.json_value) : {}
+          data.id = item.id;
+          const val = item.json_value ? JSON.parse(item.json_value) : {};
           data.current = {
             ...item,
             json_value: val
-          }
-          break
+          };
+          break;
         }
       }
-    }
+    };
 
     /**
      * @description: 表单验证提交
@@ -124,18 +124,18 @@ export default defineComponent({
             id: data.id,
             json_key: data.key,
             json_value: JSON.stringify(form)
-          }
-          const r = await updateConfigApi(params)
+          };
+          const r = await updateConfigApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
+            });
           }
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 弹窗关闭动画结束时的回调
@@ -145,7 +145,7 @@ export default defineComponent({
      */
     const dialogClosedHandle = () => {
       // refForm.value.resetFields()
-    }
+    };
 
     return {
       refForm,
@@ -155,7 +155,7 @@ export default defineComponent({
       changeHandle,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

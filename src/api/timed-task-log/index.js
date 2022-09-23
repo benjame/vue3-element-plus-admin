@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 分页
@@ -19,7 +19,7 @@ export function pageApi(params) {
     url: '/quartz/task/log/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -32,7 +32,7 @@ export function infoApi(params) {
   return service({
     url: `/quartz/task/log/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -45,5 +45,5 @@ export function truncateApi() {
   return service({
     url: `/quartz/task/log/truncate`,
     method: 'post'
-  })
+  });
 }

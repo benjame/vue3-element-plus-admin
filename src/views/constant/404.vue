@@ -20,55 +20,55 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { defineComponent, onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
-    const router = useRouter()
-    const store = useStore()
+    const router = useRouter();
+    const store = useStore();
 
-    const endTime = ref(10)
-    const timer = ref(-1)
+    const endTime = ref(10);
+    const timer = ref(-1);
 
     watch(endTime, (newVal, _oldVal) => {
       if (newVal === 0) {
-        clearTimeout(timer.value)
-        router.push({ name: 'login', replace: true })
+        clearTimeout(timer.value);
+        router.push({ name: 'login', replace: true });
       }
-    })
+    });
 
     onMounted(() => {
       timer.value = window.setInterval(() => {
-        endTime.value--
-      }, 1000)
-    })
+        endTime.value--;
+      }, 1000);
+    });
 
     const jump = type => {
       switch (type) {
         case 0:
-          router.back(-1)
-          break
+          router.back(-1);
+          break;
         case 1:
-          router.push({ name: 'redirect', replace: true })
-          break
+          router.push({ name: 'redirect', replace: true });
+          break;
         case 2:
-          store.dispatch('logout')
-          router.push({ name: 'login' })
-          break
+          store.dispatch('logout');
+          router.push({ name: 'login' });
+          break;
       }
-      clearTimeout(timer.value)
-    }
+      clearTimeout(timer.value);
+    };
 
     return {
       endTime,
       timer,
       jump
-    }
+    };
   }
 
-})
+});
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@
  * @LastEditors: gumingchen
  * @LastEditTime: 2021-05-20 15:47:56
  */
-import service from '@/utils/request'
+import service from '@/utils/request';
 
 /**
  * @description: 分页列表
@@ -19,7 +19,7 @@ export function pageApi(params) {
     url: '/quartz/task/page',
     method: 'get',
     params: params
-  })
+  });
 }
 
 /**
@@ -32,7 +32,7 @@ export function infoApi(params) {
   return service({
     url: `/quartz/task/info/${ params }`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -46,7 +46,7 @@ export function addApi(params) {
     url: `/quartz/task/create`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -60,7 +60,7 @@ export function editApi(params) {
     url: `/quartz/task/update`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -74,7 +74,7 @@ export function deleteApi(params) {
     url: `/quartz/task/delete`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -88,7 +88,7 @@ export function runApi(params) {
     url: `/quartz/task/run`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -102,7 +102,7 @@ export function resumeApi(params) {
     url: `/quartz/task/resume`,
     method: 'post',
     data: params
-  })
+  });
 }
 
 /**
@@ -116,5 +116,5 @@ export function pauseApi(params) {
     url: `/quartz/task/pause`,
     method: 'post',
     data: params
-  })
+  });
 }

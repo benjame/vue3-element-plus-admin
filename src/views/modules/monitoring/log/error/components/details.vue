@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, reactive, toRefs } from 'vue'
+import { defineComponent, nextTick, reactive, toRefs } from 'vue';
 
-import { infoApi } from '@/api/error-log'
+import { infoApi } from '@/api/error-log';
 
 export default defineComponent({
   setup() {
@@ -29,32 +29,32 @@ export default defineComponent({
       visible: false,
       loading: false,
       details: ''
-    })
+    });
 
     const init = (id) => {
-      data.visible = true
-      data.loading = true
+      data.visible = true;
+      data.loading = true;
       infoApi(id).then(r => {
         if (r && r.data) {
-          data.details = r.data.message ? r.data.message.replace(/\n/g, '<br />') : ''
+          data.details = r.data.message ? r.data.message.replace(/\n/g, '<br />') : '';
         }
         nextTick(() => {
-          data.loading = false
-        })
-      })
-    }
+          data.loading = false;
+        });
+      });
+    };
 
     const dialogClosedHandle = () => {
-      data.details = ''
-    }
+      data.details = '';
+    };
 
     return {
       ...toRefs(data),
       init,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

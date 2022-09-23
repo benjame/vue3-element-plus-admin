@@ -75,22 +75,22 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, reactive, ref, toRefs, onBeforeMount } from 'vue'
+import { defineComponent, nextTick, reactive, ref, toRefs, onBeforeMount } from 'vue';
 
-import { ElMessage } from 'element-plus'
-import Quill from '@/components/editor/quill'
+import { ElMessage } from 'element-plus';
+import Quill from '@/components/editor/quill';
 
-import { isEmail } from '@/utils/regular'
+import { isEmail } from '@/utils/regular';
 
-import { addApi } from '@/api/mail'
+import { addApi } from '@/api/mail';
 
 export default defineComponent({
   emits: ['refresh'],
   components: { Quill },
   setup(_props, { emit }) {
-    const refForm = ref()
-    const refQuill = ref()
-    const refInput = ref()
+    const refForm = ref();
+    const refQuill = ref();
+    const refInput = ref();
 
     const data = reactive({
       visible: false,
@@ -103,27 +103,27 @@ export default defineComponent({
         email: '',
         emails: []
       }
-    })
+    });
 
     const rules = reactive(function() {
       const checkEmail = (_rule, value, callback) => {
         if (value === '' || !isEmail(value)) {
-          callback(new Error('请输入正确的邮箱地址'))
+          callback(new Error('请输入正确的邮箱地址'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         subject: [{ required: true, message: '请输入邮件标题', trigger: 'blur' }],
         content: [{ required: true, message: '请输入邮件内容', trigger: 'blur' }],
         email: [{ required: true, validator: checkEmail, trigger: 'blur' }],
         emails: [{ type: 'array', required: true, message: '请至少输入一个邮箱地址', trigger: 'blur' }]
-      }
-    }())
+      };
+    }());
 
     const init = () => {
-      data.visible = true
-    }
+      data.visible = true;
+    };
 
     /**
      * @description: 群发添加邮箱
@@ -132,11 +132,11 @@ export default defineComponent({
      * @author: gumingchen
      */
     const addHandle = () => {
-      data.inputVisible = true
+      data.inputVisible = true;
       nextTick(_ => {
-        refInput.value.$refs.input.focus()
-      })
-    }
+        refInput.value.$refs.input.focus();
+      });
+    };
 
     /**
      * @description: 群发输入邮箱验证
@@ -145,22 +145,22 @@ export default defineComponent({
      * @author: gumingchen
      */
     const confirmHandle = () => {
-      let message = '请输入正确的邮箱!'
+      let message = '请输入正确的邮箱!';
       if (isEmail(data.inputValue)) {
         if (!data.form.emails.includes(data.inputValue)) {
-          data.form.emails.push(data.inputValue)
-          data.inputValue = ''
-          data.inputVisible = false
-          return
+          data.form.emails.push(data.inputValue);
+          data.inputValue = '';
+          data.inputVisible = false;
+          return;
         }
-        message = '该邮箱已存在!'
+        message = '该邮箱已存在!';
       }
       ElMessage({
         message: message,
         type: 'warning'
-      })
-      refInput.value.$refs.input.focus()
-    }
+      });
+      refInput.value.$refs.input.focus();
+    };
 
     /**
      * @description: 删除群发邮箱
@@ -169,8 +169,8 @@ export default defineComponent({
      * @author: gumingchen
      */
     const closeHandle = (email) => {
-      data.form.emails.splice(data.form.emails.indexOf(email), 1)
-    }
+      data.form.emails.splice(data.form.emails.indexOf(email), 1);
+    };
 
     /**
      * @description: 表单验证提交
@@ -187,19 +187,19 @@ export default defineComponent({
             type: data.form.type,
             emails: data.form.type === 1 ? [data.form.email] : data.form.emails,
             enclosures: []
-          }
-          const r = await addApi(params)
+          };
+          const r = await addApi(params);
           if (r) {
-            data.visible = false
+            data.visible = false;
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            emit('refresh')
+            });
+            emit('refresh');
           }
         }
-      })
-    }
+      });
+    };
 
     /**
      * @description: 弹窗关闭动画结束时的回调
@@ -208,8 +208,8 @@ export default defineComponent({
      * @author: gumingchen
      */
     const dialogClosedHandle = () => {
-      refForm.value.resetFields()
-    }
+      refForm.value.resetFields();
+    };
 
     return {
       refForm,
@@ -223,7 +223,7 @@ export default defineComponent({
       confirmHandle,
       submit,
       dialogClosedHandle
-    }
+    };
   }
-})
+});
 </script>

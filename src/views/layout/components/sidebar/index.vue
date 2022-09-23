@@ -16,26 +16,26 @@
 </template>
 
 <script >
-import { computed, defineComponent, watchEffect } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { computed, defineComponent, watchEffect } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
-import Logo from './components/logo.vue'
-import SubItem from './components/sub-item.vue'
+import Logo from './components/logo.vue';
+import SubItem from './components/sub-item.vue';
 
 export default defineComponent({
   components: { Logo, SubItem },
   setup() {
-    const store = useStore()
-    const route = useRoute()
+    const store = useStore();
+    const route = useRoute();
 
-    const theme = computed(() => store.state.theme.theme.menu)
+    const theme = computed(() => store.state.theme.theme.menu);
 
-    const menus = computed(() => store.getters['menu/menus'])
+    const menus = computed(() => store.getters['menu/menus']);
 
-    const active = computed(() => store.state.menu.active)
+    const active = computed(() => store.state.menu.active);
 
-    const collapse = computed(() => store.state.menu.collapse)
+    const collapse = computed(() => store.state.menu.collapse);
     /**
      * @description: 路由变化事件
      * @param {*}
@@ -43,22 +43,22 @@ export default defineComponent({
      * @author: gumingchen
      */
     const routeHandle = argRoute => {
-      const name = argRoute.name
-      store.dispatch('menu/setActive', name)
-    }
+      const name = argRoute.name;
+      store.dispatch('menu/setActive', name);
+    };
 
     watchEffect(() => {
-      routeHandle(route)
-    })
+      routeHandle(route);
+    });
 
     return {
       theme,
       menus,
       active,
       collapse
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

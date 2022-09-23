@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, getCurrentInstance, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   props: {
@@ -53,26 +53,26 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const store = useStore()
+    const store = useStore();
 
-    const { slots } = getCurrentInstance()
+    const { slots } = getCurrentInstance();
 
-    const refContainer = ref()
+    const refContainer = ref();
 
-    const panelMode = computed(() => props.mode || store.state.settings.panelMode)
+    const panelMode = computed(() => props.mode || store.state.settings.panelMode);
 
     const setScrollTop = (top = 0) => {
-      refContainer.value.setScrollTop(top)
-    }
+      refContainer.value.setScrollTop(top);
+    };
 
     return {
       slots,
       panelMode,
       refContainer,
       setScrollTop
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

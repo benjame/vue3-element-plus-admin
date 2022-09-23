@@ -108,23 +108,23 @@
 </template>
 
 <script>
-import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue'
+import { defineComponent, nextTick, onBeforeMount, reactive, ref, toRefs } from 'vue';
 
-import { ElMessage, ElMessageBox } from 'element-plus'
-import Details from './components/details'
+import { ElMessage, ElMessageBox } from 'element-plus';
+import Details from './components/details';
 
-import usePage from '@/mixins/page'
-import { clearJson, parseDate2Str } from '@/utils'
+import usePage from '@/mixins/page';
+import { clearJson, parseDate2Str } from '@/utils';
 
-import { pageApi, deleteApi, truncateApi } from '@/api/error-log'
+import { pageApi, deleteApi, truncateApi } from '@/api/error-log';
 
 export default defineComponent({
   components: { Details },
   setup() {
-    const refForm = ref()
-    const refTable = ref()
-    const refDetails = ref()
-    const { page } = usePage()
+    const refForm = ref();
+    const refTable = ref();
+    const refDetails = ref();
+    const { page } = usePage();
     const data = reactive({
       loading: false,
       visible: false,
@@ -133,7 +133,7 @@ export default defineComponent({
         date: []
       },
       list: []
-    })
+    });
 
     const getList = () => {
       const params = {
@@ -142,28 +142,28 @@ export default defineComponent({
         end: data.form.date && data.form.date.length > 1 ? parseDate2Str(data.form.date[1]) : '',
         current: page.current,
         size: page.size
-      }
-      data.loading = true
+      };
+      data.loading = true;
       pageApi(params).then(r => {
         if (r) {
-          data.list = r.data.list
-          page.total = r.data.total
+          data.list = r.data.list;
+          page.total = r.data.total;
         }
-        nextTick(() => { data.loading = false })
-      })
-    }
+        nextTick(() => { data.loading = false; });
+      });
+    };
 
     const reacquireHandle = () => {
-      page.current = 1
-      getList()
-    }
+      page.current = 1;
+      getList();
+    };
 
     const viewHandle = (id) => {
-      data.visible = true
+      data.visible = true;
       nextTick(() => {
-        refDetails.value.init(id)
-      })
-    }
+        refDetails.value.init(id);
+      });
+    };
 
     const deleteHandle = () => {
       ElMessageBox.confirm(`确定进行[删除]操作?`, '提示', {
@@ -176,14 +176,14 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const celarHandle = () => {
       ElMessageBox.confirm(`确定进行[清空]操作?`, '提示', {
@@ -196,28 +196,28 @@ export default defineComponent({
             ElMessage({
               message: '操作成功!',
               type: 'success'
-            })
-            getList()
+            });
+            getList();
           }
-        })
+        });
       }).catch(() => {
         // to do something on canceled
-      })
-    }
+      });
+    };
 
     const rowClickHandle = (row) => {
-      refTable.value.toggleRowExpansion(row)
-    }
+      refTable.value.toggleRowExpansion(row);
+    };
 
     const pageChangeHandle = (argPage) => {
-      page.current = argPage.current
-      page.size = argPage.size
-      getList()
-    }
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
 
     onBeforeMount(() => {
-      getList()
-    })
+      getList();
+    });
 
     return {
       refForm,
@@ -233,9 +233,9 @@ export default defineComponent({
       celarHandle,
       rowClickHandle,
       clearJson
-    }
+    };
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

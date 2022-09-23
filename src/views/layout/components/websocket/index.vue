@@ -1,19 +1,19 @@
 <script>
-import { computed, defineComponent, onBeforeMount, onUnmounted, watch } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { computed, defineComponent, onBeforeMount, onUnmounted, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
-import { ElMessage, ElNotification } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus';
 
 export default defineComponent({
-  render() { return '' },
+  render() { return ''; },
   setup() {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
 
     const response = computed(() => {
-      return store.state.websocket.response
-    })
+      return store.state.websocket.response;
+    });
 
     watch(() => response, (newVal, _oldVal) => {
       if (newVal.value) {
@@ -22,36 +22,36 @@ export default defineComponent({
             ElMessage({
               message: '已在其它地方登录！',
               type: 'warning'
-            })
-            store.dispatch('websocket/close')
-            store.dispatch('logout')
-            router.push({ name: 'login' })
-            break
+            });
+            store.dispatch('websocket/close');
+            store.dispatch('logout');
+            router.push({ name: 'login' });
+            break;
           case -4:
             ElMessage({
               message: '已在其它地方连接，将不会收到推送消息！',
               type: 'warning'
-            })
-            store.dispatch('websocket/close')
-            break
+            });
+            store.dispatch('websocket/close');
+            break;
           case -3:
             ElMessage({
               message: '你已被强制退出登录！',
               type: 'warning'
-            })
-            store.dispatch('websocket/close')
-            store.dispatch('logout')
-            router.push({ name: 'login' })
-            break
+            });
+            store.dispatch('websocket/close');
+            store.dispatch('logout');
+            router.push({ name: 'login' });
+            break;
           case -2:
             ElMessage({
               message: '凭证已过期，请重新登录！',
               type: 'warning'
-            })
-            store.dispatch('websocket/close')
-            store.dispatch('logout')
-            router.push({ name: 'login' })
-            break
+            });
+            store.dispatch('websocket/close');
+            store.dispatch('logout');
+            router.push({ name: 'login' });
+            break;
           case 0:
           case 1:
             ElNotification({
@@ -59,22 +59,22 @@ export default defineComponent({
               message: newVal.value.data,
               type: 'success',
               duration: 3000
-            })
-            break
+            });
+            break;
         }
       }
-    }, { deep: true })
+    }, { deep: true });
 
     onBeforeMount(() => {
-      store.dispatch('websocket/init')
-    })
+      store.dispatch('websocket/init');
+    });
 
     onUnmounted(() => {
-      store.dispatch('websocket/close')
-    })
+      store.dispatch('websocket/close');
+    });
 
-    return {}
+    return {};
   }
-})
+});
 
 </script>
