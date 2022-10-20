@@ -32,7 +32,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'quotes': [1, 'single', { 'avoidEscape': true, 'allowTemplateLiterals': true }], // 默认都使用 '' 或者 ``
-    'semi': [1, 'always'], // 结尾处强制使用分号
+    'semi': [1, 'always'], // 结尾处不使用分号
     'no-extra-parens': [1, 'functions'], // 禁止不必要的括号
     'comma-dangle': [1, 'never'], // 禁止末尾逗号
     'comma-spacing': [1, { 'before': false, 'after': true }], // 逗号后空一格

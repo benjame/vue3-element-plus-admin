@@ -16,7 +16,9 @@ export default defineComponent({
   components: { View },
   setup() {
     const store = useStore();
+
     store.dispatch('theme/getTheme');
+
     store.dispatch('settings/getLayout');
 
     const reload = computed({

@@ -13,7 +13,7 @@ module.exports = defineConfig({
   // 部署应用时的基本路径.
   publicPath: './',
   // build时构建文件的目录,构建时传入 --no-clean 可关闭该行为.
-  outputDir: 'admin',
+  outputDir: 'dist',
   // build时放置生成的静态资源(js、css、img、fonts)的(相对于 outputDir 的)目录.
   assetsDir: 'static',
   // 指定生成的index.html的输出路径(相对于 outputDir ),也可以是一个绝对路径.
@@ -28,7 +28,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   // 如果你不需要生产环境的source map,可以将其设置为 false 以加速生产环境构建.
   productionSourceMap: process.env.NODE_ENV !== 'production',
-  // 设置类型是Sring，设置生成的 HTML 中 <link rel="stylesheet"> 和 <script> 标签的 crossorigin 属性(仅影响构建时注入的标签).
+  // 设置类型是String，设置生成的 HTML 中 <link rel="stylesheet"> 和 <script> 标签的 crossorigin 属性(仅影响构建时注入的标签).
   crossorigin: '',
   // 在生成的HTML中的<link rel="stylesheet">和<script>标签上启用Subresource Integrity(SRI).
   integrity: false,

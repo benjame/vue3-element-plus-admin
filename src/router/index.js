@@ -9,30 +9,10 @@ let refresh = true;
 
 const constant = [
   { path: '/', redirect: { name: 'login' }, meta: { title_cn: '重定向', title_en: 'Redirect' } },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/constant/login.vue'),
-    meta: { title_cn: '登录', title_en: 'Login' }
-  },
-  {
-    path: '/401',
-    name: '401',
-    component: () => import('@/views/constant/401.vue'),
-    meta: { title_cn: '401', title_en: '401' }
-  },
-  {
-    path: '/404',
-    name: '404',
-    component: () => import('@/views/constant/404.vue'),
-    meta: { title_cn: '404', title_en: '404' }
-  },
-  {
-    path: '/500',
-    name: '500',
-    component: () => import('@/views/constant/500.vue'),
-    meta: { title_cn: '500', title_en: '500' }
-  }
+  { path: '/login', name: 'login', component: () => import('@/views/constant/login.vue'), meta: { title_cn: '登录', title_en: 'Login' } },
+  { path: '/401', name: '401', component: () => import('@/views/constant/401.vue'), meta: { title_cn: '401', title_en: '401' } },
+  { path: '/404', name: '404', component: () => import('@/views/constant/404.vue'), meta: { title_cn: '404', title_en: '404' } },
+  { path: '/500', name: '500', component: () => import('@/views/constant/500.vue'), meta: { title_cn: '500', title_en: '500' } }
 ];
 
 const main = {
@@ -55,7 +35,7 @@ const main = {
       await store.dispatch('administrator/getAdministrator');
       await store.dispatch('enterprise/getEnterprise');
       if (to.name === 'redirect') {
-        const exists = main.children.filter((item) => item.name !== 'redirect') || [];
+        const exists = main.children.filter(item => item.name !== 'redirect') || [];
         const name = exists.length ? exists[0].name : '404';
         store.dispatch('menu/setActive', name);
         next({ name, replace: true });
@@ -173,12 +153,12 @@ function addRoutes(menus = [], routeList = []) {
  * @author: gumingchen
  */
 function clearRouter() {
-  const routers = router.getRoutes().filter((item) => item.meta.isDynamic);
-  routers.forEach((item) => {
+  const routers = router.getRoutes().filter(item => item.meta.isDynamic);
+  routers.forEach(item => {
     router.removeRoute(item.name);
   });
   // 其实只要这一行就可以
-  main.children = main.children.filter((item) => !item.meta.dynamic);
+  main.children = main.children.filter(item => !item.meta.dynamic);
 }
 
 router.beforeEach(async (to, _from, next) => {

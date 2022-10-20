@@ -38,7 +38,7 @@ export default defineComponent({
       }, 1000);
     });
 
-    const jump = (type) => {
+    const jump = type => {
       switch (type) {
         case 0:
           router.back(-1);
@@ -60,6 +60,7 @@ export default defineComponent({
       jump
     };
   }
+
 });
 </script>
 

@@ -9,4 +9,8 @@ import Directive from '@/directive'; // 自定义指令
 
 const app = createApp(App);
 
-app.use(router).use(store).use(components).use(Directive).mount('#app');
+app.use(router)
+  .use(store)
+  .use(components)
+  .use(Directive)
+  .mount('#app');

@@ -10,7 +10,7 @@
     "build:prod": "vue-cli-service build --mode production",
     "build:test": "vue-cli-service build --mode testing",
     "deploy": "vue-cli-service build --mode production && cross-env NODE_ENV=production node ./deploy",
-    "lint-fix": "eslint --fix --ext .js --ext .ts --ext .vue src/*"
+    "lint-fix": "eslint --fix --ext .js --ext .ts --ext .vue ./"
   },
   "dependencies": {
     "axios": "^0.26.1",
