@@ -21,10 +21,15 @@ module.exports = {
     'vue/html-closing-bracket-newline': [1, { 'singleline': 'never', 'multiline': 'never' }], // 结束标签不能在新行
     'vue/html-closing-bracket-spacing': [1, { 'startTag': 'never', 'endTag': 'never', 'selfClosingTag': 'always' }], // 开始、结束标签空格
     'vue/html-end-tags': 1, // 需要结束标签
-    'vue/html-indent': [1, 2, { 'attribute': 1, 'baseIndent': 1, 'closeBracket': 0, 'alignAttributesVertically': true }], // 标签对齐格式化
+    'vue/html-indent': [1, 2, {
+      'attribute': 1,
+      'baseIndent': 1,
+      'closeBracket': 0,
+      'alignAttributesVertically': true
+    }], // 标签对齐格式化
     'vue/html-quotes': [1, 'double', { 'avoidEscape': false }], // 标签使用双引号
     'vue/html-self-closing': [1, { 'html': { 'void': 'never', 'normal': 'always', 'component': 'always' } }], // 自动关闭标签
-    'vue/html-comment-content-newline': [1, { 'singleline': 'never', 'multiline': 'always' }], // 注释换行
+    'vue/html-comment-content-newline': [1, { 'singleline': 'never', 'multiline': 'always' }], // 单行注释不换行，多行注释必须换行
     'vue/no-v-html': 0,
     'vue/require-default-prop': 0, // 使用 defineProps 不需要设置默认
     'vue/multi-word-component-names': [0, { 'ignores': ['index', '401', '404', '500', 'Sub', 'detail', 'set', 'comment'] }], // 组件名字限制多字
@@ -73,7 +78,11 @@ module.exports = {
     'no-shadow': 1, // 禁止变量声明与外层作用域的变量同名
     'no-undef-init': 1, // 禁止将变量初始化为 undefined
     'no-undefined': 1, // 禁止将 undefined 作为标识符
-    'no-unused-vars': [0, { 'vars': 'all', /* 'varsIgnorePattern': '[iI]gnored', */ 'args': 'none', 'argsIgnorePattern': '^_' }], // 未使用过的变量 用下划线开头
+    'no-unused-vars': [0, {
+      'vars': 'all', /* 'varsIgnorePattern': '[iI]gnored', */
+      'args': 'none',
+      'argsIgnorePattern': '^_'
+    }], // 未使用过的变量 用下划线开头
     'no-use-before-define': 1, // 禁止在变量定义之前使用它们
     'global-require': 0, // 要求 require() 出现在顶层模块作用域中
     'handle-callback-err': [1, '^(err|error)$'], // 要求回调函数中有容错处理
@@ -112,6 +121,11 @@ module.exports = {
     'require-yield': 1, // 要求 generator 函数内有 yield
     'template-curly-spacing': [1, 'always'], // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
     'yield-star-spacing': [1, 'both'], // 强制在 yield* 表达式中 * 周围使用空格
-    'space-before-function-paren': 0 // 函数 括号前需要空格
+    // 'space-before-function-paren': 0 // 函数 括号前需要空格
+    'space-before-function-paren': ['error', {
+      'anonymous': 'always',
+      'named': 'never',
+      'asyncArrow': 'always'
+    }]
   }
 };
